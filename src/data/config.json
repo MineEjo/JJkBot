@@ -1,0 +1,18 @@
+{
+  "guild": {
+    "id": "922210911249379379",
+    "invite": "https://discord.gg/h3BmdkMbmB"
+  },
+  "client": {
+    "id": "937732594517307392",
+    "invite": "https://discord.com/api/oauth2/authorize?client_id=937732594517307392&permissions=8&scope=bot%20applications.commands"
+  },
+  "bot": {
+    "lang": "en-US"
+  },
+  "color": {
+    "primary": "#57F287",
+    "embed": "#2F3136",
+    "error": "#ED4245"
+  }
+}

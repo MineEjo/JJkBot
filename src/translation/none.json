@@ -1,0 +1,30 @@
+{
+  "commands": {
+    "help": {
+      "name": "help",
+      "description": "Sends useful information."
+    },
+    "ping": {
+      "name": "ping",
+      "description": "Replies with Pong!"
+    },
+    "lang": {
+      "name": "lang",
+      "description": "Provides a choice of command language.",
+      "options": [
+        {
+          "label": "English US",
+          "value": "en-US",
+          "description": "Changes the language to english US",
+          "emoji": "\uD83C\uDDFA\uD83C\uDDF8"
+        },
+        {
+          "label": "Русский RU",
+          "value": "ru-RU",
+          "description": "Меняет язык на русский RU",
+          "emoji": "\uD83C\uDDF7\uD83C\uDDFA"
+        }
+      ]
+    }
+  }
+}

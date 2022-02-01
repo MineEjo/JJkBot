@@ -1,0 +1,18 @@
+{
+  "commands": {
+    "help": {
+      "title": "JJk Support",
+      "description": "If you need support, we're always here to help. It's as easy as joining [JJk support server](${guildInvite})."
+    },
+    "ping": {
+      "content": "Pong!"
+    },
+    "lang": {
+      "placeholder": "Choose a language...",
+      "title": "Do you want to change the bot's language?",
+      "description": "Select any language from the list below.",
+      "rights": "Not enough rights, you must be the owner of the server.",
+      "changed": "Done, the bot language has been changed to **${langValue}**."
+    }
+  }
+}
