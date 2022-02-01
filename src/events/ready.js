@@ -6,6 +6,6 @@ module.exports = {
     async execute(client) {
         await loadLanguages(client);
         console.log(`Ready! Logged in as ${client.user.tag}`);
-        client.user.setActivity({ type: 'PLAYING' }, '/help')
+        client.user.setActivity('/help', { type: 'PLAYING' })
     },
 };
