@@ -4,8 +4,9 @@
       "title": "JJk Поддержка",
       "description": "Если вам нужна поддержка, мы всегда готовы помочь. Это просто - присоединиться к [серверу поддержки JJk](${guildInvite})."
     },
-    "ping": {
-      "content": "Понг!"
+    "stats": {
+      "title": "Статистика",
+      "description": "**Клиент:** <:vialGreen:938171224138317836> Онлайн - ${clientPing} мс. \n**Время работы**: <t:${clientReadyTimestamp}:R> \n**Гильдии**: ${guildsSize} \n**Пользователи**: ${usersSize} \n**Каналы**: ${channelsSize}"
     },
     "lang": {
       "placeholder": "Выберите язык...",

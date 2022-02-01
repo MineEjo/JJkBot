@@ -4,8 +4,9 @@
       "title": "JJk Support",
       "description": "If you need support, we're always here to help. It's as easy as joining [JJk support server](${guildInvite})."
     },
-    "ping": {
-      "content": "Pong!"
+    "stats": {
+      "title": "Statistics",
+      "description": "**Client**: <:vialGreen:938171224138317836> Online - ${clientPing} ms. \n**Uptime**: <t:${clientReadyTimestamp}:R> \n**Guilds**: ${guildsSize} \n**Users**: ${usersSize} \n**Channels**: ${channelsSize}"
     },
     "lang": {
       "placeholder": "Choose a language...",
