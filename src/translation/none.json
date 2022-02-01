@@ -4,9 +4,9 @@
       "name": "help",
       "description": "Sends useful information."
     },
-    "ping": {
-      "name": "ping",
-      "description": "Replies with Pong!"
+    "stats": {
+      "name": "stats",
+      "description": "Shows the bot's statistics."
     },
     "lang": {
       "name": "lang",
