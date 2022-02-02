@@ -21,6 +21,6 @@ module.exports = {
                 .replace('${channelsSize}', interaction.client.channels.cache.size))
             .setColor(config.color.embed);
 
-        await interaction.reply({ embeds: [embed], ephemeral: true });
+        await interaction.reply({ embeds: [embed], ephemeral: true }).catch(console.error);
     },
 };

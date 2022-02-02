@@ -21,6 +21,6 @@ module.exports = {
                 inline: false
             })
             .setColor(config.color.primary);
-        await interaction.reply({ embeds: [embed], ephemeral: true });
+        await interaction.reply({ embeds: [embed], ephemeral: true }).catch(console.error);
     },
 };
