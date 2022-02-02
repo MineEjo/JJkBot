@@ -1,16 +1,6 @@
 {
   "commands": {
-    "help": {
-      "name": "help",
-      "description": "Sends useful information."
-    },
-    "stats": {
-      "name": "stats",
-      "description": "Shows the bot's statistics."
-    },
     "lang": {
-      "name": "lang",
-      "description": "Provides a choice of command language.",
       "options": [
         {
           "label": "English US",

@@ -1,13 +1,13 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const config = require('../../../data/config.json');
-const noneTranslate = require(`../../../translation/none.json`);
+const noneTranslate = require(`../../../translation/${config.bot.lang}.json`);
 const language = require('../../../functions/handleLanguages');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName(noneTranslate.commands.help.name)
-        .setDescription(noneTranslate.commands.help.description),
+        .setName(noneTranslate.commands.help.slash.name)
+        .setDescription(noneTranslate.commands.help.slash.description),
     async execute(interaction) {
         const translate = require(`../../../translation/${language(interaction.guild)}.json`);
         const embed = new MessageEmbed()

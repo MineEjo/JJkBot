@@ -1,6 +1,10 @@
 {
   "commands": {
     "help": {
+      "slash": {
+        "name": "help",
+        "description": "Get help."
+      },
       "title": "JJk Support",
       "description": "If you need support, we're always here to help. It's as easy as joining [JJk support server](${guildInvite}).",
       "fields": [{
@@ -9,10 +13,18 @@
       }]
     },
     "stats": {
+      "slash": {
+        "name": "stats",
+        "description": "Get the bot's statistics."
+      },
       "title": "Statistics",
       "description": "**Client**: <:vialGreen:938171224138317836> Online - ${clientPing} ms. \n**Uptime**: <t:${clientReadyTimestamp}:R> \n**Guilds**: ${guildsSize} \n**Users**: ${usersSize} \n**Channels**: ${channelsSize}"
     },
     "lang": {
+      "slash": {
+        "name": "lang",
+        "description": "Change the bot's language."
+      },
       "placeholder": "Choose a language...",
       "title": "Do you want to change the bot's language?",
       "description": "Select any language from the list below.",
