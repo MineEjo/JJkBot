@@ -1,5 +1,5 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const {SlashCommandBuilder} = require('@discordjs/builders');
+const {MessageEmbed} = require('discord.js');
 const config = require('../../../data/config.json');
 const noneTranslate = require(`../../../translation/${config.bot.lang}.json`);
 const language = require('../../../functions/handleLanguages');
@@ -21,6 +21,6 @@ module.exports = {
                 inline: false
             })
             .setColor(config.color.primary);
-        await interaction.reply({ embeds: [embed], ephemeral: true }).catch(console.error);
+        await interaction.reply({embeds: [embed], ephemeral: true}).catch(console.error);
     },
 };

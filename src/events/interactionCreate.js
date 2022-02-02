@@ -13,7 +13,7 @@ module.exports = {
                 await command.execute(interaction);
             } catch (error) {
                 console.error(error);
-                await interaction.reply({ content: translate.errors[0], ephemeral: true });
+                await interaction.reply({content: translate.errors[0], ephemeral: true});
             }
         }
     },

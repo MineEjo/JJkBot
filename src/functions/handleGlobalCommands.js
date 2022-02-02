@@ -1,5 +1,5 @@
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+const {REST} = require('@discordjs/rest');
+const {Routes} = require('discord-api-types/v9');
 const fs = require('fs');
 const config = require('../data/config.json')
 
@@ -18,7 +18,7 @@ module.exports = (client) => {
             }
         }
 
-        const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
+        const rest = new REST({version: '9'}).setToken(process.env.TOKEN);
 
         await (async () => {
             try {
@@ -26,7 +26,7 @@ module.exports = (client) => {
 
                 await rest.put(
                     Routes.applicationCommands(config.client.id),
-                    { body: client.commandArray },
+                    {body: client.commandArray},
                 );
 
                 console.log('[Slash Global Commands] Successfully reloaded application (/) global commands.');

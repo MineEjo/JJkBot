@@ -1,6 +1,6 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageActionRow, MessageSelectMenu } = require('discord.js');
-const { MessageEmbed } = require('discord.js');
+const {SlashCommandBuilder} = require('@discordjs/builders');
+const {MessageActionRow, MessageSelectMenu} = require('discord.js');
+const {MessageEmbed} = require('discord.js');
 const ids = require('../../../data/ids.json');
 const config = require('../../../data/config.json');
 const noneTranslate = require(`../../../translation/${config.bot.lang}.json`);
@@ -53,39 +53,39 @@ module.exports = {
                     ])
             );
 
-       await interaction.reply({ fetchReply: true, embeds: [embed], ephemeral: true, components:[row] })
-           .then((message) => {
-               const collector = message.createMessageComponentCollector({ componentType: 'SELECT_MENU', time: 20000 });
+        await interaction.reply({fetchReply: true, embeds: [embed], ephemeral: true, components: [row]})
+            .then((message) => {
+                const collector = message.createMessageComponentCollector({componentType: 'SELECT_MENU', time: 20000});
 
-               collector.on('collect', async i => {
-                   if (i.user.id === interaction.user.id) {
-                           const guildSchema = require('../../../schemes/guild');
+                collector.on('collect', async i => {
+                    if (i.user.id === interaction.user.id) {
+                        const guildSchema = require('../../../schemes/guild');
 
-                           setLanguage(i.guild, i.values[0]);
+                        setLanguage(i.guild, i.values[0]);
 
-                           await guildSchema.findOneAndUpdate(
-                               {
-                                   _id: i.guild.id
-                               },
-                               {
-                                   _id: i.guild.id,
-                                   lang: i.values[0]
-                               },
-                               {
-                                   upsert: true
-                               });
+                        await guildSchema.findOneAndUpdate(
+                            {
+                                _id: i.guild.id
+                            },
+                            {
+                                _id: i.guild.id,
+                                lang: i.values[0]
+                            },
+                            {
+                                upsert: true
+                            });
 
-                           const embed = new MessageEmbed()
-                               .setDescription(translate.commands.lang.changed.replace('${langValue}', i.values[0]))
-                               .setColor(config.color.primary);
+                        const embed = new MessageEmbed()
+                            .setDescription(translate.commands.lang.changed.replace('${langValue}', i.values[0]))
+                            .setColor(config.color.primary);
 
-                           await i.reply({embeds: [embed], ephemeral: true}).catch(console.error);
-                   }
-               });
+                        await i.reply({embeds: [embed], ephemeral: true}).catch(console.error);
+                    }
+                });
 
-               collector.on('end', collected => {
-                   interaction.editReply(translate.errors[1])
-               });
-           }).catch(console.error);
+                collector.on('end', collected => {
+                    interaction.editReply(translate.errors[1])
+                });
+            }).catch(console.error);
     },
 };

@@ -1,5 +1,5 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const {SlashCommandBuilder} = require('@discordjs/builders');
+const {MessageEmbed} = require('discord.js');
 const language = require('../../../functions/handleLanguages');
 const config = require("../../../data/config.json");
 const noneTranslate = require(`../../../translation/${config.bot.lang}.json`);
@@ -21,6 +21,6 @@ module.exports = {
                 .replace('${channelsSize}', interaction.client.channels.cache.size))
             .setColor(config.color.embed);
 
-        await interaction.reply({ embeds: [embed], ephemeral: true }).catch(console.error);
+        await interaction.reply({embeds: [embed], ephemeral: true}).catch(console.error);
     },
 };
