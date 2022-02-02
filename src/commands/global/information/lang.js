@@ -83,7 +83,6 @@ module.exports = {
                    }
                });
 
-               setTimeout(() => msg.delete(), 5000)
                collector.on('end', collected => {
                    interaction.editReply(translate.errors[1])
                });
