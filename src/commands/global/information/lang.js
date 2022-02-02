@@ -77,7 +77,7 @@ module.exports = {
                                .setDescription(translate.commands.lang.changed.replace('${langValue}', i.values[0]))
                                .setColor(config.color.primary);
 
-                           await i.reply({embeds: [embed], ephemeral: true});
+                           await i.reply({embeds: [embed], ephemeral: true}).catch(console.error);
                    }
                });
 
