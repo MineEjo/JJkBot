@@ -22,14 +22,14 @@ module.exports = (client) => {
 
         await (async () => {
             try {
-                console.log('Started refreshing application (/) global commands.');
+                console.log('[Slash Global Commands] Started refreshing application (/) global commands.');
 
                 await rest.put(
                     Routes.applicationCommands(config.client.id),
                     { body: client.commandArray },
                 );
 
-                console.log('Successfully reloaded application (/) global commands.');
+                console.log('[Slash Global Commands] Successfully reloaded application (/) global commands.');
             } catch (error) {
                 console.error(error);
             }

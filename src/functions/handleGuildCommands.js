@@ -22,14 +22,14 @@ module.exports = (client) => {
 
         await (async () => {
             try {
-                console.log('Started refreshing application (/) guild commands.');
+                console.log('[Slash Guild Commands] Started refreshing application (/) guild commands.');
 
                 await rest.put(
                     Routes.applicationGuildCommands(config.client.id, config.guild.id),
                     {body: client.commandArray},
                 );
 
-                console.log('Successfully reloaded application (/) guild commands.');
+                console.log('[Slash Guild Commands] Successfully reloaded application (/) guild commands.');
             } catch (error) {
                 console.error(error);
             }

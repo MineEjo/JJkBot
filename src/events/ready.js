@@ -5,7 +5,7 @@ module.exports = {
     once: true,
     async execute(client) {
         await loadLanguages(client);
-        console.log(`Ready! Logged in as ${client.user.tag}`);
+        console.log(`[Bot] Ready! Logged in as ${client.user.tag}`);
 
         client.user.setPresence({ activities: [{ name: `/help`, type: `PLAYING` }], status: "online" });
     },
