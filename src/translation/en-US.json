@@ -2,7 +2,11 @@
   "commands": {
     "help": {
       "title": "JJk Support",
-      "description": "If you need support, we're always here to help. It's as easy as joining [JJk support server](${guildInvite})."
+      "description": "If you need support, we're always here to help. It's as easy as joining [JJk support server](${guildInvite}).",
+      "fields": [{
+        "name": "Links",
+        "value": "GitHub: ${githubLink} \nGuild: ${guildInvite}"
+      }]
     },
     "stats": {
       "title": "Statistics",

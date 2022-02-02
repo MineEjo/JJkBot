@@ -13,6 +13,13 @@ module.exports = {
         const embed = new MessageEmbed()
             .setTitle(translate.commands.help.title)
             .setDescription(translate.commands.help.description.replace('${guildInvite}', config.guild.invite))
+            .addFields({
+                name: translate.commands.help.fields[0].name,
+                value: translate.commands.help.fields[0].value
+                    .replace('${githubLink}', config.bot.github)
+                    .replace('${guildInvite}', config.guild.invite),
+                inline: false
+            })
             .setColor(config.color.primary);
         await interaction.reply({ embeds: [embed], ephemeral: true });
     },
