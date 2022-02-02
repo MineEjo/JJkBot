@@ -1,4 +1,4 @@
-const { loadLanguages } = require('../functions/handleLanguages')
+const { loadLanguages } = require('../functions/handleLanguages');
 
 module.exports = {
     name: 'ready',
@@ -6,6 +6,7 @@ module.exports = {
     async execute(client) {
         await loadLanguages(client);
         console.log(`Ready! Logged in as ${client.user.tag}`);
-        client.user.setActivity('/help', { type: 'PLAYING' })
+
+        client.user.setPresence({ activities: [{ name: `/help`, type: `PLAYING` }], status: "online" });
     },
 };
