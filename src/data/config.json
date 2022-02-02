@@ -8,7 +8,8 @@
     "invite": "https://discord.com/api/oauth2/authorize?client_id=937732594517307392&permissions=8&scope=bot%20applications.commands"
   },
   "bot": {
-    "lang": "en-US"
+    "lang": "en-US",
+    "github": "https://github.com/MineEjo/JJkBot"
   },
   "color": {
     "primary": "#57F287",
