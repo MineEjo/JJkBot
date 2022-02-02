@@ -53,7 +53,7 @@ module.exports = {
 
        await interaction.reply({ fetchReply: true, embeds: [embed], ephemeral: true, components:[row] })
            .then((message) => {
-               const collector = message.createMessageComponentCollector({ componentType: 'SELECT_MENU', time: 2000 });
+               const collector = message.createMessageComponentCollector({ componentType: 'SELECT_MENU', time: 20000 });
 
                collector.on('collect', async i => {
                    if (i.user.id === interaction.user.id) {
@@ -83,6 +83,7 @@ module.exports = {
                    }
                });
 
+               setTimeout(() => msg.delete(), 5000)
                collector.on('end', collected => {
                    interaction.editReply(translate.errors[1])
                });
