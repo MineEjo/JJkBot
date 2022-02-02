@@ -5,6 +5,7 @@ const ids = require('../../../data/ids.json');
 const config = require('../../../data/config.json');
 const noneTranslate = require(`../../../translation/none.json`);
 const language = require('../../../functions/handleLanguages');
+const {setLanguage} = require("../../../functions/handleLanguages");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -50,6 +51,41 @@ module.exports = {
                     ])
             );
 
-        await interaction.reply({ embeds: [embed], ephemeral: true, components:[row] });
+       await interaction.reply({ fetchReply: true, embeds: [embed], ephemeral: true, components:[row] })
+           .then((message) => {
+               const collector = message.createMessageComponentCollector({ componentType: 'SELECT_MENU', time: 2000 });
+
+               collector.on('collect', async i => {
+                   if (i.user.id === interaction.user.id) {
+                       if (interaction.customId === ids.commands.lang.menu_choose_lang) {
+                           const guildSchema = require('../../../schemes/guild');
+
+                           setLanguage(interaction.guild, interaction.values[0]);
+
+                           await guildSchema.findOneAndUpdate(
+                               {
+                                   _id: interaction.guild.id
+                               },
+                               {
+                                   _id: interaction.guild.id,
+                                   lang: interaction.values[0]
+                               },
+                               {
+                                   upsert: true
+                               });
+
+                           const embed = new MessageEmbed()
+                               .setDescription(translate.commands.lang.changed.replace('${langValue}', interaction.values[0]))
+                               .setColor(config.color.primary);
+
+                           await interaction.reply({embeds: [embed], ephemeral: true});
+                       }
+                   }
+               });
+
+               collector.on('end', collected => {
+                   interaction.editReply(translate.errors[1])
+               });
+           }).catch(console.error);
     },
 };
