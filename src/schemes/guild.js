@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 
-const reqString = {
-    type: String,
-    required: true
-}
-
 const guildSchema = mongoose.Schema({
-    _id: reqString,
-    lang: reqString
+    _id: {
+        type: String,
+        required: true
+    },
+    lang: {
+        type: String,
+        required: true
+    }
 });
 
 module.exports = mongoose.model('guild', guildSchema, 'guilds');
