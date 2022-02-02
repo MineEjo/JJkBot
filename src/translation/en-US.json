@@ -19,5 +19,9 @@
       "rights": "Not enough rights, you must be the owner of the server.",
       "changed": "Done, the bot language has been changed to **${langValue}**."
     }
-  }
+  },
+  "errors": [
+    "There was an error while executing this command!",
+    "Interaction is outdated!"
+  ]
 }
