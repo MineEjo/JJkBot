@@ -57,29 +57,27 @@ module.exports = {
 
                collector.on('collect', async i => {
                    if (i.user.id === interaction.user.id) {
-                       if (interaction.customId === ids.commands.lang.menu_choose_lang) {
                            const guildSchema = require('../../../schemes/guild');
 
-                           setLanguage(interaction.guild, interaction.values[0]);
+                           setLanguage(i.guild, i.values[0]);
 
                            await guildSchema.findOneAndUpdate(
                                {
-                                   _id: interaction.guild.id
+                                   _id: i.guild.id
                                },
                                {
-                                   _id: interaction.guild.id,
-                                   lang: interaction.values[0]
+                                   _id: i.guild.id,
+                                   lang: i.values[0]
                                },
                                {
                                    upsert: true
                                });
 
                            const embed = new MessageEmbed()
-                               .setDescription(translate.commands.lang.changed.replace('${langValue}', interaction.values[0]))
+                               .setDescription(translate.commands.lang.changed.replace('${langValue}', i.values[0]))
                                .setColor(config.color.primary);
 
-                           await interaction.reply({embeds: [embed], ephemeral: true});
-                       }
+                           await i.reply({embeds: [embed], ephemeral: true});
                    }
                });
 
