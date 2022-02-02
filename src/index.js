@@ -1,5 +1,4 @@
 require('dotenv').config();
-require('./functions/mongodb')();
 
 const { Client, Intents, Collection } = require('discord.js');
 const fs = require('fs');
@@ -20,5 +19,6 @@ const commandGlobalFolders = fs.readdirSync('./commands/global');
     client.handleEvents(eventFiles, "./events");
     client.handleGuildCommands(commandGuildFolders, "./commands/guild")
     client.handleGlobalCommands(commandGlobalFolders, "./commands/global")
-    await client.login(process.env.TOKEN);
+    client.login(process.env.TOKEN);
+    client.loginMongodb();
 })();

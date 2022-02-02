@@ -1,7 +1,6 @@
 const ids = require('../data/ids.json');
 const {MessageEmbed} = require('discord.js');
 const config = require('../data/config.json');
-const mongo = require('../functions/mongodb');
 const translate = require(`../translation/${config.bot.lang}.json`);
 const { setLanguage } = require('../functions/handleLanguages');
 
@@ -25,20 +24,17 @@ module.exports = {
 
                 setLanguage(interaction.guild, interaction.values[0]);
 
-                await mongo().then(async (mongoose) => {
-                    try {
-                        await guildSchema.findOneAndUpdate({
-                            _id: interaction.guild.id
-                        }, {
-                            _id: interaction.guild.id,
-                            lang: interaction.values[0]
-                        }, {
-                            upsert: true
-                        });
-                    } finally {
-                        await mongoose.connection.close();
-                    }
-                });
+                await guildSchema.findOneAndUpdate(
+                    {
+                        _id: interaction.guild.id
+                    },
+                    {
+                    _id: interaction.guild.id,
+                    lang: interaction.values[0]
+                    },
+                    {
+                        upsert: true
+                    });
 
                 const embed = new MessageEmbed()
                     .setDescription(translate.commands.lang.changed.replace('${langValue}', interaction.values[0]))
