@@ -11,6 +11,10 @@
         {
           "name": "Links",
           "value": "GitHub: ${githubLink} \nGuild: ${guildInvite}"
+        },
+        {
+          "name": "Agreement",
+          "value": "By adding a bot and using its services, you automatically agree to the bot's telemetry and free use of the collected information. \nThe telemetry includes: **any links**."
         }
       ]
     },
