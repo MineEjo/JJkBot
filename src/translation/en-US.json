@@ -36,6 +36,7 @@
   },
   "errors": [
     "There was an error while executing this command!",
-    "Interaction is outdated!"
+    "Interaction is outdated!",
+    "No rights to use the command!"
   ]
 }

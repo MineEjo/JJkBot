@@ -10,10 +10,20 @@ module.exports = {
             if (!command) return;
 
             try {
-                await command.execute(interaction);
+                if (command.permissions && command.permissions.length > 0) {
+                    if (!interaction.member.permissions.has(command.permissions)) return await interaction.reply({
+                        content: translate.errors[2],
+                        ephemeral: true
+                    })
+                }
+
+                await command.execute(interaction, client);
             } catch (error) {
                 console.error(error);
-                await interaction.reply({content: translate.errors[0], ephemeral: true});
+                await interaction.reply({
+                    content: translate.errors[0],
+                    ephemeral: true
+                });
             }
         }
     },
