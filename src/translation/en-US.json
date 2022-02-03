@@ -38,6 +38,22 @@
       "changed": "Done, the bot language has been changed to **${langValue}**."
     }
   },
+  "events": {
+    "guildCreate": {
+      "title": "Hi!",
+      "description": "Let me give you a little help.",
+      "fields": [
+        {
+          "name": "Commands",
+          "value": "List of commands can be seen by entering a slash `/` in the chat."
+        },
+        {
+          "name": "Important",
+          "value": "Read the agreement on the help command."
+        }
+      ]
+    }
+  },
   "errors": [
     "There was an error while executing this command!",
     "Interaction is outdated!",
