@@ -28,6 +28,6 @@ module.exports = {
             })
             .setColor(config.color.primary);
 
-        channel.send({embeds: [embed]});
+        channel.send({embeds: [embed]}).catch(console.error);
     }
 };
