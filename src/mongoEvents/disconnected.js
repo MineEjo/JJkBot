@@ -1,6 +1,6 @@
 module.exports = {
     name: 'disconnected',
     async execute() {
-        console.error("[Mongodb] Disconnected from database.");
+        console.log("[Mongodb] Disconnected from database.");
     },
 };

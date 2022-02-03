@@ -1,6 +1,6 @@
 module.exports = {
     name: 'connected',
     async execute() {
-        console.error("[Mongodb] Connected from database.");
+        console.log("[Mongodb] Connected from database.");
     },
 };
