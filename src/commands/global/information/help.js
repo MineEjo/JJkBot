@@ -19,10 +19,6 @@ module.exports = {
                     .replace('${githubLink}', config.bot.github)
                     .replace('${guildInvite}', config.guild.invite),
                 inline: false
-            }, {
-                name: translate.commands.help.fields[1].name,
-                value: translate.commands.help.fields[1].value,
-                inline: false
             })
             .setColor(config.color.primary);
         await interaction.reply({embeds: [embed], ephemeral: true}).catch(console.error);
