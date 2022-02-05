@@ -23,14 +23,12 @@ module.exports = {
 		let enabledItemsCategory = 0;
 
 		function getFieldName(fieldNumber) {
-			let emoji;
-
-			if (itemsCount === enabledItemsCategory) emoji = config.emoji.tickMark;
-			else emoji = config.emoji.tick;
+			let emoji = (itemsCount === enabledItemsCategory) ? config.emoji.tickMark : config.emoji.tick;
 
 			enabledItemsCategory = 0;
 
-			return translate.commands.setupAuto.fields[fieldNumber].name.replace('${' + fieldNumber + 'C}', emoji);
+			return translate.commands.setupAuto.fields[fieldNumber].name.
+			replace('${' + fieldNumber + 'C}', emoji);
 		}
 
 		function getFieldDescription(fieldNumber) {
@@ -61,6 +59,8 @@ module.exports = {
 				itemsCount++;
 			}
 
+			itemsCount--;
+
 			return description;
 		}
 
@@ -82,12 +82,12 @@ module.exports = {
 				new MessageButton()
 				.setCustomId(ids.commands.setupAuto.button_select_up)
 				.setLabel(translate.commands.setupAuto.words[0])
-				.setDisabled(itemSelected <= 0)
+				// .setDisabled(itemSelected <= 0)
 				.setStyle('SECONDARY'),
 				new MessageButton()
 				.setCustomId(ids.commands.setupAuto.button_select_down)
 				.setLabel(translate.commands.setupAuto.words[1])
-				.setDisabled(itemSelected >= itemsCount)
+				// .setDisabled(itemSelected >= itemsCount)
 				.setStyle('SECONDARY'),
 				new MessageButton()
 				.setCustomId(ids.commands.setupAuto.button_control)
