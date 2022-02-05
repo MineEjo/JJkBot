@@ -1,7 +1,12 @@
 {
-  "commands": {
-    "lang": {
-      "menu_choose_lang": "283419388312934575"
-    }
-  }
+	"commands": {
+		"lang": {
+			"menu_choose_lang": "283419388312934575"
+		},
+		"setupAuto": {
+			"button_select_up": "140843229887117694",
+			"button_select_down": "384960467104939988",
+			"button_control": "344807372236066480"
+		}
+	}
 }
