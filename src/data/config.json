@@ -11,6 +11,10 @@
 		"lang": "en-US",
 		"github": "https://github.com/MineEjo/JJkBot"
 	},
+	"settings": {
+		"on": 2,
+		"off": 1
+	},
 	"color": {
 		"primary": "#57F287",
 		"embed": "#2F3136",
