@@ -12,13 +12,13 @@ const commandGuildFolders = fs.readdirSync('./commands/guild');
 const commandGlobalFolders = fs.readdirSync('./commands/global');
 
 (async () => {
-    for (let file of functions) {
-        require(`./functions/${file}`)(client);
-    }
+	for (let file of functions) {
+		require(`./functions/${file}`)(client);
+	}
 
-    client.handleEvents(eventFiles, "./events");
-    client.handleGuildCommands(commandGuildFolders, "./commands/guild")
-    client.handleGlobalCommands(commandGlobalFolders, "./commands/global")
-    client.login(process.env.TOKEN);
-    client.loginMongodb();
+	client.handleEvents(eventFiles, './events');
+	client.handleGuildCommands(commandGuildFolders, './commands/guild');
+	client.handleGlobalCommands(commandGlobalFolders, './commands/global');
+	client.login(process.env.TOKEN);
+	client.loginMongodb();
 })();

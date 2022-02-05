@@ -11,8 +11,6 @@ module.exports = (client) => {
 
             for (const file of commandFiles) {
                 const command = require(`../commands/guild/${folder}/${file}`);
-                // Set a new item in the Collection
-                // With the key as the command name and the value as the exported module
                 await client.commands.set(command.data.name, command);
                 client.commandArray.push(command.data.toJSON());
             }
