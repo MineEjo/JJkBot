@@ -22,18 +22,6 @@ module.exports = {
 		let itemSelected = 0;
 		let enabledItemsCategory = 0;
 
-		function getColorButtonControl(value) {
-			if (value === config.settings.off) return 'SUCCESS';
-			if (value === config.settings.on) return 'DANGER';
-			return 'SECONDARY';
-		}
-
-		function getLabelButtonControl(value) {
-			if (value === config.settings.off) return translate.commands.setupAuto.words[2];
-			if (value === config.settings.on) return translate.commands.setupAuto.words[3];
-			return '';
-		}
-
 		function getFieldName(fieldNumber) {
 			let emoji;
 
@@ -57,28 +45,18 @@ module.exports = {
 			description = `${translate.commands.setupAuto.fields[fieldNumber].value}`;
 
 			for (let index = 0; index <= values; index++) {
-				let treeEmoji = config.emoji.tickTree;
-				let tickEmoji = config.emoji.tick;
+				let treeEmoji = (itemsCount >= values) ? config.emoji.tickTreeEnd : config.emoji.tickTree;
+				let tickEmoji = (itemsCount === itemSelected) ? config.emoji.tickBlue : config.emoji.tick;
 
-				if (itemsCount >= values) treeEmoji = config.emoji.tickTreeEnd;
-				if (itemsCount === itemSelected) tickEmoji = config.emoji.tickBlue;
-
-				let data = guildData(interaction.guild, dataNames[index]);
-
-				if (data === config.settings.on) {
+				if (guildData(interaction.guild, dataNames[index]) === config.settings.on) {
 					enabledItemsCategory++;
 					tickEmoji = config.emoji.tickMark;
 				}
 
-				description = description.replace('${' + index + 'T}', `${treeEmoji}${tickEmoji}`);
-
-				if (itemsCount === itemSelected) {
-					description = description.replace('${' + index + 'I}', '**[')
-					.replace('${' + index + 'I}', `](https://discord.com/channels/${interaction.guildId}/${interaction.channelId})**`);
-				} else {
-					description = description.replace('${' + index + 'I}', '')
-					.replace('${' + index + 'I}', '');
-				}
+				const selectedFormat = (itemsCount === itemSelected) ? ['**[', `](https://discord.com/channels/${interaction.guildId}/${interaction.channelId})**`] : ['', ''];
+				description = description.replace('${' + index + 'T}', `${treeEmoji}${tickEmoji}`)
+				.replace('${' + index + 'I}', selectedFormat[0])
+				.replace('${' + index + 'I}', selectedFormat[1]);
 
 				itemsCount++;
 			}
@@ -113,8 +91,8 @@ module.exports = {
 				.setStyle('SECONDARY'),
 				new MessageButton()
 				.setCustomId(ids.commands.setupAuto.button_control)
-				.setLabel(getLabelButtonControl(guildData(interaction.guild, dataNames[itemSelected])))
-				.setStyle(getColorButtonControl(guildData(interaction.guild, dataNames[itemSelected])))
+				.setLabel(guildData(interaction.guild, dataNames[itemSelected]) === config.settings.on ? translate.commands.setupAuto.words[3] : translate.commands.setupAuto.words[2])
+				.setStyle(guildData(interaction.guild, dataNames[itemSelected]) === config.settings.on ? 'DANGER' : 'SUCCESS')
 			);
 		}
 
