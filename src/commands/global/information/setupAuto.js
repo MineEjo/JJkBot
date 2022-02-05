@@ -82,12 +82,12 @@ module.exports = {
 				new MessageButton()
 				.setCustomId(ids.commands.setupAuto.button_select_up)
 				.setLabel(translate.commands.setupAuto.words[0])
-				// .setDisabled(itemSelected <= 0)
+				.setDisabled(itemSelected <= 0)
 				.setStyle('SECONDARY'),
 				new MessageButton()
 				.setCustomId(ids.commands.setupAuto.button_select_down)
 				.setLabel(translate.commands.setupAuto.words[1])
-				// .setDisabled(itemSelected >= itemsCount)
+				.setDisabled(itemSelected >= itemsCount)
 				.setStyle('SECONDARY'),
 				new MessageButton()
 				.setCustomId(ids.commands.setupAuto.button_control)
