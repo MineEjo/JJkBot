@@ -43,7 +43,11 @@
 			"fields": [
 				{
 					"name": "${0C} Links",
-					"value": "${0T} ${0I}Delete Invites${0I} \n${1T} ${1I}Delete Scam Links${1I} \n${2T} ${2I}Delete Links${2I}"
+					"value": [
+						"${0T} ${0I}Delete Invites${0I} \n",
+						"${1T} ${1I}Delete Scam Links${1I} \n",
+						"${2T} ${2I}Delete Links${2I}"
+					]
 				}
 			],
 			"valueDescription": [

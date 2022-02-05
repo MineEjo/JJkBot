@@ -32,17 +32,13 @@ module.exports = {
 		}
 
 		function getFieldDescription(fieldNumber) {
-			let values = 0;
-			let description = translate.commands.setupAuto.fields[fieldNumber].value;
-			while (description.includes('${' + values + 'T}')) {
-				description = description.replace('${' + values + 'T}', '');
-				values++;
-			}
-			values--;
+			let values = (translate.commands.setupAuto.fields[fieldNumber].value.length) - 1;
 
-			description = `${translate.commands.setupAuto.fields[fieldNumber].value}`;
+			let description = "";
 
 			for (let index = 0; index <= values; index++) {
+				description += translate.commands.setupAuto.fields[fieldNumber].value[index];
+
 				let treeEmoji = (itemsCount >= values) ? config.emoji.tickTreeEnd : config.emoji.tickTree;
 				let tickEmoji = (itemsCount === itemSelected) ? config.emoji.tickBlue : config.emoji.tick;
 
