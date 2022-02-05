@@ -20,6 +20,14 @@
 		"embed": "#2F3136",
 		"error": "#ED4245"
 	},
+	"emoji": {
+		"tickMark": "<:tickMark:939284154820993085>",
+		"tick": "<:tick:939284154913288262>",
+		"tickBlue": "<:tickBlue:939296447134826506>",
+		"tickTree": "<:tickTree:939284154623885362>",
+		"tickTreeEnd": "<:tickTreeEnd:939284154598686771>",
+		"air": "<:air:939180193011093504>"
+	},
 	"FLAGS": {
 		"CHANNEL": "CHANNEL",
 		"DMCHANNEL": "DMCHANNEL",
