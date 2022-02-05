@@ -13,7 +13,6 @@ module.exports = {
 	data: new SlashCommandBuilder()
 	.setName(noneTranslate.commands.setupAuto.slash.name)
 	.setDescription(noneTranslate.commands.setupAuto.slash.description),
-	permissions: [Permissions.FLAGS.ADMINISTRATOR],
 	restriction: config.FLAGS.CHANNEL,
 	async execute(interaction) {
 		const translate = require(`../../../translation/${language(interaction.guild)}.json`);
@@ -63,7 +62,7 @@ module.exports = {
 			let itemDescription = translate.commands.setupAuto.valueDescription[itemSelected];
 			return new MessageEmbed()
 			.setTitle(translate.commands.setupAuto.title)
-			.setDescription(`${translate.commands.setupAuto.description} ${(itemDescription) ? '\n\`\`\`' + itemDescription + '\`\`\`' : ''}`)
+			.setDescription(`${(interaction.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) ? translate.commands.setupAuto.description : translate.commands.setupAuto.previewDescription} ${(itemDescription) ? '\n\`\`\`' + itemDescription + '\`\`\`' : ''}`)
 			.addFields({
 				value: getFieldDescription(0),
 				name: getFieldName(0),
@@ -87,6 +86,7 @@ module.exports = {
 				.setStyle('SECONDARY'),
 				new MessageButton()
 				.setCustomId(ids.commands.setupAuto.button_control)
+				.setDisabled(!interaction.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR))
 				.setLabel(guildData(interaction.guild, dataNames[itemSelected]) === config.settings.on ? translate.commands.setupAuto.words[3] : translate.commands.setupAuto.words[2])
 				.setStyle(guildData(interaction.guild, dataNames[itemSelected]) === config.settings.on ? 'DANGER' : 'SUCCESS')
 			);

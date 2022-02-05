@@ -40,6 +40,7 @@
 			},
 			"title": "Settings",
 			"description": "Use the buttons to scroll through the list of settings below.",
+			"previewDescription": "View mode, not enough rights to edit.",
 			"fields": [
 				{
 					"name": "${0C} Links",
