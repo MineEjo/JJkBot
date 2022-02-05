@@ -4,28 +4,28 @@ const config = require('../data/config.json');
 const guildLanguages = {};
 
 const loadLanguages = async (client) => {
-    for (const guild of client.guilds.cache) {
-        const guildId = guild[0];
+	for (const guild of client.guilds.cache) {
+		const guildId = guild[0];
 
-        const result = await guildSchema.findOne({
-            _id: guildId
-        });
+		const result = await guildSchema.findOne({
+			_id: guildId
+		});
 
-        guildLanguages[guildId] = result ? result.lang : config.bot.lang;
-    }
+		guildLanguages[guildId] = result ? result.lang : config.bot.lang;
+	}
 };
 
 const setLanguage = (guild, language) => {
-    guildLanguages[guild.id] = language;
+	guildLanguages[guild.id] = language;
 };
 
 module.exports = (guild) => {
-    let selectedLanguage = guildLanguages[guild.id];
-    if (!selectedLanguage) {
-        selectedLanguage = config.bot.lang;
-    }
+	if (!guild) return config.bot.lang;
 
-    return selectedLanguage;
+	let selectedLanguage = guildLanguages[guild.id];
+	if (!selectedLanguage) selectedLanguage = config.bot.lang;
+
+	return selectedLanguage;
 };
 
 module.exports.loadLanguages = loadLanguages;
