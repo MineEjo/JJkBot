@@ -78,12 +78,12 @@ module.exports = {
 				new MessageButton()
 				.setCustomId(ids.commands.setupAuto.button_select_up)
 				.setLabel(translate.commands.setupAuto.words[0])
-				.setDisabled(itemSelected <= 0)
+				// .setDisabled(itemSelected <= 0)
 				.setStyle('SECONDARY'),
 				new MessageButton()
 				.setCustomId(ids.commands.setupAuto.button_select_down)
 				.setLabel(translate.commands.setupAuto.words[1])
-				.setDisabled(itemSelected >= itemsCount)
+				// .setDisabled(itemSelected >= itemsCount)
 				.setStyle('SECONDARY'),
 				new MessageButton()
 				.setCustomId(ids.commands.setupAuto.button_control)
@@ -97,8 +97,15 @@ module.exports = {
 			const collector = message.createMessageComponentCollector({componentType: 'BUTTON', time: 60000});
 
 			collector.on('collect', async i => {
-				if (i.customId === ids.commands.setupAuto.button_select_up && itemSelected > 0) itemSelected--;
-				if (i.customId === ids.commands.setupAuto.button_select_down && itemSelected < itemsCount) itemSelected++;
+				if (i.customId === ids.commands.setupAuto.button_select_up) {
+					if (itemSelected > 0) itemSelected--;
+					else itemSelected = itemsCount;
+				}
+
+				if (i.customId === ids.commands.setupAuto.button_select_down) {
+					if (itemSelected < itemsCount) itemSelected++;
+					else itemSelected = 0;
+				}
 
 				if (i.customId === ids.commands.setupAuto.button_control) {
 					let value;
