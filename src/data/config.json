@@ -14,5 +14,10 @@
 		"primary": "#57F287",
 		"embed": "#2F3136",
 		"error": "#ED4245"
+	},
+	"FLAGS": {
+		"CHANNEL": "CHANNEL",
+		"DMCHANNEL": "DMCHANNEL",
+		"BOT_OWNER": "BOT_OWNER"
 	}
 }
