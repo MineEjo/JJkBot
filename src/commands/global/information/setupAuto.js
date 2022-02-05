@@ -47,10 +47,9 @@ module.exports = {
 					tickEmoji = config.emoji.tickMark;
 				}
 
-				const selectedFormat = (itemsCount === itemSelected) ? ['**[', `](https://discord.com/channels/${interaction.guildId}/${interaction.channelId})**`] : ['', ''];
+				const selectedFormat = (itemsCount === itemSelected) ? ['[', `](https://discord.com/channels/${interaction.guildId}/${interaction.channelId})`] : ['', ''];
 				description = description.replace('${' + index + 'T}', `${treeEmoji}${tickEmoji}`)
-				.replace('${' + index + 'I}', selectedFormat[0])
-				.replace('${' + index + 'I}', selectedFormat[1]);
+				.replace('${' + index + 'I}', selectedFormat[0]).replace('${' + index + 'I}', selectedFormat[1]);
 
 				itemsCount++;
 			}
@@ -61,13 +60,14 @@ module.exports = {
 		}
 
 		function createEmbed() {
+			let itemDescription = translate.commands.setupAuto.valueDescription[itemSelected];
 			return new MessageEmbed()
 			.setTitle(translate.commands.setupAuto.title)
-			.setDescription(`${translate.commands.setupAuto.description} \n\`\`\`${translate.commands.setupAuto.valueDescription[itemSelected]}\`\`\``)
+			.setDescription(`${translate.commands.setupAuto.description} ${(itemDescription) ? '\n\`\`\`' + itemDescription + '\`\`\`' : ''}`)
 			.addFields({
 				value: getFieldDescription(0),
 				name: getFieldName(0),
-				inline: false
+				inline: true
 			})
 			.setColor(config.color.embed);
 		}
