@@ -22,10 +22,13 @@
 	},
 	"emoji": {
 		"tickMark": "<:tickMark:939284154820993085>",
-		"tick": "<:tick:939284154913288262>",
-		"tickBlue": "<:tickBlue:939296447134826506>",
-		"tickTree": "<:tickTree:939284154623885362>",
-		"tickTreeEnd": "<:tickTreeEnd:939284154598686771>",
+		"tick": "<:tick:941046013265870898>",
+		"tickBlue": "<:tickBlue:941046260293591100>",
+		"tickTree": "<:tickTree:941046039350214758>",
+		"tickTreeEnd": "<:tickTreeEnd:941046823785726003>",
+		"toggle": "<:toggle:941047883392745482>",
+		"toggleBlue": "<:toggleBlue:941047896269279292>",
+		"toggleMark": "<:toggleMark:941050060899250177>",
 		"air": "<:air:939180193011093504>"
 	},
 	"FLAGS": {
