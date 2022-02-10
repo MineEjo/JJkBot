@@ -14,7 +14,7 @@ const loadGuilds = async (client) => {
 			_id: guildId
 		});
 
-		data[0][guildId] = result ? result[dataLangNames[0]] : config?.bot?.lang;
+		data[0][guildId] = result ? result[dataLangNames[0]] : config?.settings?.lang;
 
 		data[1][guildId] = result ? result[dataLinksNames[0]] : config?.settings?.off;
 		data[2][guildId] = result ? result[dataLinksNames[1]] : config?.settings?.off;
@@ -55,7 +55,7 @@ const setGuilds = (guild, key, value) => {
 module.exports = (guild, key) => {
 	switch (key) {
 		case dataLangNames[0]:
-			return (guild) ? data[0][guild.id] : config?.bot?.lang;
+			return (guild) ? data[0][guild.id] : config?.settings?.lang;
 		case dataLinksNames[0]:
 			return (guild) ? data[1][guild.id] : config?.settings?.off;
 		case dataLinksNames[1]:

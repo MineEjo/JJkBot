@@ -6,7 +6,7 @@ const ids = require('../../../data/ids.json');
 // Import values from config, look at the config itself ;)
 const config = require('../../../data/config.json');
 // Static translation of a single language, such as English.
-const noneTranslate = require(`../../../translation/${config?.bot?.lang}.json`);
+const noneTranslate = require(`../../../translation/${config?.settings?.lang}.json`);
 // Handler for server database, getting stored values.
 const guildData = require('../../../functions/mongodb/handleGuilds');
 // Lists the names of the database.

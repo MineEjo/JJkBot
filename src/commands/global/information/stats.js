@@ -3,7 +3,7 @@ const {MessageEmbed} = require('discord.js');
 const {dataLangNames} = require('../../../schemes/guild');
 const guildData = require('../../../functions/mongodb/handleGuilds');
 const config = require('../../../data/config.json');
-const noneTranslate = require(`../../../translation/${config?.bot?.lang}.json`);
+const noneTranslate = require(`../../../translation/${config?.settings?.lang}.json`);
 
 module.exports = {
 	data: new SlashCommandBuilder()

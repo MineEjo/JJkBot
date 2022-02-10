@@ -1,12 +1,10 @@
 {
-	"guild": {
+	"links": {
+		"github": "https://github.com/MineEjo/JJkBot",
 		"invite": "https://discord.gg/h3BmdkMbmB"
 	},
-	"bot": {
-		"lang": "en-US",
-		"github": "https://github.com/MineEjo/JJkBot"
-	},
 	"settings": {
+		"lang": "en-US",
 		"on": 2,
 		"off": 1
 	},

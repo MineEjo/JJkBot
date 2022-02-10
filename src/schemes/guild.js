@@ -26,7 +26,7 @@ const guildSchema = mongoose.Schema({
 		minLength: 4,
 		maxLength: 4,
 		type: String,
-		default: config?.bot?.lang
+		default: config?.settings?.lang
 	},
 	[dataLinksNames[0]]: {
 		minLength: 1,
