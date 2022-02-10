@@ -1,10 +1,10 @@
 const guildSchema = require('../../schemes/guild');
 const config = require('../../data/config.json');
-const {dataNames} = require('../../schemes/guild');
+const {dataLinksNames} = require('../../schemes/guild');
+const {dataLangNames} = require('../../schemes/guild');
+const {dataWhiteLists} = require('../../schemes/guild');
 
-const data0 = {};
-const data1 = {};
-const data2 = {};
+const data = [{}, {}, {}, {}, {}, {}, {}];
 
 const loadGuilds = async (client) => {
 	for (const guild of client.guilds.cache) {
@@ -14,50 +14,63 @@ const loadGuilds = async (client) => {
 			_id: guildId
 		});
 
-		data0[guildId] = result ? result[dataNames[0]] : config.settings.off;
-		data1[guildId] = result ? result[dataNames[1]] : config.settings.off;
-		data2[guildId] = result ? result[dataNames[2]] : config.settings.off;
+		data[0][guildId] = result ? result[dataLangNames[0]] : config?.bot?.lang;
+
+		data[1][guildId] = result ? result[dataLinksNames[0]] : config?.settings?.off;
+		data[2][guildId] = result ? result[dataLinksNames[1]] : config?.settings?.off;
+		data[3][guildId] = result ? result[dataLinksNames[2]] : config?.settings?.off;
+		data[4][guildId] = result ? result[dataLinksNames[3]] : config?.settings?.off;
+		data[5][guildId] = result ? result[dataLinksNames[4]] : config?.settings?.off;
+
+		data[6][guildId] = result ? result[dataWhiteLists[0]] : config?.settings?.off;
 	}
 };
 
 const setGuilds = (guild, key, value) => {
 	switch (key) {
-		case dataNames[0]:
-			data0[guild.id] = value;
+		case dataLangNames[0]:
+			data[0][guild.id] = value;
 			break;
-		case dataNames[1]:
-			data1[guild.id] = value;
+		case dataLinksNames[0]:
+			data[1][guild.id] = value;
 			break;
-		case dataNames[2]:
-			data2[guild.id] = value;
+		case dataLinksNames[1]:
+			data[2][guild.id] = value;
+			break;
+		case dataLinksNames[2]:
+			data[3][guild.id] = value;
+			break;
+		case dataLinksNames[3]:
+			data[4][guild.id] = value;
+			break;
+		case dataLinksNames[4]:
+			data[5][guild.id] = value;
+			break;
+		case dataWhiteLists[0]:
+			data[6][guild.id] = value;
 			break;
 	}
 };
 
-function exists(value) {
-	if (value) return value;
-	else return config.settings.off;
-}
-
 module.exports = (guild, key) => {
-	let value;
-
 	switch (key) {
-		case dataNames[0]:
-			value = exists(data0[guild.id]);
-			break;
-		case dataNames[1]:
-			value = exists(data1[guild.id]);
-			break;
-		case dataNames[2]:
-			value = exists(data2[guild.id]);
-			break;
+		case dataLangNames[0]:
+			return (guild) ? data[0][guild.id] : config?.bot?.lang;
+		case dataLinksNames[0]:
+			return (guild) ? data[1][guild.id] : config?.settings?.off;
+		case dataLinksNames[1]:
+			return (guild) ? data[2][guild.id] : config?.settings?.off;
+		case dataLinksNames[2]:
+			return (guild) ? data[3][guild.id] : config?.settings?.off;
+		case dataLinksNames[3]:
+			return (guild) ? data[4][guild.id] : config?.settings?.off;
+		case dataLinksNames[4]:
+			return (guild) ? data[5][guild.id] : config?.settings?.off;
+		case dataWhiteLists[0]:
+			return (guild) ? data[6][guild.id] : config?.settings?.off;
 		default:
-			value = config.settings.off;
-			break;
+			return config?.settings?.off;
 	}
-
-	return value;
 };
 
 module.exports.loadGuilds = loadGuilds;
