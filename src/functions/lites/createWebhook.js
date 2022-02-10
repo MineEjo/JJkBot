@@ -8,7 +8,7 @@ const createWebhook = async (guild, channel) => {
 
 	if (!webhook) {
 		await channel.createWebhook(guild.me.user.username, {
-			avatar: guild.me.user.avatarURL({dynamic: true})
+			avatar: guild?.me?.user?.avatarURL({dynamic: true})
 		}).then(wh => webhook = wh).catch(console.error);
 	}
 

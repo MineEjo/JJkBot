@@ -23,7 +23,7 @@ module.exports = (client) => {
 				console.log('[Slash Global Commands] Started refreshing application (/) global commands.');
 
 				await rest.put(
-					Routes.applicationCommands(config.client.id),
+					Routes.applicationCommands(config?.client?.id),
 					{body: client.commandArray}
 				);
 

@@ -23,7 +23,7 @@ module.exports = (client) => {
                 console.log('[Slash Guild Commands] Started refreshing application (/) guild commands.');
 
                 await rest.put(
-                    Routes.applicationGuildCommands(config.client.id, config.guild.id),
+                    Routes.applicationGuildCommands(config?.client?.id, config?.guild?.id),
                     {body: client.commandArray},
                 );
 
