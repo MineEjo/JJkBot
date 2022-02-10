@@ -1,12 +1,11 @@
 const {REST} = require('@discordjs/rest');
 const {Routes} = require('discord-api-types/v9');
 const fs = require('fs');
-const config = require('../data/config.json')
 
-module.exports = (client) => {
+module.exports = client => {
     client.handleGuildCommands = async (commandFolders, path) => {
         client.commandArray = [];
-        for (let folder of commandFolders) {
+        for (const folder of commandFolders) {
             const commandFiles = fs.readdirSync(`${path}/${folder}`).filter(file => file.endsWith('.js'));
 
             for (const file of commandFiles) {
@@ -23,8 +22,8 @@ module.exports = (client) => {
                 console.log('[Slash Guild Commands] Started refreshing application (/) guild commands.');
 
                 await rest.put(
-                    Routes.applicationGuildCommands(config?.client?.id, config?.guild?.id),
-                    {body: client.commandArray},
+                    Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
+                    {body: client.commandArray}
                 );
 
                 console.log('[Slash Guild Commands] Successfully reloaded application (/) guild commands.');

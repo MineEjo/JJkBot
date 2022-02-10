@@ -1,12 +1,11 @@
 const {REST} = require('@discordjs/rest');
 const {Routes} = require('discord-api-types/v9');
 const fs = require('fs');
-const config = require('../data/config.json')
 
-module.exports = (client) => {
+module.exports = client => {
 	client.handleGlobalCommands = async (commandFolders, path) => {
 		client.commandArray = [];
-		for (let folder of commandFolders) {
+		for (const folder of commandFolders) {
 			const commandFiles = fs.readdirSync(`${path}/${folder}`).filter(file => file.endsWith('.js'));
 
 			for (const file of commandFiles) {
@@ -23,7 +22,7 @@ module.exports = (client) => {
 				console.log('[Slash Global Commands] Started refreshing application (/) global commands.');
 
 				await rest.put(
-					Routes.applicationCommands(config?.client?.id),
+					Routes.applicationCommands(process.env.CLIENT_ID),
 					{body: client.commandArray}
 				);
 

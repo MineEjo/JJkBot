@@ -9,11 +9,13 @@ module.exports = {
 	async execute(guild) {
 		const translate = require(`../translation/${guildData(guild, dataLangNames[0])}.json`);
 
-		const channel = guild.channels.cache.find((ch) =>
+		const channel = guild.channels.cache.find(ch =>
 			ch.type === 'GUILD_TEXT' && ch.permissionsFor(guild?.me).has('SEND_MESSAGES')
 		);
 
-		if (!channel) return;
+		if (!channel) {
+			return;
+		}
 
 		const embed = new MessageEmbed()
 		.setTitle(translate.events.guildCreate.title)
