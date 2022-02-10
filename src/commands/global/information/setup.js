@@ -206,8 +206,7 @@ module.exports = {
 			embeds: [createEmbed()],
 			ephemeral: true,
 			components: [createSelectMenu(), createButtons()]
-		})
-		.then(message => {
+		}).then(message => {
 			const menuCollector = message.createMessageComponentCollector({componentType: 'SELECT_MENU', time: 60000});
 			menuCollector.on('collect', async i => {
 				fieldSelected = parseInt(i.values[0], 10);
