@@ -2,7 +2,7 @@
 const {dataLangNames, dataLinksNames, dataWhiteLists} = require('../../../schemes/guild');
 // Handler for server database, getting stored values.
 const guildData = require('../../../functions/mongodb/handleGuilds');
-const {createWebhook} = require('../../../functions/lites/createWebhook');
+const {getWebhook} = require('../../../functions/lites/getWebhook');
 const scamLinks = require('../../../data/blacklists/scamLinks.json');
 // Import values from config, look at the config itself ;)
 const config = require('../../../data/config.json');
@@ -105,7 +105,7 @@ const links = async message => {
 		return;
 	}
 
-	const webhook = await createWebhook(message?.guild, message?.channel);
+	const webhook = await getWebhook(message?.guild, message?.channel);
 
 	webhook.send({
 		content: newContent,

@@ -1,9 +1,7 @@
-const createWebhook = async (guild, channel) => {
+const getWebhook = async (guild, channel) => {
 	let webhook;
 	await guild.fetchWebhooks().then(webhooks => {
-		webhook = webhooks.find(
-			(wh) => wh.channelId === channel.id && wh.name === guild.me.user.username
-		);
+		webhook = webhooks.find(wh => wh.channelId === channel.id && wh.name === guild.me.user.username);
 	}).catch(console.error);
 
 	if (!webhook) {
@@ -15,4 +13,4 @@ const createWebhook = async (guild, channel) => {
 	return webhook;
 };
 
-module.exports.createWebhook = createWebhook;
+module.exports.getWebhook = getWebhook;
