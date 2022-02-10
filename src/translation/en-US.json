@@ -69,7 +69,7 @@
 					"style": "none",
 					"name": "@(0C) WhiteList `Page: @(0S)/@(0F)`",
 					"value": [
-						"@(0T) @(0I)Disallow standard \"Discord\" links@(0I) \n"
+						"@(0T) @(0I)Disallow Standard \"Discord\" Links@(0I) \n"
 					],
 					"valueDescription": [
 						"Setting for a whitelist of links, targeting discord links and gifs."
