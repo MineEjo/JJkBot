@@ -1,13 +1,8 @@
 {
 	"guild": {
-		"id": "937735645986713630",
 		"invite": "https://discord.gg/h3BmdkMbmB"
 	},
-	"client": {
-		"id": "937732594517307392"
-	},
 	"bot": {
-		"ownerId": "752907053202145390",
 		"lang": "en-US",
 		"github": "https://github.com/MineEjo/JJkBot"
 	},
