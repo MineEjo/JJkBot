@@ -2,9 +2,11 @@ const guildSchema = require('../../schemes/guild');
 const {Data, DataCounts} = require('../../schemes/guild');
 
 const dataCells = [];
+const dataNames = [];
 
 for (let index = 0; index < Data.length; index += DataCounts) {
 	dataCells.push({});
+	dataNames.push(Data[index]);
 }
 
 const loadGuilds = async client => {
@@ -24,10 +26,10 @@ const loadGuilds = async client => {
 };
 
 const setGuilds = (guild, data, value) => {
-	dataCells[data.indexOf(data)][guild.id] = value;
+	dataCells[dataNames.indexOf(data)][guild.id] = value;
 };
 
-module.exports = (guild, data) => (guild) ? dataCells[data.indexOf(data)][guild.id] : data[data.indexOf(data) + 4];
+module.exports = (guild, data) => (guild && dataNames.indexOf(data) > -1) ? dataCells[dataNames.indexOf(data)][guild.id] : Data[Data.indexOf(data) + 4];
 
 module.exports.loadGuilds = loadGuilds;
 module.exports.setGuilds = setGuilds;
