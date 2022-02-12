@@ -153,20 +153,20 @@ module.exports = {
 					case ids.commands.whitelist.menu_choose_channel:
 						if (interaction?.member?.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
 							for (const channel of i.values) {
-								if (channelsArray.indexOf(channel) >= 0) {
+								if (channelsArray.indexOf(channel) > -1) {
 									channelsArray.splice(channelsArray.indexOf(channel), 1);
 								} else {
 									channelsArray.push(channel);
 								}
 							}
 
-							await updateData(interaction.guild, 'linksChannels', channelsArray.concat(i.values));
+							await updateData(interaction.guild, 'linksChannels', channelsArray);
 						}
 						break;
 					case ids.commands.whitelist.menu_choose_role:
 						if (interaction?.member?.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
 							for (const role of i.values) {
-								if (rolesArray.indexOf(role) >= 0) {
+								if (rolesArray.indexOf(role) > -1) {
 									rolesArray.splice(rolesArray.indexOf(role), 1);
 								} else {
 									rolesArray.push(role);
