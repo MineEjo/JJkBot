@@ -1,12 +1,11 @@
 const config = require('../data/config.json');
-const {dataLangNames} = require('../schemes/guild');
-const guildData = require('../functions/mongodb/handleGuilds');
+const getDataGuild = require('../functions/mongodb/handleGuilds');
 
 module.exports = {
 	name: 'interactionCreate',
 	async execute(interaction, client) {
 		if (interaction.isCommand()) {
-			const translate = require(`../translation/${guildData(interaction?.guild, dataLangNames[0])}.json`);
+			const translate = require(`../translation/${getDataGuild(interaction?.guild, 'lang')}.json`);
 			const command = client.commands.get(interaction.commandName);
 
 			if (!command) {

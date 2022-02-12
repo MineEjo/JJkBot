@@ -1,7 +1,6 @@
 const {SlashCommandBuilder} = require('@discordjs/builders');
 const {MessageEmbed} = require('discord.js');
-const {dataLangNames} = require('../../../schemes/guild');
-const guildData = require('../../../functions/mongodb/handleGuilds');
+const getDataGuild = require('../../../functions/mongodb/handleGuilds');
 const config = require('../../../data/config.json');
 const noneTranslate = require(`../../../translation/${config?.settings?.lang}.json`);
 
@@ -10,7 +9,7 @@ module.exports = {
 	.setName(noneTranslate?.commands?.stats?.slash?.name)
 	.setDescription(noneTranslate?.commands?.stats?.slash?.description),
 	async execute(interaction) {
-		const translate = require(`../../../translation/${guildData(interaction?.guild, dataLangNames[0])}.json`);
+		const translate = require(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`);
 
 		const embed = new MessageEmbed()
 		.setTitle(translate?.commands?.stats?.title)

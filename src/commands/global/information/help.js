@@ -2,8 +2,7 @@ const {SlashCommandBuilder} = require('@discordjs/builders');
 const {MessageEmbed} = require('discord.js');
 const config = require('../../../data/config.json');
 const noneTranslate = require(`../../../translation/${config?.settings?.lang}.json`);
-const guildData = require('../../../functions/mongodb/handleGuilds');
-const {dataLangNames} = require('../../../schemes/guild');
+const getDataGuild = require('../../../functions/mongodb/handleGuilds');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -12,7 +11,7 @@ module.exports = {
 	async execute(interaction) {
 
 
-		const translate = require(`../../../translation/${guildData(interaction?.guild, dataLangNames[0])}.json`);
+		const translate = require(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`);
 		const embed = new MessageEmbed()
 		.setTitle(translate?.commands?.help.title)
 		.setDescription(translate?.commands?.help?.description.replace(`@(1)`, config?.links?.invite))

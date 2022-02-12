@@ -8,13 +8,9 @@ const config = require('../../../data/config.json');
 // Static translation of a single language, such as English.
 const noneTranslate = require(`../../../translation/${config?.settings?.lang}.json`);
 // Handler for server database, getting stored values.
-const guildData = require('../../../functions/mongodb/handleGuilds');
+const getDataGuild = require('../../../functions/mongodb/handleGuilds');
 // Lists the names of the database.
-const {dataLangNames, dataLinksNames, dataWhiteLists} = require('../../../schemes/guild');
-// Changing the data stored on the server, not in the database!
-const {setGuilds} = require('../../../functions/mongodb/handleGuilds');
-// Scheme for mongoose, mongo database,
-const guildSchema = require('../../../schemes/guild');
+const {updateData} = require('../../../functions/lites/updateData');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -24,7 +20,13 @@ module.exports = {
 	restriction: config.FLAGS.CHANNEL,
 	async execute(interaction) {
 		// Import dynamic translation, depends on the value in the database.
-		const translate = require(`../../../translation/${guildData(interaction?.guild, dataLangNames[0])}.json`);
+		const translate = require(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`);
+
+		const dataList = [
+			['deleteLinks', 'hideLinks'],
+			['allowDefaultLinks', 'allowScamLinks', 'allowInvites', 'allowSocialMedia'],
+			'lang'
+		];
 
 		// The number of lines to interact with. The value is updated in turn, after each element is created.
 		let itemsCount = 0;
@@ -35,8 +37,6 @@ module.exports = {
 		// The field is always the same, only its values change. The values are listed in the translation. This variable is responsible for the "page" position.
 		let fieldSelected = 0;
 		const fieldsCount = translate?.commands?.setup?.fields.length - 1;
-
-		const dbList = [dataLinksNames, dataWhiteLists, dataLangNames];
 
 		function getFieldName(fieldNumber) {
 			// If all items in a category are enabled then "tickMark", if not "tick".
@@ -88,11 +88,11 @@ module.exports = {
 
 					// In the variable data, the value of the item is stored and checked against the value from the database.
 
-					// (dbList[fieldSelected])[0])
-					// - dbList - The variable contains a list.
+					// (dataList[fieldSelected])[0])
+					// - dataList - The variable contains a list.
 					// - fieldSelected - Page number (the database depends on the page).
 					// - 0 - Name position from variable, in this style position is always 0, because work is done with one parameter.
-					if (guildData(interaction?.guild, (dbList[fieldSelected])[0]) === data) {
+					if (getDataGuild(interaction?.guild, (dataList[fieldSelected])[0]) === data) {
 						tickEmoji = config?.emoji?.toggleMark;
 					}
 
@@ -118,7 +118,7 @@ module.exports = {
 					const treeEmoji = (itemsCount >= values) ? config?.emoji?.tickTreeEnd : config?.emoji?.tickTree;
 					let tickEmoji = (itemsCount === itemSelected) ? config?.emoji?.tickBlue : config?.emoji?.tick;
 
-					if (guildData(interaction?.guild, (dbList[fieldSelected])[index]) === config?.settings?.on) {
+					if (getDataGuild(interaction?.guild, (dataList[fieldSelected])[index]) === config?.settings?.on) {
 						enabledItemsCategory++;
 						tickEmoji = config?.emoji?.tickMark;
 					}
@@ -173,8 +173,8 @@ module.exports = {
 				.setCustomId(ids?.commands?.setup?.button_control)
 				// If the author of the command does not have admin rights, the button will be disabled.
 				.setDisabled(!interaction?.member?.permissions.has(Permissions.FLAGS.ADMINISTRATOR))
-				.setLabel(guildData(interaction?.guild, (dbList[fieldSelected])[itemSelected]) === config?.settings?.on ? translate?.commands?.setup?.words[3] : translate?.commands?.setup?.words[2])
-				.setStyle(guildData(interaction?.guild, (dbList[fieldSelected])[itemSelected]) === config?.settings?.on ? 'DANGER' : 'SUCCESS')
+				.setLabel(getDataGuild(interaction?.guild, (dataList[fieldSelected])[itemSelected]) === config?.settings?.on ? translate?.commands?.setup?.words[3] : translate?.commands?.setup?.words[2])
+				.setStyle(getDataGuild(interaction?.guild, (dataList[fieldSelected])[itemSelected]) === config?.settings?.on ? 'DANGER' : 'SUCCESS')
 			);
 		}
 
@@ -184,7 +184,7 @@ module.exports = {
 			for (let index = 0; index <= fieldsCount; index++) {
 				options += `{`
 					+ `"label": "${translate?.commands?.setup?.menu[index]}",`
-					+ `"description": "${translate?.commands?.setup?.menu[index]}",`
+					+ `"description": "",`
 					+ `"value": "${index}",`
 					+ `"default": "${(fieldSelected === index)}"`
 					+ `}`;
@@ -195,10 +195,13 @@ module.exports = {
 			}
 
 			return new MessageActionRow()
-			.addComponents(new MessageSelectMenu()
-			.setCustomId(ids?.commands?.setup?.menu_select_page)
-			.setPlaceholder(translate.default[0])
-			.addOptions(JSON.parse(`[${options}]`)));
+			.addComponents(
+				new MessageSelectMenu()
+				.setMinValues(1)
+				.setMaxValues(1)
+				.setCustomId(ids?.commands?.setup?.menu_select_page)
+				.setPlaceholder(translate.default[0])
+				.addOptions(JSON.parse(`[${options}]`)));
 		}
 
 		await interaction.reply({
@@ -257,7 +260,7 @@ module.exports = {
 					} else {
 						// Style "none"
 						position = itemSelected;
-						switch (guildData(i?.guild, (dbList[fieldSelected])[itemSelected])) {
+						switch (getDataGuild(i?.guild, (dataList[fieldSelected])[itemSelected])) {
 							case config?.settings.off:
 								value = config.settings.on;
 								break;
@@ -270,19 +273,7 @@ module.exports = {
 						}
 					}
 
-					setGuilds(interaction?.guild, (dbList[fieldSelected])[position], value);
-
-					await guildSchema.findOneAndUpdate(
-						{
-							_id: i.guild.id
-						},
-						{
-							_id: i.guild.id,
-							[(dbList[fieldSelected])[position]]: value
-						},
-						{
-							upsert: true
-						});
+					await updateData(interaction.guild, [(dataList[fieldSelected])[position]], value);
 				}
 
 				itemsCount = 0;

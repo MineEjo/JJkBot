@@ -1,13 +1,12 @@
 const {MessageEmbed} = require('discord.js');
 const config = require('../data/config.json');
-const {dataLangNames} = require('../schemes/guild');
-const guildData = require('../functions/mongodb/handleGuilds')
+const getDataGuild = require('../functions/mongodb/handleGuilds');
 
 module.exports = {
 	name: 'guildCreate',
 	false: false,
 	async execute(guild) {
-		const translate = require(`../translation/${guildData(guild, dataLangNames[0])}.json`);
+		const translate = require(`../translation/${getDataGuild(guild, 'lang')}.json`);
 
 		const channel = guild.channels.cache.find(ch =>
 			ch.type === 'GUILD_TEXT' && ch.permissionsFor(guild?.me).has('SEND_MESSAGES')
