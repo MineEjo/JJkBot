@@ -87,7 +87,7 @@
 				},
 				{
 					"style": "toggle",
-					"name": "Lang `Page: @(0S)/@(0F)`",
+					"name": "Язык `Страница: @(0S)/@(0F)`",
 					"value": [
 						"@(0T) @(0I)  [\uD83C\uDDFA\uD83C\uDDF8]  English@(0I) \n",
 						"@(0T) @(0I)  [\uD83C\uDDF7\uD83C\uDDFA]  Русский@(0I) \n"

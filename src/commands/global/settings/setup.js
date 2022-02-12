@@ -25,7 +25,7 @@ module.exports = {
 		const dataList = [
 			['deleteLinks', 'hideLinks'],
 			['allowDefaultLinks', 'allowScamLinks', 'allowInvites', 'allowSocialMedia'],
-			'lang'
+			['lang']
 		];
 
 		// The number of lines to interact with. The value is updated in turn, after each element is created.
@@ -273,7 +273,7 @@ module.exports = {
 						}
 					}
 
-					await updateData(interaction.guild, [(dataList[fieldSelected])[position]], value);
+					await updateData(interaction.guild, (dataList[fieldSelected])[position], value);
 				}
 
 				itemsCount = 0;
