@@ -1,3 +1,5 @@
+// !TODO Deprecated...
+
 // Lists the names of the database.
 const {dataLangNames, dataLinksNames, dataWhiteLists} = require('../../../schemes/guild');
 // Handler for server database, getting stored values.
@@ -105,13 +107,15 @@ const links = async message => {
 		return;
 	}
 
-	const webhook = await getWebhook(message?.guild, message?.channel);
+	if (message.channel.isText() && !message.channel.isThread()) {
+		const webhook = await getWebhook(message?.guild, message?.channel);
 
-	webhook.send({
-		content: newContent,
-		username: `${message?.author?.tag} (${message?.author?.id})`,
-		avatarURL: message?.author.avatarURL({dynamic: true})
-	});
+		webhook.send({
+			content: newContent,
+			username: `${message?.author?.tag} (${message?.author?.id})`,
+			avatarURL: message?.author.avatarURL({dynamic: true})
+		});
+	}
 
 	message.delete().catch(console.error);
 };

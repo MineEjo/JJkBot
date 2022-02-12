@@ -12,7 +12,7 @@ const commandGuildFolders = fs.readdirSync('./commands/guild');
 const commandGlobalFolders = fs.readdirSync('./commands/global');
 
 (async () => {
-	for (let file of functions) {
+	for (const file of functions) {
 		require(`./functions/${file}`)(client);
 	}
 

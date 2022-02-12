@@ -22,16 +22,27 @@
 			"title": "Statistics",
 			"description": "**Client**: <:vialGreen:938171224138317836> Online - @(1) ms. \n**Uptime**: <t:@(2):R> \n**Guilds**: @(3) \n**Users**: @(4) \n**Channels**: @(5)"
 		},
-		"lang": {
+		"whitelist": {
 			"slash": {
-				"name": "lang",
-				"description": "Change bot language."
+				"name": "whitelist",
+				"description": "Open whitelist."
 			},
-			"placeholder": "Choose a language...",
-			"title": "Do you want to change the bot's language?",
-			"description": "Select any language from the list below.",
-			"rights": "Not enough rights, you must be the owner of the guild.",
-			"changed": "Done, the bot language has been changed to **@(0)**."
+			"title": "Whitelist",
+			"description": "Managing a white list.",
+			"previewDescription": "View mode, not enough rights to edit.",
+			"placeholders": [
+				"Lists...",
+				"Channels...",
+				"Roles..."
+			],
+			"menu": [
+				"Links"
+			],
+			"words": [
+				"Add Links",
+				"Remove Links",
+				"View Links"
+			]
 		},
 		"setup": {
 			"slash": {
@@ -51,28 +62,28 @@
 					"style": "none",
 					"name": "@(0C) Links `Page: @(0S)/@(0F)`",
 					"value": [
-						"@(0T) @(0I)Delete Invites@(0I) \n",
-						"@(0T) @(0I)Delete Scam Links@(0I) \n",
 						"@(0T) @(0I)Delete Links@(0I) \n",
-						"@(0T) @(0I)Hide Invites@(0I) \n",
 						"@(0T) @(0I)Hide Links@(0I) \n"
 					],
 					"valueDescription": [
-						"Removing outside invitations from a user's message, uses a whitelist of links.",
-						"Removing popular scam (phishing, etc.) links from a user's message.",
-						"Removing any links from a user's message, uses a whitelist of links.",
-						"Hiding outside invitations from the user's message, uses a whitelist of links.",
-						"Hiding any links from the user's post, uses a whitelist of links."
+						"",
+						""
 					]
 				},
 				{
 					"style": "none",
 					"name": "@(0C) WhiteList `Page: @(0S)/@(0F)`",
 					"value": [
-						"@(0T) @(0I)Disallow Standard \"Discord\" Links@(0I) \n"
+						"@(0T) @(0I)Allow Standard \"Discord\" Links@(0I) \n",
+						"@(0T) @(0I)Allow Scam Links@(0I)\n",
+						"@(0T) @(0I)Allow Invites@(0I)\n",
+						"@(0T) @(0I)Allow Social Media@(0I)\n"
 					],
 					"valueDescription": [
-						"Setting for a whitelist of links, targeting discord links and gifs."
+						"",
+						"",
+						"",
+						""
 					]
 				},
 				{
