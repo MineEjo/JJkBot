@@ -120,22 +120,8 @@
 			]
 		},
 		"messageCreate": {
-			"in": [
-				{
-					"deleteInvites": [
-						"[invitation deleted]"
-					]
-				},
-				{
-					"deleteScamLinks": [
-						"[link deleted]"
-					]
-				},
-				{
-					"deleteLinks": [
-						"[link deleted]"
-					]
-				}
+			"words": [
+				"(link deleted)"
 			]
 		}
 	},
