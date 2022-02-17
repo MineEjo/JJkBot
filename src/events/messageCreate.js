@@ -2,6 +2,11 @@ const getDataGuild = require('../functions/mongodb/handleGuilds');
 const config = require('../data/config.json');
 const {getWebhook} = require('../functions/lites/getWebhook');
 
+const linksWList = require('../data/whitelists/links.json');
+const scamLinksWList = require('../data/whitelists/scamLinks.json');
+const invitesWList = require('../data/whitelists/invites.json');
+const socialMediaWList = require('../data/whitelists/socialMedia.json');
+
 module.exports = {
 	name: 'messageCreate',
 	once: false,
@@ -24,10 +29,10 @@ module.exports = {
 
 				let whitelist = [];
 				// Collecting all the white lists into one array of strings.
-				getDataGuild(message?.guild, 'allowDefaultLinks') === config.settings.on ? whitelist = whitelist.concat(require('../data/whitelists/links.json')) : null;
-				getDataGuild(message?.guild, 'allowScamLinks') === config.settings.on ? whitelist = whitelist.concat(require('../data/whitelists/scamLinks.json')) : null;
-				getDataGuild(message?.guild, 'allowInvites') === config.settings.on ? whitelist = whitelist.concat(require('../data/whitelists/invites.json')) : null;
-				getDataGuild(message?.guild, 'allowSocialMedia') === config.settings.on ? whitelist = whitelist.concat(require('../data/whitelists/socialMedia.json')) : null;
+				getDataGuild(message?.guild, 'allowDefaultLinks') === config.settings.on ? whitelist = whitelist.concat(linksWList) : null;
+				getDataGuild(message?.guild, 'allowScamLinks') === config.settings.on ? whitelist = whitelist.concat(scamLinksWList) : null;
+				getDataGuild(message?.guild, 'allowInvites') === config.settings.on ? whitelist = whitelist.concat(invitesWList) : null;
+				getDataGuild(message?.guild, 'allowSocialMedia') === config.settings.on ? whitelist = whitelist.concat(socialMediaWList) : null;
 
 				for (const link of links) {
 					// If the link isn't on the whitelist.
