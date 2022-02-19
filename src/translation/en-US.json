@@ -39,9 +39,12 @@
 				"Links"
 			],
 			"words": [
-				"Add Links",
-				"Remove Links",
-				"View Links"
+				"Add Link",
+				"Remove Link",
+				"View Links",
+				"White List",
+				"Link removed",
+				"Link added"
 			]
 		},
 		"setup": {
@@ -134,6 +137,8 @@
 		"The command is not available to users!"
 	],
 	"default": [
-		"Nothing selected"
+		"Nothing selected",
+		"Enter link...",
+		"Empty..."
 	]
 }
