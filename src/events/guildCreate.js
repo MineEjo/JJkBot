@@ -1,10 +1,12 @@
 const {MessageEmbed} = require('discord.js');
-const config = require('../data/config.json');
+
+const COLORS = require('../data/enums/colors.json');
+
 const getDataGuild = require('../functions/mongodb/handleGuilds');
 
 module.exports = {
 	name: 'guildCreate',
-	false: false,
+	once: false,
 	async execute(guild) {
 		const translate = require(`../translation/${getDataGuild(guild, 'lang')}.json`);
 
@@ -28,7 +30,7 @@ module.exports = {
 			value: translate?.events?.guildCreate?.fields[1].value,
 			inline: false
 		})
-		.setColor(config?.color?.primary);
+		.setColor(COLORS?.PRIMARY);
 
 		channel.send({embeds: [embed]}).catch(console.error);
 	}
