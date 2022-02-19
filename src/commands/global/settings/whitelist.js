@@ -30,6 +30,7 @@ module.exports = {
 		const ID_7 = generateId();
 		const ID_8 = generateId();
 
+		const maxLength = 1500;
 		let listSelected = 0;
 
 		let dataLists = ['links'];
@@ -154,6 +155,12 @@ module.exports = {
 		}
 
 		function createModal(id, label) {
+			let freeLength = maxLength - getDataGuild(interaction?.guild, dataLists[listSelected]).toString().length;
+
+			if (freeLength < 5) {
+				freeLength = 5;
+			}
+
 			return new Modal()
 			.setCustomId(id)
 			.setTitle(translate?.commands?.whitelist.words[3])
@@ -163,7 +170,7 @@ module.exports = {
 				.setLabel(label)
 				.setStyle('LONG')
 				.setMinLength(5)
-				.setMaxLength(1500)
+				.setMaxLength(id.endsWith('-') ? maxLength : freeLength )
 				.setPlaceholder(translate?.default[1])
 				.setRequired(true)
 			);
@@ -284,9 +291,9 @@ module.exports = {
 
 			await createModalCollector(interaction.client, async modal => {
 				const listArray = getDataGuild(interaction?.guild, dataLists[listSelected]);
-				const firstResponse = modal.getTextInputValue(ID_4);
+				const firstResponse = modal.getTextInputValue(ID_4).slice(0, maxLength);
 
-				const link = (((firstResponse.split(' '))[0].trim()).match(/(http(s?):\/\/(\S+\.)+\S+|www\d?\.(\S+\.)+\S+)|(discord\.gg\/(\S+)+\S+)|(discordapp\.com\/(\S+)+\S+)/gm)).toString()
+				const link = (firstResponse.split(' '))[0].trim()
 				.replace('https://', '')
 				.replace('http://', '');
 
