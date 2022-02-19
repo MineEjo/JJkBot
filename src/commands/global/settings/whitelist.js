@@ -1,38 +1,57 @@
 const {SlashCommandBuilder} = require('@discordjs/builders');
-const {MessageEmbed, MessageActionRow, MessageSelectMenu, Permissions} = require('discord.js');
-const config = require('../../../data/config.json');
-const ids = require('../../../data/ids.json');
-const noneTranslate = require(`../../../translation/${config?.settings?.lang}.json`);
+const {MessageEmbed, MessageActionRow, MessageSelectMenu, Permissions, MessageButton} = require('discord.js');
+
+const STR_FORMATS = require('../../../data/enums/strFormats.json');
+const SETTINGS = require('../../../data/enums/settings.json');
+const FLAGS = require('../../../data/enums/flags.json');
+const COLORS = require('../../../data/enums/colors.json');
+
+const noneTranslate = require(`../../../translation/${SETTINGS?.LANG}.json`);
 const getDataGuild = require('../../../functions/mongodb/handleGuilds');
 const {updateData} = require('../../../functions/lites/updateData');
+const {Modal, TextInputComponent, showModal} = require('discord-modals');
+const {createModalCollector} = require('../../../functions/lites/createModalCollector');
+const {generateId} = require('../../../functions/lites/generateId');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 	.setName(noneTranslate?.commands?.whitelist?.slash?.name)
 	.setDescription(noneTranslate?.commands?.whitelist?.slash?.description),
-	restriction: config.FLAGS.CHANNEL,
+	restriction: FLAGS.CHANNEL,
 	async execute(interaction) {
 		const translate = require(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`);
 
+		const ID_1 = generateId();
+		const ID_2 = generateId();
+		const ID_3 = generateId();
+		const ID_4 = generateId();
+		const ID_5 = generateId();
+		const ID_6 = generateId();
+		const ID_7 = generateId();
+		const ID_8 = generateId();
+
 		let listSelected = 0;
 
+		let dataLists = ['links'];
+		let dataSpec = [true];
+
 		// Clear Channels Data
-		const channelsArray = getDataGuild(interaction?.guild, 'linksChannels');
+		const channelsArray = getDataGuild(interaction?.guild, `${dataLists[listSelected]}Channels`);
 		for (const channel of channelsArray) {
 			if (!interaction.guild.channels.cache.get(channel)) {
 				channelsArray.splice(channelsArray.indexOf(channel), 1);
 			}
 		}
-		await updateData(interaction?.guild, 'linksChannels', channelsArray);
+		await updateData(interaction?.guild, `${dataLists[listSelected]}Channels`, channelsArray);
 
 		// Clear Roles Data
-		const rolesArray = getDataGuild(interaction?.guild, 'linksRoles');
+		const rolesArray = getDataGuild(interaction?.guild, `${dataLists[listSelected]}Roles`);
 		for (const role of rolesArray) {
 			if (!interaction.guild.roles.cache.get(role)) {
 				rolesArray.splice(rolesArray.indexOf(role), 1);
 			}
 		}
-		await updateData(interaction?.guild, 'linksRoles', rolesArray);
+		await updateData(interaction?.guild, `${dataLists[listSelected]}Roles`, rolesArray);
 
 		function createEmbed() {
 			return new MessageEmbed()
@@ -40,7 +59,7 @@ module.exports = {
 			.setDescription(
 				`${(interaction?.member?.permissions?.has(Permissions.FLAGS.ADMINISTRATOR)) ? translate?.commands?.whitelist?.description : translate?.commands?.whitelist?.previewDescription}`
 			)
-			.setColor(config?.color?.embed);
+			.setColor(COLORS?.EMBED);
 		}
 
 		function clear(string) {
@@ -57,7 +76,7 @@ module.exports = {
 				new MessageSelectMenu()
 				.setMinValues(1)
 				.setMaxValues(1)
-				.setCustomId(ids?.commands?.whitelist?.menu_choose_list)
+				.setCustomId(ID_1)
 				.setPlaceholder(translate?.commands?.whitelist.placeholders[0])
 				.addOptions([
 					{
@@ -96,7 +115,7 @@ module.exports = {
 			return new MessageActionRow().addComponents(new MessageSelectMenu()
 				.setMinValues(1)
 				.setMaxValues(globalIndex)
-				.setCustomId(ids?.commands?.whitelist?.menu_choose_channel)
+				.setCustomId(ID_2)
 				.setPlaceholder(translate?.commands?.whitelist.placeholders[1])
 				.addOptions(JSON.parse(`[${optionsChannels}]`))
 			);
@@ -128,13 +147,50 @@ module.exports = {
 				new MessageSelectMenu()
 				.setMinValues(1)
 				.setMaxValues(globalIndex)
-				.setCustomId(ids?.commands?.whitelist?.menu_choose_role)
+				.setCustomId(ID_3)
 				.setPlaceholder(translate?.commands?.whitelist.placeholders[2])
 				.addOptions(JSON.parse(`[${optionsRoles}]`))
 			);
 		}
 
+		function createModal(id, label) {
+			return new Modal()
+			.setCustomId(id)
+			.setTitle(translate?.commands?.whitelist.words[3])
+			.addComponents(
+				new TextInputComponent()
+				.setCustomId(ID_4)
+				.setLabel(label)
+				.setStyle('LONG')
+				.setMinLength(5)
+				.setMaxLength(1500)
+				.setPlaceholder(translate?.default[1])
+				.setRequired(true)
+			);
+		}
+
 		async function createRow() {
+			if (dataSpec[listSelected]) {
+				return [createMenu(),
+					new MessageActionRow()
+					.addComponents(
+						new MessageButton()
+						.setCustomId(ID_5)
+						.setLabel(translate?.commands?.whitelist?.words[0])
+						.setDisabled(!interaction?.member?.permissions.has(Permissions.FLAGS.ADMINISTRATOR))
+						.setStyle('PRIMARY'),
+						new MessageButton()
+						.setCustomId(ID_6)
+						.setLabel(translate?.commands?.whitelist?.words[1])
+						.setDisabled(!interaction?.member?.permissions.has(Permissions.FLAGS.ADMINISTRATOR))
+						.setStyle('DANGER'),
+						new MessageButton()
+						.setCustomId(ID_7)
+						.setLabel(translate?.commands?.whitelist?.words[2])
+						.setStyle('SECONDARY')),
+					await createMenuChannels(), await createMenuRoles()];
+			}
+
 			return [createMenu(), await createMenuChannels(), await createMenuRoles()];
 		}
 
@@ -143,14 +199,14 @@ module.exports = {
 			ephemeral: true,
 			fetchReply: true,
 			components: await createRow()
-		}).then(message => {
+		}).then(async message => {
 			const menuCollector = message.createMessageComponentCollector({componentType: 'SELECT_MENU', time: 500000});
 			menuCollector.on('collect', async i => {
 				switch (i.customId) {
-					case ids.commands.whitelist.menu_choose_list:
+					case ID_1:
 						listSelected = parseInt(i.values[0], 10);
 						break;
-					case ids.commands.whitelist.menu_choose_channel:
+					case ID_2:
 						if (interaction?.member?.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
 							for (const channel of i.values) {
 								if (channelsArray.indexOf(channel) > -1) {
@@ -160,10 +216,10 @@ module.exports = {
 								}
 							}
 
-							await updateData(interaction.guild, 'linksChannels', channelsArray);
+							await updateData(interaction.guild, `${dataLists[listSelected]}Channels`, channelsArray);
 						}
 						break;
-					case ids.commands.whitelist.menu_choose_role:
+					case ID_3:
 						if (interaction?.member?.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
 							for (const role of i.values) {
 								if (rolesArray.indexOf(role) > -1) {
@@ -173,7 +229,7 @@ module.exports = {
 								}
 							}
 
-							await updateData(interaction.guild, 'linksRoles', rolesArray);
+							await updateData(interaction.guild, `${dataLists[listSelected]}Roles`, rolesArray);
 						}
 						break;
 				}
@@ -187,6 +243,80 @@ module.exports = {
 			menuCollector.on('end', () => {
 				interaction.editReply(translate.errors[1]);
 			});
+
+			const buttonCollector = message.createMessageComponentCollector({componentType: 'BUTTON', time: 60000});
+
+			buttonCollector.on('collect', async i => {
+
+				if (i.customId === ID_5) {
+					showModal(createModal(ID_8 + '+', translate?.commands?.whitelist?.words[0]), {
+						client: i.client,
+						interaction: i
+					});
+				}
+
+				if (i.customId === ID_6) {
+					showModal(createModal(ID_8 + '-', translate?.commands?.whitelist?.words[1]), {
+						client: i.client,
+						interaction: i
+					});
+				}
+
+				if (i.customId === ID_7) {
+					const data = getDataGuild(interaction?.guild, dataLists[listSelected]);
+
+					let dataFormatted = '';
+					for (let index = 0; index < data.length; index++) {
+						dataFormatted += `${index + 1}. ${data[index]} \n`;
+					}
+
+					i.reply({
+							content: (data.length > 0) ? `${STR_FORMATS.CODE_BLOCK}${dataFormatted.trim()}${STR_FORMATS.CODE_BLOCK}` : `${STR_FORMATS.CODE_BLOCK}${translate?.default[2]}${STR_FORMATS.CODE_BLOCK}`,
+							ephemeral: true
+						}
+					);
+				}
+			});
+
+			buttonCollector.on('end', () => {
+				interaction.editReply(translate.errors[1]);
+			});
+
+			await createModalCollector(interaction.client, async modal => {
+				const listArray = getDataGuild(interaction?.guild, dataLists[listSelected]);
+				const firstResponse = modal.getTextInputValue(ID_4);
+
+				const link = (((firstResponse.split(' '))[0].trim()).match(/(http(s?):\/\/(\S+\.)+\S+|www\d?\.(\S+\.)+\S+)|(discord\.gg\/(\S+)+\S+)|(discordapp\.com\/(\S+)+\S+)/gm)).toString()
+				.replace('https://', '')
+				.replace('http://', '');
+
+				if (modal.customId === (ID_8 + '+')) {
+					await modal.deferReply({ephemeral: true});
+					modal.followUp({
+						content: `${translate?.commands?.whitelist?.words[5]}: ${STR_FORMATS.CODE_BLOCK}${link}${STR_FORMATS.CODE_BLOCK}`,
+						ephemeral: true
+					});
+
+					if (listArray.indexOf(link) < 0) {
+						listArray.push(link);
+						await updateData(interaction.guild, `${dataLists[listSelected]}`, listArray);
+					}
+				}
+
+				if (modal.customId === (ID_8 + '-')) {
+					await modal.deferReply({ephemeral: true});
+					modal.followUp({
+						content: `${translate?.commands?.whitelist?.words[4]}: ${STR_FORMATS.CODE_BLOCK}${link}${STR_FORMATS.CODE_BLOCK}`,
+						ephemeral: true
+					});
+
+					if (listArray.indexOf(link) > -1) {
+						listArray.splice(listArray.indexOf(link), 1);
+						await updateData(interaction.guild, `${dataLists[listSelected]}`, listArray);
+					}
+				}
+			}, 60000);
+
 		}).catch(console.error);
 	}
 };
