@@ -3,6 +3,7 @@ require('dotenv').config();
 const {Client, Intents, Collection} = require('discord.js');
 const fs = require('fs');
 const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_MESSAGES]});
+const discordModals = require('discord-modals');
 
 client.commands = new Collection();
 
@@ -16,6 +17,7 @@ const commandGlobalFolders = fs.readdirSync('./commands/global');
 		require(`./functions/${file}`)(client);
 	}
 
+	discordModals(client);
 	client.handleEvents(eventFiles, './events');
 	client.handleGuildCommands(commandGuildFolders, './commands/guild');
 	client.handleGlobalCommands(commandGlobalFolders, './commands/global');
