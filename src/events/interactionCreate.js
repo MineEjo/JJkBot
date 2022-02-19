@@ -1,4 +1,4 @@
-const config = require('../data/config.json');
+const FLAGS = require('../data/enums/flags.json');
 const getDataGuild = require('../functions/mongodb/handleGuilds');
 
 module.exports = {
@@ -14,15 +14,15 @@ module.exports = {
 
 			try {
 				if (command?.restriction && command?.restriction.length > 0) {
-					if (command.restriction === config?.FLAGS?.CHANNEL && !interaction?.guild) {
+					if (command.restriction === FLAGS?.CHANNEL && !interaction?.guild) {
 						return await interaction.reply({content: translate?.errors[3], ephemeral: true});
 					}
 
-					if (command?.restriction === config?.FLAGS?.DMCHANNEL && interaction?.guild) {
+					if (command?.restriction === FLAGS?.DMCHANNEL && interaction?.guild) {
 						return await interaction.reply({content: translate?.errors[4], ephemeral: true});
 					}
 
-					if (command?.restriction === config?.FLAGS?.BOT_OWNER && interaction?.member?.id !== process.env.OWNER_ID) {
+					if (command?.restriction === FLAGS?.BOT_OWNER && interaction?.member?.id !== process.env.OWNER_ID) {
 						return await interaction.reply({content: translate?.errors[5], ephemeral: true});
 					}
 				}

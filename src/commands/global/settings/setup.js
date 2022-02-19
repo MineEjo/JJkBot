@@ -1,26 +1,34 @@
 const {SlashCommandBuilder} = require('@discordjs/builders');
 const {MessageActionRow, MessageButton, MessageSelectMenu, MessageEmbed, Permissions} = require('discord.js');
 
-// Import all button IDs, menus, etc.
-const ids = require('../../../data/ids.json');
-// Import values from config, look at the config itself ;)
-const config = require('../../../data/config.json');
+const STR_FORMATS = require('../../../data/enums/strFormats.json');
+const SETTINGS = require('../../../data/enums/settings.json');
+const FLAGS = require('../../../data/enums/flags.json');
+const EMOJIS = require('../../../data/enums/emojis.json');
+const COLORS = require('../../../data/enums/colors.json');
+
 // Static translation of a single language, such as English.
-const noneTranslate = require(`../../../translation/${config?.settings?.lang}.json`);
+const noneTranslate = require(`../../../translation/${SETTINGS.LANG}.json`);
 // Handler for server database, getting stored values.
 const getDataGuild = require('../../../functions/mongodb/handleGuilds');
 // Lists the names of the database.
 const {updateData} = require('../../../functions/lites/updateData');
+const {generateId} = require('../../../functions/lites/generateId');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 	.setName(noneTranslate?.commands?.setup?.slash?.name)
 	.setDescription(noneTranslate?.commands?.setup?.slash?.description),
 	// Setup for handler, team restriction per channel. You cannot use this line of code without a handler.
-	restriction: config.FLAGS.CHANNEL,
+	restriction: FLAGS.CHANNEL,
 	async execute(interaction) {
 		// Import dynamic translation, depends on the value in the database.
 		const translate = require(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`);
+
+		const ID_1 = generateId();
+		const ID_2 = generateId();
+		const ID_3 = generateId();
+		const ID_4 = generateId();
 
 		const dataList = [
 			['deleteLinks', 'hideLinks'],
@@ -40,7 +48,7 @@ module.exports = {
 
 		function getFieldName(fieldNumber) {
 			// If all items in a category are enabled then "tickMark", if not "tick".
-			const emoji = (itemsCount + 1 === enabledItemsCategory) ? config?.emoji?.tickMark : config?.emoji?.tick;
+			const emoji = (itemsCount + 1 === enabledItemsCategory) ? EMOJIS?.TICK_MARK : EMOJIS?.TICK;
 			// Reset the variable to avoid conflicts with the next one, because this category has already been checked.
 			enabledItemsCategory = 0;
 
@@ -84,7 +92,7 @@ module.exports = {
 
 					// The number of elements increases gradually, that is, at this stage there may be 2 out of 6, if the selected element is 2, then emoji from the usual change to another.
 					// If the number of items = the selected item, then "toggleBlue", otherwise "toggle".
-					let tickEmoji = (itemsCount === itemSelected) ? config?.emoji?.toggleBlue : config?.emoji?.toggle;
+					let tickEmoji = (itemsCount === itemSelected) ? EMOJIS?.TOGGLE_BLUE : EMOJIS?.TOGGLE;
 
 					// In the variable data, the value of the item is stored and checked against the value from the database.
 
@@ -93,7 +101,7 @@ module.exports = {
 					// - fieldSelected - Page number (the database depends on the page).
 					// - 0 - Name position from variable, in this style position is always 0, because work is done with one parameter.
 					if (getDataGuild(interaction?.guild, (dataList[fieldSelected])[0]) === data) {
-						tickEmoji = config?.emoji?.toggleMark;
+						tickEmoji = EMOJIS?.TOGGLE_MARK;
 					}
 
 					const selectedFormat = (itemsCount === itemSelected) ? ['[', `](https://discord.com/channels/${interaction.guildId}/${interaction.channelId})`] : ['', ''];
@@ -115,12 +123,12 @@ module.exports = {
 				for (let index = 0; index <= values; index++) {
 					description += itemsArray[index];
 
-					const treeEmoji = (itemsCount >= values) ? config?.emoji?.tickTreeEnd : config?.emoji?.tickTree;
-					let tickEmoji = (itemsCount === itemSelected) ? config?.emoji?.tickBlue : config?.emoji?.tick;
+					const treeEmoji = (itemsCount >= values) ? EMOJIS?.TICK_TREE_END : EMOJIS?.TICK_TREE;
+					let tickEmoji = (itemsCount === itemSelected) ? EMOJIS?.TICK_BLUE : EMOJIS?.TICK;
 
-					if (getDataGuild(interaction?.guild, (dataList[fieldSelected])[index]) === config?.settings?.on) {
+					if (getDataGuild(interaction?.guild, (dataList[fieldSelected])[index]) === SETTINGS?.ON) {
 						enabledItemsCategory++;
-						tickEmoji = config?.emoji?.tickMark;
+						tickEmoji = EMOJIS?.TICK_MARK;
 					}
 
 					const selectedFormat = (itemsCount === itemSelected) ? ['[', `](https://discord.com/channels/${interaction.guildId}/${interaction.channelId})`] : ['', ''];
@@ -135,14 +143,12 @@ module.exports = {
 			}
 		}
 
-		const discordCodeBlock = '```';
-
 		function createEmbed() {
 			const itemDescription = translate?.commands?.setup?.fields[fieldSelected]?.valueDescription[itemSelected];
 			return new MessageEmbed()
 			.setTitle(translate?.commands?.setup?.title)
 			.setDescription(
-				`${(interaction?.member?.permissions?.has(Permissions.FLAGS.ADMINISTRATOR)) ? translate?.commands?.setup?.description : translate?.commands?.setup?.previewDescription} ${(itemDescription) ? `\n${discordCodeBlock}${itemDescription}${discordCodeBlock}` : ''}`
+				`${(interaction?.member?.permissions?.has(Permissions.FLAGS.ADMINISTRATOR)) ? translate?.commands?.setup?.description : translate?.commands?.setup?.previewDescription} ${(itemDescription) ? `\n${STR_FORMATS?.CODE_BLOCK}${itemDescription}${STR_FORMATS?.CODE_BLOCK}` : ''}`
 			)
 			.addFields({
 				// First we get a description to get the number of elements, etc.
@@ -152,29 +158,29 @@ module.exports = {
 				// In our case, it doesn't affect anything.
 				inline: false
 			})
-			.setColor(config?.color?.embed);
+			.setColor(COLORS?.EMBED);
 		}
 
 		function createButtons() {
 			return new MessageActionRow()
 			.addComponents(
 				new MessageButton()
-				.setCustomId(ids?.commands?.setup?.button_select_up)
+				.setCustomId(ID_1)
 				.setLabel(translate?.commands?.setup?.words[0])
 				// .setDisabled(itemSelected <= 0)
 				.setStyle('SECONDARY'),
 				new MessageButton()
-				.setCustomId(ids?.commands?.setup?.button_select_down)
+				.setCustomId(ID_2)
 				.setLabel(translate?.commands?.setup?.words[1])
 				// .setDisabled(itemSelected >= itemsCount)
 				.setDisabled(itemsCount === itemSelected && fieldSelected >= fieldsCount)
 				.setStyle('SECONDARY'),
 				new MessageButton()
-				.setCustomId(ids?.commands?.setup?.button_control)
+				.setCustomId(ID_3)
 				// If the author of the command does not have admin rights, the button will be disabled.
 				.setDisabled(!interaction?.member?.permissions.has(Permissions.FLAGS.ADMINISTRATOR))
-				.setLabel(getDataGuild(interaction?.guild, (dataList[fieldSelected])[itemSelected]) === config?.settings?.on ? translate?.commands?.setup?.words[3] : translate?.commands?.setup?.words[2])
-				.setStyle(getDataGuild(interaction?.guild, (dataList[fieldSelected])[itemSelected]) === config?.settings?.on ? 'DANGER' : 'SUCCESS')
+				.setLabel(getDataGuild(interaction?.guild, (dataList[fieldSelected])[itemSelected]) === SETTINGS?.ON ? translate?.commands?.setup?.words[3] : translate?.commands?.setup?.words[2])
+				.setStyle(getDataGuild(interaction?.guild, (dataList[fieldSelected])[itemSelected]) === SETTINGS?.ON ? 'DANGER' : 'SUCCESS')
 			);
 		}
 
@@ -199,7 +205,7 @@ module.exports = {
 				new MessageSelectMenu()
 				.setMinValues(1)
 				.setMaxValues(1)
-				.setCustomId(ids?.commands?.setup?.menu_select_page)
+				.setCustomId(ID_4)
 				.setPlaceholder(translate.default[0])
 				.addOptions(JSON.parse(`[${options}]`)));
 		}
@@ -229,7 +235,7 @@ module.exports = {
 			const buttonCollector = message.createMessageComponentCollector({componentType: 'BUTTON', time: 60000});
 
 			buttonCollector.on('collect', async i => {
-				if (i.customId === ids?.commands?.setup?.button_select_up) {
+				if (i.customId === ID_1) {
 					if (itemSelected > 0) {
 						itemSelected--;
 					} else if (fieldSelected + 1 > 1) {
@@ -240,7 +246,7 @@ module.exports = {
 					}
 				}
 
-				if (i.customId === ids?.commands?.setup?.button_select_down) {
+				if (i.customId === ID_2) {
 					if (itemSelected < itemsCount) {
 						itemSelected++;
 					} else if (fieldSelected + 1 < (translate?.commands?.setup?.fields).length) {
@@ -251,7 +257,7 @@ module.exports = {
 					}
 				}
 
-				if (i.customId === ids?.commands?.setup?.button_control) {
+				if (i.customId === ID_3) {
 					let value;
 					let position;
 					if (translate?.commands?.setup?.fields[fieldSelected]?.style === 'toggle') {
@@ -261,14 +267,14 @@ module.exports = {
 						// Style "none"
 						position = itemSelected;
 						switch (getDataGuild(i?.guild, (dataList[fieldSelected])[itemSelected])) {
-							case config?.settings.off:
-								value = config.settings.on;
+							case SETTINGS.OFF:
+								value = SETTINGS.ON;
 								break;
-							case config?.settings.on:
-								value = config.settings.off;
+							case SETTINGS.ON:
+								value = SETTINGS.OFF;
 								break;
 							default:
-								value = config.settings.off;
+								value = SETTINGS.OFF;
 								break;
 						}
 					}

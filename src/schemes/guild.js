@@ -1,18 +1,19 @@
 const mongoose = require('mongoose');
-const config = require('../data/config.json');
+
+const SETTINGS = require('../data/enums/settings.json');
 
 const Data = [
 	// name, minLength, maxLength, type, default, required
-	'lang', 4, 4, String, config.settings.lang, false,
-	'deleteLinks', 1, 1, Number, config.settings.off, false,
-	'hideLinks', 1, 1, Number, config.settings.off, false,
-	'allowDefaultLinks', 1, 1, Number, config.settings.off, false,
-	'allowScamLinks', 1, 1, Number, config.settings.off, false,
-	'allowInvites', 1, 1, Number, config.settings.off, false,
-	'allowSocialMedia', 1, 1, Number, config.settings.off, false,
-	'links', null, null, Array, config.settings.voidArray, false,
-	'linksChannels', null, null, Array, config.settings.voidArray, false,
-	'linksRoles', null, null, Array, config.settings.voidArray, false
+	'lang', 4, 4, String, SETTINGS.LANG, false,
+	'deleteLinks', 1, 1, Number, SETTINGS.OFF, false,
+	'hideLinks', 1, 1, Number, SETTINGS.OFF, false,
+	'allowDefaultLinks', 1, 1, Number, SETTINGS.OFF, false,
+	'allowScamLinks', 1, 1, Number, SETTINGS.OFF, false,
+	'allowInvites', 1, 1, Number, SETTINGS.OFF, false,
+	'allowSocialMedia', 1, 1, Number, SETTINGS.OFF, false,
+	'links', null, null, Array, SETTINGS.VOID_ARRAY, false,
+	'linksChannels', null, null, Array, SETTINGS.VOID_ARRAY, false,
+	'linksRoles', null, null, Array, SETTINGS.VOID_ARRAY, false
 ];
 
 const guildSchema = [{

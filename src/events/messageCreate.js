@@ -1,5 +1,7 @@
 const getDataGuild = require('../functions/mongodb/handleGuilds');
-const config = require('../data/config.json');
+
+const SETTINGS = require('../data/enums/settings.json');
+
 const {getWebhook} = require('../functions/lites/getWebhook');
 
 const linksWList = require('../data/whitelists/links.json');
@@ -19,7 +21,7 @@ module.exports = {
 			const dataDeleteLinks = getDataGuild(message?.guild, 'deleteLinks');
 			const dataHideLinks = getDataGuild(message?.guild, 'hideLinks');
 
-			if (dataDeleteLinks === config.settings.on || dataHideLinks === config.settings.on) {
+			if (dataDeleteLinks === SETTINGS.ON || dataHideLinks === SETTINGS.ON) {
 				let linksCount = 0;
 
 				const links = message?.content.match(/(http(s?):\/\/(\S+\.)+\S+|www\d?\.(\S+\.)+\S+)|(discord\.gg\/(\S+)+\S+)|(discordapp\.com\/(\S+)+\S+)/gm);
@@ -29,10 +31,11 @@ module.exports = {
 
 				let whitelist = [];
 				// Collecting all the white lists into one array of strings.
-				getDataGuild(message?.guild, 'allowDefaultLinks') === config.settings.on ? whitelist = whitelist.concat(linksWList) : null;
-				getDataGuild(message?.guild, 'allowScamLinks') === config.settings.on ? whitelist = whitelist.concat(scamLinksWList) : null;
-				getDataGuild(message?.guild, 'allowInvites') === config.settings.on ? whitelist = whitelist.concat(invitesWList) : null;
-				getDataGuild(message?.guild, 'allowSocialMedia') === config.settings.on ? whitelist = whitelist.concat(socialMediaWList) : null;
+				whitelist = whitelist.concat(getDataGuild(message?.guild, 'links'));
+				getDataGuild(message?.guild, 'allowDefaultLinks') === SETTINGS.ON ? whitelist = whitelist.concat(linksWList) : null;
+				getDataGuild(message?.guild, 'allowScamLinks') === SETTINGS.ON ? whitelist = whitelist.concat(scamLinksWList) : null;
+				getDataGuild(message?.guild, 'allowInvites') === SETTINGS.ON ? whitelist = whitelist.concat(invitesWList) : null;
+				getDataGuild(message?.guild, 'allowSocialMedia') === SETTINGS.ON ? whitelist = whitelist.concat(socialMediaWList) : null;
 
 				for (const link of links) {
 					// If the link isn't on the whitelist.
@@ -41,12 +44,12 @@ module.exports = {
 						// If the link is an invitation, check whether the invitation is from this server.
 						if ((link.includes('https://discord.gg') || link.includes('https://discordapp.com')) &&
 							(await message?.guild?.me?.client.fetchInvite(link)).guild?.id === message?.guild?.id) {
-							return
+							return;
 						}
 
-						if (dataDeleteLinks === config?.settings?.on) {
+						if (dataDeleteLinks === SETTINGS.ON) {
 							content = content.replace(link, translate?.events?.messageCreate?.words[0]);
-						} else if (dataHideLinks === config?.settings?.on) {
+						} else if (dataHideLinks === SETTINGS.ON) {
 							content = content.replace(link, `||\`${link}\`||`);
 						}
 
