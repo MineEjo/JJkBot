@@ -95,7 +95,7 @@ module.exports = {
 				optionsChannels += `{` + `"label": "[▲]",` + `"description": "",` + `"value": "up"` + `},`;
 
 				for (let index = channelsIndex; index < itemsMenuLength; index++) {
-					if (tempArray[index] && !tempArray[index].isVoice()) {
+					if (tempArray[index] && tempArray[index].type === 'GUILD_TEXT') {
 						optionsChannels += `{`
 							+ `"label": "[${(channelsArray.indexOf(tempArray[index].id) >= 0) ? '✅' : '❌'}] [${tempArray[index].id}] ${clearSliceText(tempArray[index].name)}",`
 							+ `"description": "${(tempArray[index].topic) ? clearSliceText(tempArray[index].topic) + '...' : ''}",`
