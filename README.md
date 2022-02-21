@@ -12,7 +12,6 @@
 $ git clone https://github.com/MineEjo/JJkBot.git # Or download manually
 $ cd JJkBot # Or enter the folder manually
 $ npm i # Installing nodejs modules
-$ cd src # Or enter the folder manually
 $ cp .env-template .env # Or manually create a copy and rename it to .env
 ```
 After installation, fill in the constants in the .env file
