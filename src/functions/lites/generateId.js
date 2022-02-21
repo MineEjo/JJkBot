@@ -3,7 +3,7 @@ const ids = [];
 const generateId = (count) => {
 	const tempIds = [];
 
-	for (let index = 0; index < count; index++) {
+	for (let index = 0; index <= count; index++) {
 		let id = Math.random().toString(16).slice(2);
 
 		if (ids.indexOf(id) < 0) {
