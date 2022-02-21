@@ -20,21 +20,12 @@ module.exports = {
 	restriction: FLAGS.CHANNEL,
 	async execute(interaction) {
 		const translate = require(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`);
+		const interactionsId = generateId(7);
+		const defaultMaxDataValue = 1500;
 
-		const ID_1 = generateId();
-		const ID_2 = generateId();
-		const ID_3 = generateId();
-		const ID_4 = generateId();
-		const ID_5 = generateId();
-		const ID_6 = generateId();
-		const ID_7 = generateId();
-		const ID_8 = generateId();
-
-		const maxLength = 1500;
 		let listSelected = 0;
-
 		let dataLists = ['links'];
-		let dataSpec = [true];
+		let dataOptional = [true]; // Allow buttons, etc.
 
 		// Clear Channels Data
 		const channelsArray = getDataGuild(interaction?.guild, `${dataLists[listSelected]}Channels`);
@@ -63,11 +54,10 @@ module.exports = {
 			.setColor(COLORS?.EMBED);
 		}
 
-		function clear(string) {
+		function clearSliceText(string) {
 			return (String(string))
 			.replace(/\r?\n/g, '')
 			.replace(/"/g, '\'')
-			.replace(/\//g, '')
 			.trim().slice(0, 50);
 		}
 
@@ -77,7 +67,7 @@ module.exports = {
 				new MessageSelectMenu()
 				.setMinValues(1)
 				.setMaxValues(1)
-				.setCustomId(ID_1)
+				.setCustomId(interactionsId[0])
 				.setPlaceholder(translate?.commands?.whitelist.placeholders[0])
 				.addOptions([
 					{
@@ -90,66 +80,82 @@ module.exports = {
 			);
 		}
 
+		let channelsDefaultIndex = 20;
+		let channelsIndex = 0;
+		let channelIndexEnd = 20;
+
 		async function createMenuChannels() {
 			let optionsChannels = '';
+			let itemsMenuLength = 0;
+			let itemsTotalCount = 0;
 			await interaction.guild.channels.fetch().then(channels => {
 				const tempArray = channels.map(channel => channel);
+				itemsMenuLength = channels.size >= channelIndexEnd ? channelIndexEnd : channels.size;
 
-				for (let index = 0; index < channels.size; index++) {
-					if (!tempArray[index].isVoice()) {
+				optionsChannels += `{` + `"label": "[▲]",` + `"description": "",` + `"value": "up"` + `},`;
+
+				for (let index = channelsIndex; index < itemsMenuLength; index++) {
+					if (tempArray[index] && !tempArray[index].isVoice()) {
 						optionsChannels += `{`
-							+ `"label": "[${(channelsArray.indexOf(tempArray[index].id) >= 0) ? '✅' : '❌'}] [${tempArray[index].id}] ${clear(tempArray[index].name)}",`
-							+ `"description": "${(tempArray[index].topic) ? clear(tempArray[index].topic) + '...' : ''}",`
+							+ `"label": "[${(channelsArray.indexOf(tempArray[index].id) >= 0) ? '✅' : '❌'}] [${tempArray[index].id}] ${clearSliceText(tempArray[index].name)}",`
+							+ `"description": "${(tempArray[index].topic) ? clearSliceText(tempArray[index].topic) + '...' : ''}",`
 							+ `"value": "${tempArray[index].id}"`
-							+ `}`;
-
-						if (index + 1 < channels.size) {
-							optionsChannels += `,`;
-						}
+							+ `},`;
+						itemsTotalCount++;
 					}
 				}
+1
+				optionsChannels += `{` + `"label": "[▼]",` + `"description": "",` + `"value": "down"` + `}`;
 			}).catch(console.error);
 
 			return new MessageActionRow().addComponents(new MessageSelectMenu()
 				.setMinValues(1)
-				.setMaxValues(25)
-				.setCustomId(ID_2)
+				.setMaxValues(itemsTotalCount + 2) // 2 = Up item, Down item
+				.setCustomId(interactionsId[1])
 				.setPlaceholder(translate?.commands?.whitelist.placeholders[1])
 				.addOptions(JSON.parse(`[${optionsChannels}]`))
 			);
 		}
 
+		let rolesDefaultIndex = 20;
+		let rolesIndex = 0;
+		let rolesIndexEnd = 20;
+
 		async function createMenuRoles() {
 			let optionsRoles = '';
+			let itemsMenuLength = 0;
+			let itemsTotalCount = 0;
 			await interaction.guild.roles.fetch().then(roles => {
 				const tempArray = roles.map(role => role);
+				itemsMenuLength = roles.size >= rolesIndexEnd ? rolesIndexEnd : roles.size;
 
-				for (let index = 0; index < roles.size; index++) {
+				optionsRoles += `{` + `"label": "[▲]",` + `"description": "",` + `"value": "up"` + `},`;
+
+				for (let index = 0; index < itemsMenuLength; index++) {
 					optionsRoles += `{`
-						+ `"label": "[${(rolesArray.indexOf(tempArray[index].id) >= 0) ? '✅' : '❌'}] [${tempArray[index].id}] ${clear(tempArray[index].name)}",`
+						+ `"label": "[${(rolesArray.indexOf(tempArray[index].id) >= 0) ? '✅' : '❌'}] [${tempArray[index].id}] ${clearSliceText(tempArray[index].name)}",`
 						+ `"description": "",`
 						+ `"value": "${tempArray[index].id}"`
-						+ `}`;
-
-					if (index + 1 < roles.size) {
-						optionsRoles += `,`;
-					}
+						+ `},`;
+					itemsTotalCount++
 				}
+
+				optionsRoles += `{` + `"label": "[▼]",` + `"description": "",` + `"value": "down"` + `}`;
 			}).catch(console.error);
 
 			return new MessageActionRow()
 			.addComponents(
 				new MessageSelectMenu()
 				.setMinValues(1)
-				.setMaxValues(25)
-				.setCustomId(ID_3)
+				.setMaxValues(itemsTotalCount + 2) // 2 = Up item, Down item
+				.setCustomId(interactionsId[2])
 				.setPlaceholder(translate?.commands?.whitelist.placeholders[2])
 				.addOptions(JSON.parse(`[${optionsRoles}]`))
 			);
 		}
 
 		function createModal(id, label) {
-			let freeLength = maxLength - getDataGuild(interaction?.guild, dataLists[listSelected]).toString().length;
+			let freeLength = defaultMaxDataValue - getDataGuild(interaction?.guild, dataLists[listSelected]).toString().length;
 
 			if (freeLength < 5) {
 				freeLength = 5;
@@ -160,33 +166,33 @@ module.exports = {
 			.setTitle(translate?.commands?.whitelist.words[3])
 			.addComponents(
 				new TextInputComponent()
-				.setCustomId(ID_4)
+				.setCustomId(interactionsId[3])
 				.setLabel(label)
 				.setStyle('LONG')
 				.setMinLength(5)
-				.setMaxLength(id.endsWith('-') ? maxLength : freeLength )
+				.setMaxLength(id.endsWith('-') ? defaultMaxDataValue : freeLength )
 				.setPlaceholder(translate?.default[1])
 				.setRequired(true)
 			);
 		}
 
 		async function createRow() {
-			if (dataSpec[listSelected]) {
+			if (dataOptional[listSelected]) {
 				return [createMenu(),
 					new MessageActionRow()
 					.addComponents(
 						new MessageButton()
-						.setCustomId(ID_5)
+						.setCustomId(interactionsId[4])
 						.setLabel(translate?.commands?.whitelist?.words[0])
 						.setDisabled(!interaction?.member?.permissions.has(Permissions.FLAGS.ADMINISTRATOR))
-						.setStyle('PRIMARY'),
+						.setStyle('SUCCESS'),
 						new MessageButton()
-						.setCustomId(ID_6)
+						.setCustomId(interactionsId[5])
 						.setLabel(translate?.commands?.whitelist?.words[1])
 						.setDisabled(!interaction?.member?.permissions.has(Permissions.FLAGS.ADMINISTRATOR))
 						.setStyle('DANGER'),
 						new MessageButton()
-						.setCustomId(ID_7)
+						.setCustomId(interactionsId[6])
 						.setLabel(translate?.commands?.whitelist?.words[2])
 						.setStyle('SECONDARY')),
 					await createMenuChannels(), await createMenuRoles()];
@@ -204,12 +210,20 @@ module.exports = {
 			const menuCollector = message.createMessageComponentCollector({componentType: 'SELECT_MENU', time: 500000});
 			menuCollector.on('collect', async i => {
 				switch (i.customId) {
-					case ID_1:
+					case interactionsId[0]:
 						listSelected = parseInt(i.values[0], 10);
 						break;
-					case ID_2:
+					case interactionsId[1]:
 						if (interaction?.member?.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
 							for (const channel of i.values) {
+								if (channel === 'up' && channelsIndex >= channelsDefaultIndex) {
+									channelsIndex -= channelsDefaultIndex;
+									channelIndexEnd -= channelsDefaultIndex;
+								} else if (channel === 'down') {
+									channelsIndex += channelsDefaultIndex;
+									channelIndexEnd += channelsDefaultIndex;
+								}
+
 								if (channelsArray.indexOf(channel) > -1) {
 									channelsArray.splice(channelsArray.indexOf(channel), 1);
 								} else {
@@ -220,9 +234,17 @@ module.exports = {
 							await updateDataGuilds(interaction.guild, `${dataLists[listSelected]}Channels`, channelsArray);
 						}
 						break;
-					case ID_3:
+					case interactionsId[2]:
 						if (interaction?.member?.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
 							for (const role of i.values) {
+								if (role === 'up' && rolesIndex >= rolesDefaultIndex) {
+									rolesIndex -= rolesDefaultIndex;
+									rolesIndexEnd -= rolesDefaultIndex;
+								} else if (role === 'down') {
+									rolesIndex += rolesDefaultIndex;
+									rolesIndexEnd += rolesDefaultIndex;
+								}
+
 								if (rolesArray.indexOf(role) > -1) {
 									rolesArray.splice(rolesArray.indexOf(role), 1);
 								} else {
@@ -249,21 +271,21 @@ module.exports = {
 
 			buttonCollector.on('collect', async i => {
 
-				if (i.customId === ID_5) {
-					showModal(createModal(ID_8 + '+', translate?.commands?.whitelist?.words[0]), {
+				if (i.customId === interactionsId[4]) {
+					showModal(createModal(interactionsId[7] + '+', translate?.commands?.whitelist?.words[0]), {
 						client: i.client,
 						interaction: i
 					});
 				}
 
-				if (i.customId === ID_6) {
-					showModal(createModal(ID_8 + '-', translate?.commands?.whitelist?.words[1]), {
+				if (i.customId === interactionsId[5]) {
+					showModal(createModal(interactionsId[7] + '-', translate?.commands?.whitelist?.words[1]), {
 						client: i.client,
 						interaction: i
 					});
 				}
 
-				if (i.customId === ID_7) {
+				if (i.customId === interactionsId[6]) {
 					const data = getDataGuild(interaction?.guild, dataLists[listSelected]);
 
 					let dataFormatted = '';
@@ -285,13 +307,13 @@ module.exports = {
 
 			await createModalCollector(interaction.client, async modal => {
 				const listArray = getDataGuild(interaction?.guild, dataLists[listSelected]);
-				const firstResponse = modal.getTextInputValue(ID_4).slice(0, maxLength);
+				const firstResponse = modal.getTextInputValue(interactionsId[3]).slice(0, defaultMaxDataValue);
 
 				const link = (firstResponse.split(' '))[0].trim()
 				.replace('https://', '')
 				.replace('http://', '');
 
-				if (modal.customId === (ID_8 + '+')) {
+				if (modal.customId === (interactionsId[7] + '+')) {
 					await modal.deferReply({ephemeral: true});
 					modal.followUp({
 						content: `${translate?.commands?.whitelist?.words[5]}: ${STR_FORMATS.CODE_BLOCK}${link}${STR_FORMATS.CODE_BLOCK}`,
@@ -304,7 +326,7 @@ module.exports = {
 					}
 				}
 
-				if (modal.customId === (ID_8 + '-')) {
+				if (modal.customId === (interactionsId[7] + '-')) {
 					await modal.deferReply({ephemeral: true});
 					modal.followUp({
 						content: `${translate?.commands?.whitelist?.words[4]}: ${STR_FORMATS.CODE_BLOCK}${link}${STR_FORMATS.CODE_BLOCK}`,
