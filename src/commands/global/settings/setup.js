@@ -25,7 +25,7 @@ module.exports = {
 		// Import dynamic translation, depends on the value in the database.
 		const translate = require(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`);
 
-		const ids = generateId(3);
+		const interactionsId = generateId(3);
 
 		const dataList = [
 			['deleteLinks', 'hideLinks'],
@@ -162,18 +162,18 @@ module.exports = {
 			return new MessageActionRow()
 			.addComponents(
 				new MessageButton()
-				.setCustomId(ids[0])
+				.setCustomId(interactionsId[0])
 				.setLabel(translate?.commands?.setup?.words[0])
 				// .setDisabled(itemSelected <= 0)
 				.setStyle('SECONDARY'),
 				new MessageButton()
-				.setCustomId(ids[1])
+				.setCustomId(interactionsId[1])
 				.setLabel(translate?.commands?.setup?.words[1])
 				// .setDisabled(itemSelected >= itemsCount)
 				.setDisabled(itemsCount === itemSelected && fieldSelected >= fieldsCount)
 				.setStyle('SECONDARY'),
 				new MessageButton()
-				.setCustomId(ids[2])
+				.setCustomId(interactionsId[2])
 				// If the author of the command does not have admin rights, the button will be disabled.
 				.setDisabled(!interaction?.member?.permissions.has(Permissions.FLAGS.ADMINISTRATOR))
 				.setLabel(getDataGuild(interaction?.guild, (dataList[fieldSelected])[itemSelected]) === SETTINGS?.ON ? translate?.commands?.setup?.words[3] : translate?.commands?.setup?.words[2])
@@ -202,7 +202,7 @@ module.exports = {
 				new MessageSelectMenu()
 				.setMinValues(1)
 				.setMaxValues(1)
-				.setCustomId(ids[3])
+				.setCustomId(interactionsId[3])
 				.setPlaceholder(translate.default[0])
 				.addOptions(JSON.parse(`[${options}]`)));
 		}
@@ -232,7 +232,7 @@ module.exports = {
 			const buttonCollector = message.createMessageComponentCollector({componentType: 'BUTTON', time: 60000});
 
 			buttonCollector.on('collect', async i => {
-				if (i.customId === ids[0]) {
+				if (i.customId === interactionsId[0]) {
 					if (itemSelected > 0) {
 						itemSelected--;
 					} else if (fieldSelected + 1 > 1) {
@@ -243,7 +243,7 @@ module.exports = {
 					}
 				}
 
-				if (i.customId === ids[1]) {
+				if (i.customId === interactionsId[1]) {
 					if (itemSelected < itemsCount) {
 						itemSelected++;
 					} else if (fieldSelected + 1 < (translate?.commands?.setup?.fields).length) {
@@ -254,7 +254,7 @@ module.exports = {
 					}
 				}
 
-				if (i.customId === ids[2]) {
+				if (i.customId === interactionsId[2]) {
 					let value;
 					let position;
 					if (translate?.commands?.setup?.fields[fieldSelected]?.style === 'toggle') {
