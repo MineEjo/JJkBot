@@ -1,8 +1,8 @@
-const {setGuilds} = require('../mongodb/handleGuilds');
+const {setGuild} = require('../mongodb/handleGuilds');
 const guildSchema = require('../../schemes/guild');
 
-const updateData = async (guild, data, value) => {
-	setGuilds(guild, data, value);
+const updateDataGuilds = async (guild, data, value) => {
+	setGuild(guild, data, value);
 
 	await guildSchema.findOneAndUpdate(
 		{
@@ -17,4 +17,21 @@ const updateData = async (guild, data, value) => {
 		});
 };
 
-module.exports.updateData = updateData;
+const updateDataUsers = async (user, data, value) => {
+	setGuild(user, data, value);
+
+	await guildSchema.findOneAndUpdate(
+		{
+			_id: user.id
+		},
+		{
+			_id: user.id,
+			[data]: value
+		},
+		{
+			upsert: true
+		});
+};
+
+module.exports.updateDataGuilds = updateDataGuilds;
+module.exports.updateDataUsers = updateDataUsers;
