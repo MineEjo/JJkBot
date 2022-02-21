@@ -92,7 +92,6 @@ module.exports = {
 
 		async function createMenuChannels() {
 			let optionsChannels = '';
-			let globalIndex = 0;
 			await interaction.guild.channels.fetch().then(channels => {
 				const tempArray = channels.map(channel => channel);
 
@@ -107,15 +106,13 @@ module.exports = {
 						if (index + 1 < channels.size) {
 							optionsChannels += `,`;
 						}
-
-						globalIndex++;
 					}
 				}
 			}).catch(console.error);
 
 			return new MessageActionRow().addComponents(new MessageSelectMenu()
 				.setMinValues(1)
-				.setMaxValues(globalIndex)
+				.setMaxValues(25)
 				.setCustomId(ID_2)
 				.setPlaceholder(translate?.commands?.whitelist.placeholders[1])
 				.addOptions(JSON.parse(`[${optionsChannels}]`))
@@ -124,7 +121,6 @@ module.exports = {
 
 		async function createMenuRoles() {
 			let optionsRoles = '';
-			let globalIndex = 0;
 			await interaction.guild.roles.fetch().then(roles => {
 				const tempArray = roles.map(role => role);
 
@@ -138,8 +134,6 @@ module.exports = {
 					if (index + 1 < roles.size) {
 						optionsRoles += `,`;
 					}
-
-					globalIndex++;
 				}
 			}).catch(console.error);
 
@@ -147,7 +141,7 @@ module.exports = {
 			.addComponents(
 				new MessageSelectMenu()
 				.setMinValues(1)
-				.setMaxValues(globalIndex)
+				.setMaxValues(25)
 				.setCustomId(ID_3)
 				.setPlaceholder(translate?.commands?.whitelist.placeholders[2])
 				.addOptions(JSON.parse(`[${optionsRoles}]`))
