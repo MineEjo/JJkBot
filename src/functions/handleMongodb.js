@@ -1,11 +1,9 @@
 const mongoose = require('mongoose');
-const fs = require('fs');
-const mongoEventsFiles = fs.readdirSync('../src/events/mongodb').filter(file => file.endsWith('.js'));
 
 module.exports = (client) => {
-	client.loginMongodb = async () => {
+	client.handleMongodb = async (mongoEventsFiles, path) => {
 		for (let file of mongoEventsFiles) {
-			const event = require(`../events/mongodb/${file}`);
+			const event = require(`${path}/${file}`);
 			if (event.once) {
 				mongoose.connection.once(event.name, (...args) => event.execute(...args));
 			} else {

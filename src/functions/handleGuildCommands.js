@@ -9,7 +9,7 @@ module.exports = client => {
 			const commandFiles = fs.readdirSync(`${path}/${folder}`).filter(file => file.endsWith('.js'));
 
 			for (const file of commandFiles) {
-				const command = require(`../commands/guild/${folder}/${file}`);
+				const command = require(`${path}/${folder}/${file}`);
 				await client.commands.set(command.data.name, command);
 				client.commandArray.push(command.data.toJSON());
 			}

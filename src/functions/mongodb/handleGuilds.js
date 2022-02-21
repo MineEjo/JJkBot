@@ -23,13 +23,15 @@ const loadGuilds = async client => {
 			position++;
 		}
 	}
+
+	console.log('[Mongodb] Guilds received.');
 };
 
-const setGuilds = (guild, data, value) => {
+const setGuild = (guild, data, value) => {
 	dataCells[dataNames.indexOf(data)][guild.id] = value;
 };
 
 module.exports = (guild, data) => (guild && dataNames.indexOf(data) > -1) ? dataCells[dataNames.indexOf(data)][guild.id] : Data[Data.indexOf(data) + 4];
 
 module.exports.loadGuilds = loadGuilds;
-module.exports.setGuilds = setGuilds;
+module.exports.setGuild = setGuild;
