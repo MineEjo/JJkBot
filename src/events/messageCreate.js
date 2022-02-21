@@ -22,6 +22,10 @@ module.exports = {
 			const dataHideLinks = getDataGuild(message?.guild, 'hideLinks');
 
 			if (dataDeleteLinks === SETTINGS.ON || dataHideLinks === SETTINGS.ON) {
+				if (message.channel.isThread()) {
+					return;
+				}
+
 				let linksCount = 0;
 
 				const links = message?.content.match(/(http(s?):\/\/(\S+\.)+\S+|www\d?\.(\S+\.)+\S+)|(discord\.gg\/(\S+)+\S+)|(discordapp\.com\/(\S+)+\S+)/gm);
@@ -61,7 +65,7 @@ module.exports = {
 			}
 
 			async function authorWebhookSendMessage(c) {
-				if (message.channel.isText() && !message.channel.isThread()) {
+				if (message.channel.isText()) {
 					const webhook = await getWebhook(message?.guild, message?.channel);
 
 					webhook.send({
