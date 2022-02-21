@@ -20,7 +20,7 @@
 				"description": "Get bot statistics."
 			},
 			"title": "Statistics",
-			"description": "**Client**: <:vialGreen:938171224138317836> Online - @(1) ms. \n**Uptime**: <t:@(2):R> \n**Guilds**: @(3) \n**Users**: @(4) \n**Channels**: @(5)"
+			"description": "**Client**: Online - @(1) ms. \n**Uptime**: <t:@(2):R> \n**Guilds**: @(3) \n**Users**: @(4) \n**Channels**: @(5)"
 		},
 		"whitelist": {
 			"slash": {
