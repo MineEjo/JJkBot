@@ -12,7 +12,7 @@ const noneTranslate = require(`../../../translation/${SETTINGS.LANG}.json`);
 // Handler for server database, getting stored values.
 const getDataGuild = require('../../../functions/mongodb/handleGuilds');
 // Lists the names of the database.
-const {updateData} = require('../../../functions/lites/updateData');
+const {updateDataGuilds} = require('../../../functions/lites/updateData');
 const {generateId} = require('../../../functions/lites/generateId');
 
 module.exports = {
@@ -279,7 +279,7 @@ module.exports = {
 						}
 					}
 
-					await updateData(interaction.guild, (dataList[fieldSelected])[position], value);
+					await updateDataGuilds(interaction.guild, (dataList[fieldSelected])[position], value);
 				}
 
 				itemsCount = 0;

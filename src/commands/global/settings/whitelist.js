@@ -8,7 +8,7 @@ const COLORS = require('../../../data/enums/colors.json');
 
 const noneTranslate = require(`../../../translation/${SETTINGS?.LANG}.json`);
 const getDataGuild = require('../../../functions/mongodb/handleGuilds');
-const {updateData} = require('../../../functions/lites/updateData');
+const {updateDataGuilds} = require('../../../functions/lites/updateData');
 const {Modal, TextInputComponent, showModal} = require('discord-modals');
 const {createModalCollector} = require('../../../functions/lites/createModalCollector');
 const {generateId} = require('../../../functions/lites/generateId');
@@ -43,7 +43,7 @@ module.exports = {
 				channelsArray.splice(channelsArray.indexOf(channel), 1);
 			}
 		}
-		await updateData(interaction?.guild, `${dataLists[listSelected]}Channels`, channelsArray);
+		await updateDataGuilds(interaction?.guild, `${dataLists[listSelected]}Channels`, channelsArray);
 
 		// Clear Roles Data
 		const rolesArray = getDataGuild(interaction?.guild, `${dataLists[listSelected]}Roles`);
@@ -52,7 +52,7 @@ module.exports = {
 				rolesArray.splice(rolesArray.indexOf(role), 1);
 			}
 		}
-		await updateData(interaction?.guild, `${dataLists[listSelected]}Roles`, rolesArray);
+		await updateDataGuilds(interaction?.guild, `${dataLists[listSelected]}Roles`, rolesArray);
 
 		function createEmbed() {
 			return new MessageEmbed()
@@ -223,7 +223,7 @@ module.exports = {
 								}
 							}
 
-							await updateData(interaction.guild, `${dataLists[listSelected]}Channels`, channelsArray);
+							await updateDataGuilds(interaction.guild, `${dataLists[listSelected]}Channels`, channelsArray);
 						}
 						break;
 					case ID_3:
@@ -236,7 +236,7 @@ module.exports = {
 								}
 							}
 
-							await updateData(interaction.guild, `${dataLists[listSelected]}Roles`, rolesArray);
+							await updateDataGuilds(interaction.guild, `${dataLists[listSelected]}Roles`, rolesArray);
 						}
 						break;
 				}
@@ -306,7 +306,7 @@ module.exports = {
 
 					if (listArray.indexOf(link) < 0) {
 						listArray.push(link);
-						await updateData(interaction.guild, `${dataLists[listSelected]}`, listArray);
+						await updateDataGuilds(interaction.guild, `${dataLists[listSelected]}`, listArray);
 					}
 				}
 
@@ -319,7 +319,7 @@ module.exports = {
 
 					if (listArray.indexOf(link) > -1) {
 						listArray.splice(listArray.indexOf(link), 1);
-						await updateData(interaction.guild, `${dataLists[listSelected]}`, listArray);
+						await updateDataGuilds(interaction.guild, `${dataLists[listSelected]}`, listArray);
 					}
 				}
 			}, 60000);
