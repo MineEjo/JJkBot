@@ -221,9 +221,9 @@ module.exports = {
 				.addOptions(JSON.parse(`[${options}]`)));
 		}
 
-		let itemDefaultIndex = 20;
-		let itemIndex = 0;
-		let itemIndexEnd = 20;
+		let itemsDefaultIndex = 20;
+		let itemsIndex = 0;
+		let itemsIndexEnd = 20;
 		let itemsMenuLength = 0;
 
 		async function createMenu() {
@@ -232,11 +232,11 @@ module.exports = {
 			let options = '';
 			let itemsTotalCount = 0;
 
-			itemsMenuLength = dataListMenu[fieldSelected][3].length >= itemIndexEnd ? itemIndexEnd : dataListMenu[fieldSelected][3].length;
+			itemsMenuLength = dataListMenu[fieldSelected][3].length >= itemsIndexEnd ? itemsIndexEnd : dataListMenu[fieldSelected][3].length;
 
 			options += `{` + `"label": "[▲]",` + `"description": "",` + `"value": "up"` + `},`;
 
-			for (let index = itemIndex; index < itemsMenuLength; index++) {
+			for (let index = itemsIndex; index < itemsMenuLength; index++) {
 				if (dataListMenu[fieldSelected][3][index]) {
 					options += `{`
 						+ `"label": "[${(list.indexOf(dataListMenu[fieldSelected][3][index]) >= 0) ? '✅' : '❌'}] [${dataListMenu[fieldSelected][3][index]}]",`
@@ -287,12 +287,12 @@ module.exports = {
 							let tempArray = [];
 
 							for (const value of i.values) {
-								if (value === 'up' && itemIndex >= itemDefaultIndex) {
-									itemIndex -= itemDefaultIndex;
-									itemIndexEnd -= itemDefaultIndex;
-								} else if (value === 'down' && itemIndexEnd < itemsMenuLength) {
-									itemIndex += itemDefaultIndex;
-									itemIndexEnd += itemDefaultIndex;
+								if (value === 'up' && itemsIndex >= itemsDefaultIndex) {
+									itemsIndex -= itemsDefaultIndex;
+									itemsIndexEnd -= itemsDefaultIndex;
+								} else if (value === 'down' && itemsIndexEnd < itemsMenuLength) {
+									itemsIndex += itemsDefaultIndex;
+									itemsIndexEnd += itemsDefaultIndex;
 								}
 
 								if (value !== 'up' && value !== 'down') {
