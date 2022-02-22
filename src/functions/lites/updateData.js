@@ -33,4 +33,5 @@ const updateDataUsers = async (user, data, value) => {
 		});
 };
 
-module.exports = {updateDataGuilds, updateDataUsers};
+module.exports.updateDataGuilds = updateDataGuilds;
+module.exports.updateDataUsers = updateDataUsers;
