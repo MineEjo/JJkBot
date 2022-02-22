@@ -25,12 +25,26 @@ module.exports = {
 		// Import dynamic translation, depends on the value in the database.
 		const translate = require(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`);
 
-		const interactionsId = generateId(3);
+		const interactionsId = generateId(4);
 
 		const dataList = [
 			['deleteLinks', 'hideLinks'],
 			['allowDefaultLinks', 'allowScamLinks', 'allowInvites', 'allowSocialMedia'],
-			['lang']
+			['lang'],
+			['logs']
+		];
+
+		const dataListMenu = [
+			// name, minValue, maxValue, Value
+			[],
+			[],
+			[],
+			['logsChannel', 1, 1, await interaction.guild.channels.fetch().then(channels => channels.map(channel => {
+				if (channel && channel.type === 'GUILD_TEXT') {
+					return channel.id;
+				}
+			}))]
+			// example, true, true, value - True, it means that the selection range is set from the number of elements up to 20.
 		];
 
 		// The number of lines to interact with. The value is updated in turn, after each element is created.
@@ -207,22 +221,106 @@ module.exports = {
 				.addOptions(JSON.parse(`[${options}]`)));
 		}
 
+		let itemDefaultIndex = 20;
+		let itemIndex = 0;
+		let itemIndexEnd = 20;
+		let itemsMenuLength = 0;
+
+		async function createMenu() {
+			const list = getDataGuild(interaction?.guild, dataListMenu[fieldSelected][0]);
+
+			let options = '';
+			let itemsTotalCount = 0;
+
+			itemsMenuLength = dataListMenu[fieldSelected][3].length >= itemIndexEnd ? itemIndexEnd : dataListMenu[fieldSelected][3].length;
+
+			options += `{` + `"label": "[▲]",` + `"description": "",` + `"value": "up"` + `},`;
+
+			for (let index = itemIndex; index < itemsMenuLength; index++) {
+				if (dataListMenu[fieldSelected][3][index]) {
+					options += `{`
+						+ `"label": "[${(list.indexOf(dataListMenu[fieldSelected][3][index]) >= 0) ? '✅' : '❌'}] [${dataListMenu[fieldSelected][3][index]}]",`
+						+ `"description": "",`
+						+ `"value": "${dataListMenu[fieldSelected][3][index]}"`
+						+ `},`;
+					itemsTotalCount++;
+				}
+			}
+
+			options += `{` + `"label": "[▼]",` + `"description": "",` + `"value": "down"` + `}`;
+
+			return new MessageActionRow()
+			.addComponents(
+				new MessageSelectMenu()
+				.setMinValues(((dataListMenu[fieldSelected][1] === true) ? itemsMenuLength : dataListMenu[fieldSelected][1]))
+				.setMaxValues(((dataListMenu[fieldSelected][2] === true) ? itemsMenuLength : dataListMenu[fieldSelected][2]) + 2) // 2 = Up item, Down item
+				.setCustomId(interactionsId[4])
+				.setPlaceholder(translate.default[0])
+				.addOptions(JSON.parse(`[${options}]`)));
+		}
+
+		async function createRow() {
+			if (dataListMenu[fieldSelected][0]) {
+				return [createSelectMenu(), await createMenu(), createButtons()];
+			} else {
+				return [createSelectMenu(), createButtons()];
+			}
+		}
+
 		await interaction.reply({
 			fetchReply: true,
 			embeds: [createEmbed()],
 			ephemeral: true,
-			components: [createSelectMenu(), createButtons()]
+			components: await createRow()
 		}).then(message => {
 			const menuCollector = message.createMessageComponentCollector({componentType: 'SELECT_MENU', time: 60000});
 			menuCollector.on('collect', async i => {
-				fieldSelected = parseInt(i.values[0], 10);
+				switch (i.customId) {
+					case interactionsId[3]:
+						fieldSelected = parseInt(i.values[0], 10);
 
-				itemSelected = 0;
-				itemsCount = 0;
+						itemSelected = 0;
+						itemsCount = 0;
+						break;
+					case interactionsId[4]:
+						if (interaction?.member?.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
+							let tempArray = [];
+
+							for (const value of i.values) {
+								if (value === 'up' && itemIndex >= itemDefaultIndex) {
+									itemIndex -= itemDefaultIndex;
+									itemIndexEnd -= itemDefaultIndex;
+								} else if (value === 'down' && itemIndexEnd < itemsMenuLength) {
+									itemIndex += itemDefaultIndex;
+									itemIndexEnd += itemDefaultIndex;
+								}
+
+								if (value !== 'up' && value !== 'down') {
+									if (tempArray.indexOf(value) > -1) {
+										tempArray.splice(tempArray.indexOf(value), 1);
+									} else {
+										tempArray.push(value);
+									}
+								}
+							}
+
+							if (tempArray.length === 1) {
+								tempArray = tempArray.toString();
+							} else if (tempArray.length === 0) {
+								tempArray = '';
+							}
+
+							console.log(tempArray);
+
+							await updateDataGuilds(interaction.guild, `${dataListMenu[fieldSelected][0]}`, tempArray);
+						}
+						break;
+				}
+
 				const embed = createEmbed();
 
 				await interaction.editReply({embeds: [embed]});
-				await i.update({embeds: [embed], components: [createSelectMenu(), createButtons()], fetchReply: true});
+				await i.update({embeds: [embed], components: await createRow(), fetchReply: true});
 			});
 
 			menuCollector.on('end', () => {
@@ -283,7 +381,7 @@ module.exports = {
 				const embed = createEmbed();
 
 				await interaction.editReply({embeds: [embed]});
-				await i.update({embeds: [embed], components: [createSelectMenu(), createButtons()], fetchReply: true});
+				await i.update({embeds: [embed], components: await createRow(), fetchReply: true});
 			});
 
 			buttonCollector.on('end', () => {
