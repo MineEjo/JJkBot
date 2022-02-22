@@ -29,5 +29,4 @@ for (let index = 0; index < Data.length; index += DataCounts) {
 }
 
 module.exports = mongoose.model('user', mongoose.Schema(userSchema), 'users');
-module.exports.Data = Data;
-module.exports.DataCounts = DataCounts;
+module.exports = { Data, DataCounts };
