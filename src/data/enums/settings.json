@@ -2,6 +2,6 @@
 	"LANG": "en-US",
 	"ON": 2,
 	"OFF": 1,
-	"VOID": "",
-	"VOID_ARRAY": []
+	"VOID_ARRAY": [],
+	"VOID_STRING": ""
 }
