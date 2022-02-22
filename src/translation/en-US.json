@@ -27,7 +27,7 @@
 				"name": "whitelist",
 				"description": "Open whitelist."
 			},
-			"title": "Whitelist",
+			"title": "White list",
 			"description": "Managing a white list.",
 			"previewDescription": "View mode, not enough rights to edit.",
 			"placeholders": [
@@ -57,8 +57,9 @@
 			"previewDescription": "View mode, not enough rights to edit.",
 			"menu": [
 				"Links",
-				"WhiteList",
-				"Lang"
+				"White List",
+				"Lang",
+				"Audit log"
 			],
 			"fields": [
 				{
@@ -75,7 +76,7 @@
 				},
 				{
 					"style": "none",
-					"name": "@(0C) WhiteList `Page: @(0S)/@(0F)`",
+					"name": "@(0C) White list `Page: @(0S)/@(0F)`",
 					"value": [
 						"@(0T) @(0I)Allow Standard \"Discord\" Links@(0I) \n",
 						"@(0T) @(0I)Allow Scam Links@(0I)\n",
@@ -101,6 +102,16 @@
 						"ru-RU"
 					],
 					"valueDescription": []
+				},
+				{
+					"style": "none",
+					"name": "@(0C) Audit log `Page: @(0S)/@(0F)`",
+					"value": [
+						"@(0T) @(0I)Logging@(0I) \n"
+					],
+					"valueDescription": [
+						"Sends information about violations."
+					]
 				}
 			],
 			"words": [
