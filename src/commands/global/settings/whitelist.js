@@ -82,19 +82,18 @@ module.exports = {
 
 		let channelsDefaultIndex = 20;
 		let channelsIndex = 0;
-		let channelIndexEnd = 20;
-
+		let channelsIndexEnd = 20;
+		let channelsMenuLength = 0;
 		async function createMenuChannels() {
 			let optionsChannels = '';
-			let itemsMenuLength = 0;
 			let itemsTotalCount = 0;
 			await interaction.guild.channels.fetch().then(channels => {
 				const tempArray = channels.map(channel => channel);
-				itemsMenuLength = channels.size >= channelIndexEnd ? channelIndexEnd : channels.size;
+				channelsMenuLength = channels.size >= channelsIndexEnd ? channelsIndexEnd : channels.size;
 
 				optionsChannels += `{` + `"label": "[▲]",` + `"description": "",` + `"value": "up"` + `},`;
 
-				for (let index = channelsIndex; index < itemsMenuLength; index++) {
+				for (let index = channelsIndex; index < channelsMenuLength; index++) {
 					if (tempArray[index] && tempArray[index].type === 'GUILD_TEXT') {
 						optionsChannels += `{`
 							+ `"label": "[${(channelsArray.indexOf(tempArray[index].id) >= 0) ? '✅' : '❌'}] [${tempArray[index].id}] ${clearSliceText(tempArray[index].name)}",`
@@ -120,18 +119,17 @@ module.exports = {
 		let rolesDefaultIndex = 20;
 		let rolesIndex = 0;
 		let rolesIndexEnd = 20;
-
+		let rolesMenuLength = 0;
 		async function createMenuRoles() {
 			let optionsRoles = '';
-			let itemsMenuLength = 0;
 			let itemsTotalCount = 0;
 			await interaction.guild.roles.fetch().then(roles => {
 				const tempArray = roles.map(role => role);
-				itemsMenuLength = roles.size >= rolesIndexEnd ? rolesIndexEnd : roles.size;
+				rolesMenuLength = roles.size >= rolesIndexEnd ? rolesIndexEnd : roles.size;
 
 				optionsRoles += `{` + `"label": "[▲]",` + `"description": "",` + `"value": "up"` + `},`;
 
-				for (let index = 0; index < itemsMenuLength; index++) {
+				for (let index = 0; index < rolesMenuLength; index++) {
 					optionsRoles += `{`
 						+ `"label": "[${(rolesArray.indexOf(tempArray[index].id) >= 0) ? '✅' : '❌'}] [${tempArray[index].id}] ${clearSliceText(tempArray[index].name)}",`
 						+ `"description": "",`
@@ -218,10 +216,10 @@ module.exports = {
 							for (const channel of i.values) {
 								if (channel === 'up' && channelsIndex >= channelsDefaultIndex) {
 									channelsIndex -= channelsDefaultIndex;
-									channelIndexEnd -= channelsDefaultIndex;
-								} else if (channel === 'down') {
+									channelsIndexEnd -= channelsDefaultIndex;
+								} else if (channel === 'down' && channelsIndexEnd < channelsMenuLength) {
 									channelsIndex += channelsDefaultIndex;
-									channelIndexEnd += channelsDefaultIndex;
+									channelsIndexEnd += channelsDefaultIndex;
 								}
 
 								if (channelsArray.indexOf(channel) > -1) {
@@ -240,7 +238,7 @@ module.exports = {
 								if (role === 'up' && rolesIndex >= rolesDefaultIndex) {
 									rolesIndex -= rolesDefaultIndex;
 									rolesIndexEnd -= rolesDefaultIndex;
-								} else if (role === 'down') {
+								} else if (role === 'down' && rolesIndexEnd < rolesMenuLength) {
 									rolesIndex += rolesDefaultIndex;
 									rolesIndexEnd += rolesDefaultIndex;
 								}
