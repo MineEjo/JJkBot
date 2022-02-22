@@ -104,7 +104,7 @@ module.exports = {
 						itemsTotalCount++;
 					}
 				}
-1
+
 				optionsChannels += `{` + `"label": "[▼]",` + `"description": "",` + `"value": "down"` + `}`;
 			}).catch(console.error);
 
