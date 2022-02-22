@@ -13,7 +13,9 @@ const Data = [
 	'allowSocialMedia', 1, 1, Number, SETTINGS.OFF, false,
 	'links', null, null, Array, SETTINGS.VOID_ARRAY, false,
 	'linksChannels', null, null, Array, SETTINGS.VOID_ARRAY, false,
-	'linksRoles', null, null, Array, SETTINGS.VOID_ARRAY, false
+	'linksRoles', null, null, Array, SETTINGS.VOID_ARRAY, false,
+	'logs', 1, 1, Number, SETTINGS.OFF, false,
+	'logsChannel', 18, 18, String, SETTINGS.VOID_STRING, false
 ];
 
 const guildSchema = [{
@@ -39,5 +41,4 @@ for (let index = 0; index < Data.length; index += DataCounts) {
 }
 
 module.exports = mongoose.model('guild', mongoose.Schema(guildSchema), 'guilds');
-module.exports.Data = Data;
-module.exports.DataCounts = DataCounts;
+module.exports = { Data, DataCounts}

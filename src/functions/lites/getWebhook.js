@@ -1,6 +1,6 @@
 const getWebhook = async (guild, channel) => {
 	let webhook;
-	await guild.fetchWebhooks().then(webhooks => {
+	guild.fetchWebhooks().then(webhooks => {
 		webhook = webhooks.find(wh => wh.channelId === channel.id && wh.name === guild.me.user.username);
 	}).catch(console.error);
 

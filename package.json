@@ -2,7 +2,7 @@
 	"name": "jjk",
 	"version": "1.0.0",
 	"description": "JJkBot - will add auto-moderation to Discord for your server.",
-	"main": "index.js",
+	"main": "src/index.js",
 	"bugs": {
 		"url": "https://github.com/MineEjo/JJkBot#readme"
 	},
