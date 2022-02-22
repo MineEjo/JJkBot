@@ -41,4 +41,5 @@ for (let index = 0; index < Data.length; index += DataCounts) {
 }
 
 module.exports = mongoose.model('guild', mongoose.Schema(guildSchema), 'guilds');
-module.exports = { Data, DataCounts}
+module.exports.Data = Data;
+module.exports.DataCounts = DataCounts;
