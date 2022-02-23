@@ -35,7 +35,7 @@ module.exports = {
 		];
 
 		const dataListMenu = [
-			// name, minValue, maxValue, value, value (mv name)
+			// name, minValue, maxValue, value, value (mv name), placeholder
 			[],
 			[],
 			[],
@@ -48,7 +48,7 @@ module.exports = {
 					return channel.name;
 				}
 			}))]
-			// example, true, true, value, value (mb name) - True, it means that the selection range is set from the number of elements up to 20.
+			// example, true, true, value, value (mb name), placeholder - True, it means that the selection range is set from the number of elements up to 20.
 		];
 
 		// The number of lines to interact with. The value is updated in turn, after each element is created.
@@ -259,7 +259,7 @@ module.exports = {
 				.setMinValues(((dataListMenu[fieldSelected][1] === true) ? itemsMenuLength : dataListMenu[fieldSelected][1]))
 				.setMaxValues(((dataListMenu[fieldSelected][2] === true) ? itemsMenuLength : dataListMenu[fieldSelected][2]) + 2) // 2 = Up item, Down item
 				.setCustomId(interactionsId[4])
-				.setPlaceholder(translate.default[0])
+				.setPlaceholder(translate?.commands?.setup?.placeholders[fieldSelected])
 				.addOptions(JSON.parse(`[${options}]`)));
 		}
 
