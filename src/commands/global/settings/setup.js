@@ -332,8 +332,6 @@ export default {
 								tempArray = '';
 							}
 
-							console.log(tempArray);
-
 							await updateDataGuilds(interaction.guild, `${dataListMenu[fieldSelected][0]}`, tempArray);
 						}
 						break;
