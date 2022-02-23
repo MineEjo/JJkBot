@@ -141,7 +141,9 @@
 		},
 		"messageCreate": {
 			"words": [
-				"(link deleted)"
+				"(link deleted)",
+				"Message Create",
+				"Links"
 			]
 		}
 	},
