@@ -61,6 +61,12 @@
 				"Lang",
 				"Audit log"
 			],
+			"placeholders": [
+				"",
+				"",
+				"",
+				"Channel for the audit log"
+			],
 			"fields": [
 				{
 					"style": "none",
