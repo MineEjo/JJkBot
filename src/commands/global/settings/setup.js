@@ -265,7 +265,7 @@ module.exports = {
 
 		async function createRow() {
 			if (dataListMenu[fieldSelected][0]) {
-				return [createSelectMenu(), await createMenu(), createButtons()];
+				return [await createMenu(), createSelectMenu(), createButtons()];
 			} else {
 				return [createSelectMenu(), createButtons()];
 			}
