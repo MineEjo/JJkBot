@@ -35,7 +35,7 @@ module.exports = {
 		];
 
 		const dataListMenu = [
-			// name, minValue, maxValue, Value
+			// name, minValue, maxValue, value, value (mv name)
 			[],
 			[],
 			[],
@@ -43,8 +43,12 @@ module.exports = {
 				if (channel && channel.type === 'GUILD_TEXT') {
 					return channel.id;
 				}
+			})), await interaction.guild.channels.fetch().then(channels => channels.map(channel => {
+				if (channel && channel.type === 'GUILD_TEXT') {
+					return channel.name;
+				}
 			}))]
-			// example, true, true, value - True, it means that the selection range is set from the number of elements up to 20.
+			// example, true, true, value, value (mb name) - True, it means that the selection range is set from the number of elements up to 20.
 		];
 
 		// The number of lines to interact with. The value is updated in turn, after each element is created.
@@ -239,7 +243,7 @@ module.exports = {
 			for (let index = itemsIndex; index < itemsMenuLength; index++) {
 				if (dataListMenu[fieldSelected][3][index]) {
 					options += `{`
-						+ `"label": "[${(list.indexOf(dataListMenu[fieldSelected][3][index]) >= 0) ? '✅' : '❌'}] [${dataListMenu[fieldSelected][3][index]}]",`
+						+ `"label": "[${(list.indexOf(dataListMenu[fieldSelected][3][index]) >= 0) ? '✅' : '❌'}] [${dataListMenu[fieldSelected][3][index]}] ${(dataListMenu[fieldSelected][4][index]) ? dataListMenu[fieldSelected][4][index] : ''}",`
 						+ `"description": "",`
 						+ `"value": "${dataListMenu[fieldSelected][3][index]}"`
 						+ `},`;
