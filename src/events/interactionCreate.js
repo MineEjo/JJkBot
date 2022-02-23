@@ -23,7 +23,6 @@ export default {
 	name: 'interactionCreate',
 	async execute(interaction, client) {
 		if (interaction.isCommand()) {
-			console.log(getDataGuild(interaction?.guild, 'lang'));
 			const translate = (await import(`../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
 			const command = client.commands.get(interaction.commandName);
 
