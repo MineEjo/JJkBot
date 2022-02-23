@@ -2,8 +2,10 @@
 [JJkBot](https://discord.gg/h3BmdkMbmB) - will add auto-moderation to Discord for your server.
 
 ## Technologies
-[Node.js](https://nodejs.org/en/), [discord-api-types](https://github.com/discordjs/discord-api-types), [npm](https://www.npmjs.com/), 
-[discord-modals](https://github.com/Mateo-tem/discord-modals), [discord.js](https://discord.js.org/#/), [dotenv](https://github.com/motdotla/dotenv),
+[Node.js](https://nodejs.org/en/), [npm](https://www.npmjs.com/), [esm](https://github.com/standard-things/esm) \
+[discord.js](https://discord.js.org/#/), [discord-api-types](https://github.com/discordjs/discord-api-types), 
+[discord-modals](https://github.com/Mateo-tem/discord-modals) \
+[dotenv](https://github.com/motdotla/dotenv),
 [mongoose](https://mongoosejs.com/), [fs](https://github.com/npm/security-holder), [path](https://github.com/jinder/path).
 
 ## Installation guide
