@@ -4,7 +4,7 @@
 ## Technologies
 [Node.js](https://nodejs.org/en/), [discord-api-types](https://github.com/discordjs/discord-api-types), [npm](https://www.npmjs.com/), 
 [discord-modals](https://github.com/Mateo-tem/discord-modals), [discord.js](https://discord.js.org/#/), [dotenv](https://github.com/motdotla/dotenv),
-[mongoose](https://mongoosejs.com/), [fs](github.com/npm/security-holder), [path](https://github.com/jinder/path).
+[mongoose](https://mongoosejs.com/), [fs](https://github.com/npm/security-holder), [path](https://github.com/jinder/path).
 
 ## Installation guide
 
@@ -15,3 +15,13 @@ $ npm i # Installing nodejs modules
 $ cp .env-template .env # Or manually create a copy and rename it to .env
 ```
 After installation, fill in the constants in the .env file
+
+## Launch Guide
+
+```bash
+$ cd JJkBot # Or enter the folder manually
+$ node --experimental-json-modules bot.js
+```
+
+## License
+JJkBot is licensed under the [GPL v3](LICENSE)
