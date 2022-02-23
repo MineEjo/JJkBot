@@ -1,9 +1,10 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import {__dirname, join} from '../../bot.js';
 
-module.exports = (client) => {
+export default function (client) {
 	client.handleMongodb = async (mongoEventsFiles, path) => {
 		for (let file of mongoEventsFiles) {
-			const event = require(`${path}/${file}`);
+			const event = (await import(join(__dirname, `${path}/${file}`))).default;
 			if (event.once) {
 				mongoose.connection.once(event.name, (...args) => event.execute(...args));
 			} else {

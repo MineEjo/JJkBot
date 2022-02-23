@@ -1,7 +1,7 @@
-const {loadGuilds} = require('../functions/mongodb/handleGuilds');
-const {loadUsers} = require('../functions/mongodb/handleUsers');
+import {loadGuilds} from '../functions/mongodb/handleGuilds.js';
+import {loadUsers} from '../functions/mongodb/handleUsers.js';
 
-module.exports = {
+export default {
 	name: 'ready',
 	once: true,
 	async execute(client) {

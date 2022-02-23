@@ -1,21 +1,21 @@
-const {SlashCommandBuilder} = require('@discordjs/builders');
-const {MessageActionRow, MessageButton, MessageSelectMenu, MessageEmbed, Permissions} = require('discord.js');
+import {SlashCommandBuilder} from '@discordjs/builders';
+import {MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu, Permissions} from 'discord.js';
 
-const STR_FORMATS = require('../../../data/enums/strFormats.json');
-const SETTINGS = require('../../../data/enums/settings.json');
-const FLAGS = require('../../../data/enums/flags.json');
-const EMOJIS = require('../../../data/enums/emojis.json');
-const COLORS = require('../../../data/enums/colors.json');
+import STR_FORMATS from '../../../data/enums/strFormats.json';
+import SETTINGS from '../../../data/enums/settings.json';
+import FLAGS from '../../../data/enums/flags.json';
+import EMOJIS from '../../../data/enums/emojis.json';
+import COLORS from '../../../data/enums/colors.json';
+// Handler for server database, getting stored values.
+import getDataGuild from '../../../functions/mongodb/handleGuilds.js';
+// Lists the names of the database.
+import {updateDataGuilds} from '../../../functions/lites/updateData.js';
+import {generateId} from '../../../functions/lites/generateId.js';
 
 // Static translation of a single language, such as English.
-const noneTranslate = require(`../../../translation/${SETTINGS.LANG}.json`);
-// Handler for server database, getting stored values.
-const getDataGuild = require('../../../functions/mongodb/handleGuilds');
-// Lists the names of the database.
-const {updateDataGuilds} = require('../../../functions/lites/updateData');
-const {generateId} = require('../../../functions/lites/generateId');
+const noneTranslate = (await import(`../../../translation/${SETTINGS?.LANG}.json`)).default;
 
-module.exports = {
+export default {
 	data: new SlashCommandBuilder()
 	.setName(noneTranslate?.commands?.setup?.slash?.name)
 	.setDescription(noneTranslate?.commands?.setup?.slash?.description),
@@ -23,7 +23,7 @@ module.exports = {
 	restriction: FLAGS.CHANNEL,
 	async execute(interaction) {
 		// Import dynamic translation, depends on the value in the database.
-		const translate = require(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`);
+		const translate = (await import(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
 
 		const interactionsId = generateId(4);
 

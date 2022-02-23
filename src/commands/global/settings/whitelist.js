@@ -1,25 +1,25 @@
-const {SlashCommandBuilder} = require('@discordjs/builders');
-const {MessageEmbed, MessageActionRow, MessageSelectMenu, Permissions, MessageButton} = require('discord.js');
+import {SlashCommandBuilder} from '@discordjs/builders';
+import {MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu, Permissions} from 'discord.js';
 
-const STR_FORMATS = require('../../../data/enums/strFormats.json');
-const SETTINGS = require('../../../data/enums/settings.json');
-const FLAGS = require('../../../data/enums/flags.json');
-const COLORS = require('../../../data/enums/colors.json');
+import STR_FORMATS from '../../../data/enums/strFormats.json';
+import SETTINGS from '../../../data/enums/settings.json';
+import FLAGS from '../../../data/enums/flags.json';
+import COLORS from '../../../data/enums/colors.json';
+import getDataGuild from '../../../functions/mongodb/handleGuilds.js';
+import {updateDataGuilds} from '../../../functions/lites/updateData.js';
+import {Modal, showModal, TextInputComponent} from 'discord-modals';
+import {createModalCollector} from '../../../functions/lites/createModalCollector.js';
+import {generateId} from '../../../functions/lites/generateId.js';
 
-const noneTranslate = require(`../../../translation/${SETTINGS?.LANG}.json`);
-const getDataGuild = require('../../../functions/mongodb/handleGuilds');
-const {updateDataGuilds} = require('../../../functions/lites/updateData');
-const {Modal, TextInputComponent, showModal} = require('discord-modals');
-const {createModalCollector} = require('../../../functions/lites/createModalCollector');
-const {generateId} = require('../../../functions/lites/generateId');
+const noneTranslate = (await import(`../../../translation/${SETTINGS?.LANG}.json`)).default;
 
-module.exports = {
+export default {
 	data: new SlashCommandBuilder()
 	.setName(noneTranslate?.commands?.whitelist?.slash?.name)
 	.setDescription(noneTranslate?.commands?.whitelist?.slash?.description),
 	restriction: FLAGS.CHANNEL,
 	async execute(interaction) {
-		const translate = require(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`);
+		const translate = (await import(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
 		const interactionsId = generateId(7);
 		const defaultMaxDataValue = 1500;
 

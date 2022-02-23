@@ -1,4 +1,4 @@
-const getWebhook = async (guild, channel) => {
+export async function getWebhook(guild, channel) {
 	let webhook;
 	await guild.fetchWebhooks().then(webhooks => {
 		webhook = webhooks.find(wh => wh.channelId === channel.id && wh.name === guild.me.user.username);
@@ -11,6 +11,4 @@ const getWebhook = async (guild, channel) => {
 	}
 
 	return webhook;
-};
-
-module.exports.getWebhook = getWebhook;
+}

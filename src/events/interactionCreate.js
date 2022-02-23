@@ -1,11 +1,12 @@
-const FLAGS = require('../data/enums/flags.json');
-const getDataGuild = require('../functions/mongodb/handleGuilds');
+import FLAGS from '../data/enums/flags.json';
+import getDataGuild from '../functions/mongodb/handleGuilds.js';
 
-module.exports = {
+export default {
 	name: 'interactionCreate',
 	async execute(interaction, client) {
 		if (interaction.isCommand()) {
-			const translate = require(`../translation/${getDataGuild(interaction?.guild, 'lang')}.json`);
+			console.log(getDataGuild(interaction?.guild, 'lang'));
+			const translate = (await import(`../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
 			const command = client.commands.get(interaction.commandName);
 
 			if (!command) {

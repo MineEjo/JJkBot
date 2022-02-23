@@ -1,5 +1,4 @@
-const userSchema = require('../../schemes/guild');
-const {Data, DataCounts} = require('../../schemes/guild');
+import userSchema, {Data, DataCounts} from '../../schemes/guild.js';
 
 const dataCells = [];
 const dataNames = [];
@@ -9,7 +8,7 @@ for (let index = 0; index < Data.length; index += DataCounts) {
 	dataNames.push(Data[index]);
 }
 
-const loadUsers = async client => {
+export async function loadUsers(client) {
 	for (const user of client.users.cache) {
 		const userId = user[0];
 
@@ -25,13 +24,10 @@ const loadUsers = async client => {
 	}
 
 	console.log('[Mongodb] Users received.');
-};
+}
 
-const setUser = (user, data, value) => {
+export function setUser(user, data, value) {
 	dataCells[dataNames.indexOf(data)][user.id] = value;
-};
+}
 
-module.exports = (user, data) => (user && dataNames.indexOf(data) > -1) ? dataCells[dataNames.indexOf(data)][user.id] : Data[Data.indexOf(data) + 4];
-
-module.exports.loadUsers = loadUsers;
-module.exports.setGuilds = setUser;
+export default (user, data) => (user && dataNames.indexOf(data) > -1) ? dataCells[dataNames.indexOf(data)][user.id] : Data[Data.indexOf(data) + 4];

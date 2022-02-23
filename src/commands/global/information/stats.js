@@ -1,18 +1,18 @@
-const {SlashCommandBuilder} = require('@discordjs/builders');
-const {MessageEmbed} = require('discord.js');
-const getDataGuild = require('../../../functions/mongodb/handleGuilds');
+import {SlashCommandBuilder} from '@discordjs/builders';
+import {MessageEmbed} from 'discord.js';
+import getDataGuild from '../../../functions/mongodb/handleGuilds.js';
 
-const SETTINGS = require('../../../data/enums/settings.json');
-const COLORS = require('../../../data/enums/colors.json');
+import SETTINGS from '../../../data/enums/settings.json';
+import COLORS from '../../../data/enums/colors.json';
 
-const noneTranslate = require(`../../../translation/${SETTINGS?.LANG}.json`);
+const noneTranslate = (await import(`../../../translation/${SETTINGS?.LANG}.json`)).default;
 
-module.exports = {
+export default {
 	data: new SlashCommandBuilder()
 	.setName(noneTranslate?.commands?.stats?.slash?.name)
 	.setDescription(noneTranslate?.commands?.stats?.slash?.description),
 	async execute(interaction) {
-		const translate = require(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`);
+		const translate = (await import(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
 
 		const embed = new MessageEmbed()
 		.setTitle(translate?.commands?.stats?.title)

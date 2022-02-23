@@ -1,6 +1,4 @@
-const createModalCollector = async (client, listener, timeout) => {
+export async function createModalCollector(client, listener, timeout) {
 	client.on('modalSubmit', listener);
 	setTimeout(() => client.off('modalSubmit', listener), timeout);
-};
-
-module.exports.createModalCollector = createModalCollector;
+}

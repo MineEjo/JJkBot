@@ -1,14 +1,12 @@
-const {MessageEmbed} = require('discord.js');
+import {MessageEmbed} from 'discord.js';
+import COLORS from '../data/enums/colors.json';
+import getDataGuild from '../functions/mongodb/handleGuilds.js';
 
-const COLORS = require('../data/enums/colors.json');
-
-const getDataGuild = require('../functions/mongodb/handleGuilds');
-
-module.exports = {
+export default {
 	name: 'guildCreate',
 	once: false,
 	async execute(guild) {
-		const translate = require(`../translation/${getDataGuild(guild, 'lang')}.json`);
+		const translate = (await import(`../translation/${getDataGuild(guild, 'lang')}.json`)).default;
 
 		const channel = guild.channels.cache.find(ch =>
 			ch.type === 'GUILD_TEXT' && ch.permissionsFor(guild?.me).has('SEND_MESSAGES')

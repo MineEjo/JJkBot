@@ -1,6 +1,6 @@
 const ids = [];
 
-const generateId = (count) => {
+export function generateId(count) {
 	const tempIds = [];
 
 	for (let index = 0; index <= count; index++) {
@@ -15,6 +15,4 @@ const generateId = (count) => {
 	}
 
 	return tempIds;
-};
-
-module.exports.generateId = generateId;
+}

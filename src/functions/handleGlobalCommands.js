@@ -1,16 +1,17 @@
-const {REST} = require('@discordjs/rest');
-const {Routes} = require('discord-api-types/v9');
-const fs = require('fs');
+import {REST} from '@discordjs/rest';
+import {Routes} from 'discord-api-types/v9';
+import fs from 'fs';
+import {__dirname, join} from '../../bot.js';
 
-module.exports = client => {
+export default function (client) {
 	client.handleGlobalCommands = async (commandFolders, path) => {
 		client.commandArray = [];
 		for (const folder of commandFolders) {
-			const commandFiles = fs.readdirSync(`${path}/${folder}`).filter(file => file.endsWith('.js'));
+			const commandFiles = fs.readdirSync(join(__dirname, `${path}/${folder}`)).filter(file => file.endsWith('.js'));
 
 			for (const file of commandFiles) {
-				const command = require(`${path}/${folder}/${file}`);
-				await client.commands.set(command.data.name, command);
+				const command = (await import(join(__dirname, `${path}/${folder}/${file}`))).default;
+				await client.commands.set(command.data.name, await command);
 				client.commandArray.push(command.data.toJSON());
 			}
 		}

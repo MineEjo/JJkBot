@@ -1,8 +1,10 @@
 {
 	"name": "jjk",
 	"version": "1.0.0",
+	"type": "module",
 	"description": "JJkBot - will add auto-moderation to Discord for your server.",
 	"main": "index.js",
+	"module": "bot.js",
 	"bugs": {
 		"url": "https://github.com/MineEjo/JJkBot#readme"
 	},
@@ -20,6 +22,7 @@
 		"discord-modals": "^1.1.7",
 		"discord.js": "^13.6.0",
 		"dotenv": "^15.0.0",
+		"esm": "^3.2.25",
 		"fs": "^0.0.1-security",
 		"mongoose": "^6.1.9",
 		"node": "16.13.2"

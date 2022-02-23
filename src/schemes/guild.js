@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const SETTINGS = require('../data/enums/settings.json');
+import SETTINGS from '../data/enums/settings.json';
 
 const Data = [
 	// name, minLength, maxLength, type, default, required
@@ -40,6 +40,5 @@ for (let index = 0; index < Data.length; index += DataCounts) {
 	});
 }
 
-module.exports = mongoose.model('guild', mongoose.Schema(guildSchema), 'guilds');
-module.exports.Data = Data;
-module.exports.DataCounts = DataCounts;
+export default mongoose.model('guild', mongoose.Schema(guildSchema), 'guilds');
+export {DataCounts, Data};

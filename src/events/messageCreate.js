@@ -1,19 +1,16 @@
-const getDataGuild = require('../functions/mongodb/handleGuilds');
+import getDataGuild from '../functions/mongodb/handleGuilds.js';
+import SETTINGS from '../data/enums/settings.json';
+import {getWebhook} from '../functions/lites/getWebhook.js';
+import linksWList from '../data/whitelists/links.json';
+import scamLinksWList from '../data/whitelists/scamLinks.json';
+import invitesWList from '../data/whitelists/invites.json';
+import socialMediaWList from '../data/whitelists/socialMedia.json';
 
-const SETTINGS = require('../data/enums/settings.json');
-
-const {getWebhook} = require('../functions/lites/getWebhook');
-
-const linksWList = require('../data/whitelists/links.json');
-const scamLinksWList = require('../data/whitelists/scamLinks.json');
-const invitesWList = require('../data/whitelists/invites.json');
-const socialMediaWList = require('../data/whitelists/socialMedia.json');
-
-module.exports = {
+export default {
 	name: 'messageCreate',
 	once: false,
 	async execute(message) {
-		const translate = require(`../translation/${getDataGuild(message?.guild, 'lang')}.json`);
+		const translate = (await import(`../translation/${getDataGuild(message?.guild, 'lang')}.json`)).default;
 
 		if (message && !message?.author.bot && message?.guild && message?.deletable) {
 			let content = message?.content;
