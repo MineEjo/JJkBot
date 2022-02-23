@@ -102,6 +102,7 @@ export default {
 		let channelsIndex = 0;
 		let channelsIndexEnd = 20;
 		let channelsMenuLength = 0;
+
 		async function createMenuChannels() {
 			let optionsChannels = '';
 			let itemsTotalCount = 0;
@@ -138,6 +139,7 @@ export default {
 		let rolesIndex = 0;
 		let rolesIndexEnd = 20;
 		let rolesMenuLength = 0;
+
 		async function createMenuRoles() {
 			let optionsRoles = '';
 			let itemsTotalCount = 0;
@@ -153,7 +155,7 @@ export default {
 						+ `"description": "",`
 						+ `"value": "${tempArray[index].id}"`
 						+ `},`;
-					itemsTotalCount++
+					itemsTotalCount++;
 				}
 
 				optionsRoles += `{` + `"label": "[▼]",` + `"description": "",` + `"value": "down"` + `}`;
@@ -186,7 +188,7 @@ export default {
 				.setLabel(label)
 				.setStyle('LONG')
 				.setMinLength(5)
-				.setMaxLength(id.endsWith('-') ? defaultMaxDataValue : freeLength )
+				.setMaxLength(id.endsWith('-') ? defaultMaxDataValue : freeLength)
 				.setPlaceholder(translate?.default[1])
 				.setRequired(true)
 			);

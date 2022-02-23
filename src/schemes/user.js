@@ -21,7 +21,7 @@ import mongoose from 'mongoose';
 const Data = [
 	// name, minLength, maxLength, type, default, required
 	'warns', null, null, Number, 0, false,
-	'punishments', null, null, Number, 0, false,
+	'punishments', null, null, Number, 0, false
 ];
 
 const userSchema = [{
