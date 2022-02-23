@@ -79,17 +79,31 @@ export default {
 				linksCount > 0 ? await authorWebhookSendMessage(content) : null;
 			}
 
-			async function authorWebhookSendMessage(c) {
+			async function authorWebhookSendMessage(msg) {
 				if (message.channel.isText()) {
 					const webhook = await getWebhook(message?.guild, message?.channel);
 
 					webhook.send({
-						content: c,
+						content: msg,
 						username: `${message?.author?.tag} (${message?.author?.id})`,
 						avatarURL: message?.author.avatarURL({dynamic: true})
 					});
 
+					if (getDataGuild(message?.guild, 'logs') === SETTINGS.ON) {
+						logsChannelSendMessage(translate?.events?.messageCreate?.words[2], message);
+					}
+
 					message.delete().catch(console.error);
+				}
+			}
+
+			function logsChannelSendMessage(trigger, msg) {
+				const channelId = getDataGuild(msg.guild, 'logsChannel');
+
+				if (channelId) {
+					msg.guild.channels.fetch(channelId).then(channel => {
+						channel.send(`<t:${String(msg.createdTimestamp).slice(0, 10)}:R>|${msg.author}|**\`${trigger}\`**|\`${translate?.events?.messageCreate?.words[1]}:\` ${msg.content}`);
+					}).catch(console.error);
 				}
 			}
 		}
