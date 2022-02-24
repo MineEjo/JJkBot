@@ -35,11 +35,11 @@ export default {
 		const translate = (await import(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
 
 		const commands = interaction?.client?.commands?.map(cmd => cmd);
-		let commandsStrings = ''
+		let commandsStrings = '';
 
 		for (let index = 0; index < commands.length; index++) {
 			if (commands[index]) {
-				commandsStrings += `\`\/\`**${commands[index]?.data?.name}** - ${translate?.commands[commands[index]?.data?.name]?.slash?.description} \n`
+				commandsStrings += `\`\/\`**${commands[index]?.data?.name}** - ${translate?.commands[commands[index]?.data?.name]?.slash?.description} \n`;
 			}
 		}
 
@@ -52,7 +52,7 @@ export default {
 			value: translate?.commands?.help?.fields[0]?.value
 			.replace(`@(2)`, LINKS?.GITHUB)
 			.replace(`@(1)`, LINKS?.INVITE)
-		},{
+		}, {
 			inline: false,
 			name: translate?.commands?.help?.fields[1]?.name,
 			value: commandsStrings.trim()
