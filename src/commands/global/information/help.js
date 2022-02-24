@@ -41,7 +41,7 @@ export default {
 
 		for (let index = 0; index < commands.length; index++) {
 			if (commands[index]) {
-				commandsStrings += `\`\/\`**${commands[index]?.data?.name}** - ${translate?.commands[commands[index]?.data?.name]?.slash?.description} \n`;
+				commandsStrings += `\`\/\`[${commands[index]?.data?.name}](https://discord.com/channels/${interaction.guildId}/${interaction.channelId}) - ${translate?.commands[commands[index]?.data?.name]?.slash?.description} \n`;
 			}
 		}
 
