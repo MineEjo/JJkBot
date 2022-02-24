@@ -4,8 +4,8 @@
 
 ## Technologies
 
-[Node.js](https://nodejs.org/en/), [npm](https://www.npmjs.com/), [esm](https://github.com/standard-things/esm) \
-[discord.js](https://discord.js.org/#/), [discord-api-types](https://github.com/discordjs/discord-api-types),
+[Node.js v16](https://nodejs.org/en/), [npm v8](https://www.npmjs.com/), [esm](https://github.com/standard-things/esm) \
+[discord.js v13](https://discord.js.org/#/), [discord-api-types](https://github.com/discordjs/discord-api-types),
 [discord-modals](https://github.com/Mateo-tem/discord-modals) \
 [dotenv](https://github.com/motdotla/dotenv),
 [mongoose](https://mongoosejs.com/), [fs](https://github.com/npm/security-holder)
