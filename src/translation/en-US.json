@@ -11,6 +11,10 @@
 				{
 					"name": "Links",
 					"value": "GitHub: @(2) \nGuild: @(1)"
+				},
+				{
+					"name": "Commands",
+					"value": ""
 				}
 			]
 		},
