@@ -32,8 +32,17 @@ export default {
 	.setName(noneTranslate?.commands?.help?.slash?.name)
 	.setDescription(noneTranslate?.commands?.help?.slash?.description),
 	async execute(interaction) {
-
 		const translate = (await import(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
+
+		const commands = interaction?.client?.commands?.map(cmd => cmd);
+		let commandsStrings = ''
+
+		for (let index = 0; index < commands.length; index++) {
+			if (commands[index]) {
+				commandsStrings += `\`\/\`**${commands[index]?.data?.name}** - ${translate?.commands[commands[index]?.data?.name]?.slash?.description} \n`
+			}
+		}
+
 		const embed = new MessageEmbed()
 		.setTitle(translate?.commands?.help.title)
 		.setDescription(translate?.commands?.help?.description.replace(`@(1)`, LINKS?.INVITE))
@@ -43,6 +52,10 @@ export default {
 			value: translate?.commands?.help?.fields[0]?.value
 			.replace(`@(2)`, LINKS?.GITHUB)
 			.replace(`@(1)`, LINKS?.INVITE)
+		},{
+			inline: false,
+			name: translate?.commands?.help?.fields[1]?.name,
+			value: commandsStrings.trim()
 		})
 		.setColor(COLORS?.PRIMARY);
 		await interaction.reply({embeds: [embed], ephemeral: true}).catch(console.error);
