@@ -101,14 +101,13 @@ export default {
 		let channelsDefaultIndex = 20;
 		let channelsIndex = 0;
 		let channelsIndexEnd = 20;
-		let channelsMenuLength = 0;
 
 		async function createMenuChannels() {
 			let optionsChannels = '';
 			let itemsTotalCount = 0;
 			await interaction.guild.channels.fetch().then(channels => {
 				const tempArray = channels.map(channel => channel);
-				channelsMenuLength = channels.size >= channelsIndexEnd ? channelsIndexEnd : channels.size;
+				let channelsMenuLength = channels.size >= channelsIndexEnd ? channelsIndexEnd : channels.size;
 
 				optionsChannels += `{` + `"label": "[▲]",` + `"description": "",` + `"value": "up"` + `},`;
 
@@ -138,14 +137,13 @@ export default {
 		let rolesDefaultIndex = 20;
 		let rolesIndex = 0;
 		let rolesIndexEnd = 20;
-		let rolesMenuLength = 0;
 
 		async function createMenuRoles() {
 			let optionsRoles = '';
 			let itemsTotalCount = 0;
 			await interaction.guild.roles.fetch().then(roles => {
 				const tempArray = roles.map(role => role);
-				rolesMenuLength = roles.size >= rolesIndexEnd ? rolesIndexEnd : roles.size;
+				let rolesMenuLength = roles.size >= rolesIndexEnd ? rolesIndexEnd : roles.size;
 
 				optionsRoles += `{` + `"label": "[▲]",` + `"description": "",` + `"value": "up"` + `},`;
 
@@ -237,7 +235,7 @@ export default {
 								if (channel === 'up' && channelsIndex >= channelsDefaultIndex) {
 									channelsIndex -= channelsDefaultIndex;
 									channelsIndexEnd -= channelsDefaultIndex;
-								} else if (channel === 'down' && channelsIndexEnd < channelsMenuLength) {
+								} else if (channel === 'down') {
 									channelsIndex += channelsDefaultIndex;
 									channelsIndexEnd += channelsDefaultIndex;
 								}
@@ -258,7 +256,7 @@ export default {
 								if (role === 'up' && rolesIndex >= rolesDefaultIndex) {
 									rolesIndex -= rolesDefaultIndex;
 									rolesIndexEnd -= rolesDefaultIndex;
-								} else if (role === 'down' && rolesIndexEnd < rolesMenuLength) {
+								} else if (role === 'down') {
 									rolesIndex += rolesDefaultIndex;
 									rolesIndexEnd += rolesDefaultIndex;
 								}
