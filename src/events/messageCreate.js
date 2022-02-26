@@ -56,9 +56,19 @@ export default {
 				getDataGuild(message?.guild, 'allowInvites') === SETTINGS.ON ? whitelist = whitelist.concat(invitesWList) : null;
 				getDataGuild(message?.guild, 'allowSocialMedia') === SETTINGS.ON ? whitelist = whitelist.concat(socialMediaWList) : null;
 
+				let channelsWhiteList = getDataGuild(message?.guild, 'linksChannels');
+				let rolesWhiteList = getDataGuild(message?.guild, 'linksRoles');
+
 				for (const link of links) {
 					// If the link isn't on the whitelist.
-					if (!whitelist.some(word => (link.replace('https://', '').replace('http://', '').slice(0, word.length)) === word)) {
+					if (!whitelist.some(word => (link.replace('https://', '').replace('http://', '').slice(0, word.length)) === word) &&
+						!channelsWhiteList.some(channelId => message.channelId === channelId)) {
+
+						for (let index = 0; index < rolesWhiteList.length; index++) {
+							if (message.member.roles.cache.some(role => role.id === rolesWhiteList[index])) {
+								return;
+							}
+						}
 
 						// If the link is an invitation, check whether the invitation is from this server.
 						if ((link.includes('https://discord.gg') || link.includes('https://discordapp.com')) &&
