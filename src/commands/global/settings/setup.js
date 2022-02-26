@@ -246,7 +246,6 @@ export default {
 		let itemsDefaultIndex = 20;
 		let itemsIndex = 0;
 		let itemsIndexEnd = 20;
-		let itemsMenuLength = 0;
 
 		async function createMenu() {
 			const list = getDataGuild(interaction?.guild, dataListMenu[fieldSelected][0]);
@@ -254,7 +253,7 @@ export default {
 			let options = '';
 			let itemsTotalCount = 0;
 
-			itemsMenuLength = dataListMenu[fieldSelected][3].length >= itemsIndexEnd ? itemsIndexEnd : dataListMenu[fieldSelected][3].length;
+			let itemsMenuLength = dataListMenu[fieldSelected][3].length >= itemsIndexEnd ? itemsIndexEnd : dataListMenu[fieldSelected][3].length;
 
 			options += `{` + `"label": "[▲]",` + `"description": "",` + `"value": "up"` + `},`;
 
@@ -271,11 +270,13 @@ export default {
 
 			options += `{` + `"label": "[▼]",` + `"description": "",` + `"value": "down"` + `}`;
 
+			const maxLength = (itemsTotalCount === 0) ? 0 : dataListMenu[fieldSelected][2];
+
 			return new MessageActionRow()
 			.addComponents(
 				new MessageSelectMenu()
 				.setMinValues(((dataListMenu[fieldSelected][1] === true) ? itemsMenuLength : dataListMenu[fieldSelected][1]))
-				.setMaxValues(((dataListMenu[fieldSelected][2] === true) ? itemsMenuLength : dataListMenu[fieldSelected][2]) + 2) // 2 = Up item, Down item
+				.setMaxValues(((dataListMenu[fieldSelected][2] === true) ? itemsMenuLength : maxLength) + 2) // 2 = Up item, Down item
 				.setCustomId(interactionsId[4])
 				.setPlaceholder(translate?.commands?.setup?.placeholders[fieldSelected])
 				.addOptions(JSON.parse(`[${options}]`)));
@@ -312,7 +313,7 @@ export default {
 								if (value === 'up' && itemsIndex >= itemsDefaultIndex) {
 									itemsIndex -= itemsDefaultIndex;
 									itemsIndexEnd -= itemsDefaultIndex;
-								} else if (value === 'down' && itemsIndexEnd < itemsMenuLength) {
+								} else if (value === 'down') {
 									itemsIndex += itemsDefaultIndex;
 									itemsIndexEnd += itemsDefaultIndex;
 								}
