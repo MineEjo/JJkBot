@@ -31,7 +31,7 @@ export default {
 			}
 
 			try {
-				if (command?.restriction && command?.restriction.length > 0) {
+				if (command?.restriction) {
 					if (command.restriction === FLAGS?.CHANNEL && !interaction?.guild) {
 						return await interaction.reply({content: translate?.errors[3], ephemeral: true});
 					}
@@ -45,7 +45,7 @@ export default {
 					}
 				}
 
-				if (command?.permissions && command?.permissions.length > 0) {
+				if (command?.permissions) {
 					if (!interaction.member.permissions.has(command?.permissions)) {
 						return await interaction.reply({content: translate?.errors[2], ephemeral: true});
 					}
