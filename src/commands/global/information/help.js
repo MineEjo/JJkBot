@@ -25,6 +25,7 @@ import LINKS from '../../../data/enums/links.json';
 import FLAGS from '../../../data/enums/flags.json';
 
 import getDataGuild from '../../../functions/mongodb/handleGuilds.js';
+import {reply} from '../../../functions/lites/reply.js';
 
 const noneTranslate = (await import(`../../../translation/${SETTINGS?.LANG}.json`)).default;
 
@@ -58,8 +59,8 @@ export default {
 			inline: false,
 			name: translate?.commands?.help?.fields[1]?.name,
 			value: commandsStrings.trim()
-		})
-		.setColor(COLORS?.PRIMARY);
-		await interaction.reply({embeds: [embed], ephemeral: true}).catch(console.error);
+		});
+
+		await reply(interaction, {embeds: [embed], ephemeral: true});
 	}
 };
