@@ -36,6 +36,8 @@ export default {
 	.setName(noneTranslate?.commands?.whitelist?.slash?.name)
 	.setDescription(noneTranslate?.commands?.whitelist?.slash?.description),
 	restriction: FLAGS.CHANNEL,
+	timeout: [5, FLAGS.GUILD],
+	permissions: null,
 	async execute(interaction) {
 		const translate = (await import(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
 		const interactionsId = generateId(7);
