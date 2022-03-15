@@ -49,9 +49,9 @@ export default {
 						timeout[0][0] = Math.trunc(time + command?.timeout[0]);
 					} else {
 						const seconds = getSeconds((timeout[0][0] - time) * 1000);
-						return await reply(interaction, {content: translate.errors[6], ephemeral: true}
+						return await reply(interaction, {content: translate.errors[6], ephemeral: true})
 						.replace('@(0)', seconds)
-						.replace('@(1)', getDeclension(seconds, [translate.wordEndings[0], translate.wordEndings[1], ''])));
+						.replace('@(1)', getDeclension(seconds, [translate.wordEndings[0], translate.wordEndings[1], '']));
 					}
 				}
 
@@ -67,9 +67,9 @@ export default {
 						timeout[3][timeout[2].indexOf(id)] = interaction.commandName;
 					} else if (timeout[3][timeout[2].indexOf(id)] === interaction.commandName) {
 						const seconds = getSeconds((timeout[1][timeout[2].indexOf(id)] - time) * 1000);
-						return await reply(interaction, {content: translate.errors[6], ephemeral: true}
+						return await reply(interaction, {content: translate.errors[6], ephemeral: true})
 						.replace('@(0)', seconds)
-						.replace('@(1)', getDeclension(seconds, [translate.wordEndings[0], translate.wordEndings[1], ''])));
+						.replace('@(1)', getDeclension(seconds, [translate.wordEndings[0], translate.wordEndings[1], '']));
 					}
 				}
 			}
