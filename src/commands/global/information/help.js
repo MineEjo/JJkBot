@@ -49,6 +49,7 @@ export default {
 		}
 
 		const embed = new MessageEmbed()
+		.setColor(COLORS?.PRIMARY)
 		.setTitle(translate?.commands?.help.title)
 		.setDescription(translate?.commands?.help?.description.replace(`@(1)`, LINKS?.INVITE))
 		.addFields({
