@@ -22,6 +22,7 @@ import getDataGuild from '../../../functions/mongodb/handleGuilds.js';
 
 import SETTINGS from '../../../data/enums/settings.json';
 import COLORS from '../../../data/enums/colors.json';
+import FLAGS from '../../../data/enums/flags.json';
 
 const noneTranslate = (await import(`../../../translation/${SETTINGS?.LANG}.json`)).default;
 
@@ -29,6 +30,9 @@ export default {
 	data: new SlashCommandBuilder()
 	.setName(noneTranslate?.commands?.stats?.slash?.name)
 	.setDescription(noneTranslate?.commands?.stats?.slash?.description),
+	restriction: null,
+	timeout: [5, FLAGS.GUILD],
+	permissions: null,
 	async execute(interaction) {
 		const translate = (await import(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
 
