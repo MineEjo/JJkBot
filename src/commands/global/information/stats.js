@@ -23,6 +23,7 @@ import getDataGuild from '../../../functions/mongodb/handleGuilds.js';
 import SETTINGS from '../../../data/enums/settings.json';
 import COLORS from '../../../data/enums/colors.json';
 import FLAGS from '../../../data/enums/flags.json';
+import {reply} from '../../../functions/lites/reply.js';
 
 const noneTranslate = (await import(`../../../translation/${SETTINGS?.LANG}.json`)).default;
 
@@ -46,6 +47,6 @@ export default {
 		.replace(`@(5)`, interaction?.client?.channels?.cache?.size))
 		.setColor(COLORS?.EMBED);
 
-		await interaction.reply({embeds: [embed], ephemeral: true}).catch(console.error);
+		await reply(interaction, {embeds: [embed], ephemeral: true});
 	}
 };
