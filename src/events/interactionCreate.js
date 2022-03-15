@@ -90,33 +90,10 @@ export default {
 			}
 
 			try {
-				if (command?.restriction) {
-					if (command.restriction === FLAGS?.CHANNEL && !interaction?.guild) {
-						return await interaction.reply({content: translate?.errors[3], ephemeral: true});
-					}
-
-					if (command?.restriction === FLAGS?.DMCHANNEL && interaction?.guild) {
-						return await interaction.reply({content: translate?.errors[4], ephemeral: true});
-					}
-
-					if (command?.restriction === FLAGS?.BOT_OWNER && interaction?.member?.id !== process.env.OWNER_ID) {
-						return await interaction.reply({content: translate?.errors[5], ephemeral: true});
-					}
-				}
-
-				if (command?.permissions) {
-					if (!interaction.member.permissions.has(command?.permissions)) {
-						return await interaction.reply({content: translate?.errors[2], ephemeral: true});
-					}
-				}
-
 				await command.execute(interaction, client);
 			} catch (error) {
 				console.error(error);
-				await interaction.reply({
-					content: translate?.errors[0],
-					ephemeral: true
-				});
+				await reply(interaction, {content: translate?.errors[0], ephemeral: true});
 			}
 		}
 	}
