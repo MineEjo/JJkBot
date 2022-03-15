@@ -33,7 +33,9 @@ export default {
 	data: new SlashCommandBuilder()
 	.setName(noneTranslate?.commands?.help?.slash?.name)
 	.setDescription(noneTranslate?.commands?.help?.slash?.description),
-	restriction: FLAGS.CHANNEL,
+	restriction: null,
+	timeout: [5, FLAGS.GUILD],
+	permissions: null,
 	async execute(interaction) {
 		const translate = (await import(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
 
