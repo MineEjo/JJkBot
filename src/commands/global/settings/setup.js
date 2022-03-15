@@ -39,6 +39,8 @@ export default {
 	.setDescription(noneTranslate?.commands?.setup?.slash?.description),
 	// Setup for handler, team restriction per channel. You cannot use this line of code without a handler.
 	restriction: FLAGS.CHANNEL,
+	timeout: [5, FLAGS.GUILD],
+	permissions: null,
 	async execute(interaction) {
 		// Import dynamic translation, depends on the value in the database.
 		const translate = (await import(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
