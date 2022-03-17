@@ -22,12 +22,13 @@ import {getDeclension} from '../functions/lites/getDeclension.js';
 import {getSeconds} from '../functions/lites/getSeconds.js';
 import {reply} from '../functions/lites/reply.js';
 
-const timeout = [
-	[/* globalTime */],
-	[/* guildsTime */],
-	[/* id (guild or user) */],
-	[/* commandName */]
-];
+const timeout = new Map();
+// const timeout = [
+// 	[/* globalTime */],
+// 	[/* guildsTime */],
+// 	[/* id (guild or user) */],
+// 	[/* commandName */]
+// ];
 
 export default {
 	name: 'interactionCreate',
@@ -42,41 +43,26 @@ export default {
 
 			if (command?.timeout) {
 				let time = Math.trunc(new Date().getTime() / 1000);
-
-				if (command?.timeout[1] === FLAGS.GLOBAL) {
-					// (!globalTime || globalTime < time)
-					if (!timeout[0][0] || timeout[0][0] < time) {
-						timeout[0][0] = Math.trunc(time + command?.timeout[0]);
-					} else {
-						const seconds = getSeconds((timeout[0][0] - time) * 1000);
-						return await reply(interaction, {
-							content: translate.errors[6]
-							.replace('@(0)', seconds)
-							.replace('@(1)', getDeclension(seconds, [translate.wordEndings[0], translate.wordEndings[1], ''])),
-							ephemeral: true
-						});
-					}
-				}
+				let id = '';
 
 				if (command?.timeout[1] === FLAGS.GUILD) {
-					const id = (interaction.guild) ? interaction.guildId : interaction.userId;
-					// (id.index < 0) or no id || guildTime[id.index] < time
-					if (timeout[2].indexOf(id) < 0 || timeout[1][timeout[2].indexOf(id)] < time) {
-						if (timeout[2].indexOf(id) < 0) {
-							timeout[2].push(id);
-						}
-						// guildTime[id.index] = time + command?.timeout[0];
-						timeout[1][timeout[2].indexOf(id)] = Math.trunc(time + command?.timeout[0]);
-						timeout[3][timeout[2].indexOf(id)] = interaction.commandName;
-					} else if (timeout[3][timeout[2].indexOf(id)] === interaction.commandName) {
-						const seconds = getSeconds((timeout[1][timeout[2].indexOf(id)] - time) * 1000);
-						return await reply(interaction, {
-							content: translate.errors[6]
-							.replace('@(0)', seconds)
-							.replace('@(1)', getDeclension(seconds, [translate.wordEndings[0], translate.wordEndings[1], ''])),
-							ephemeral: true
-						})
-					}
+					id = ((interaction.guild) ? interaction.guildId : interaction.userId) + interaction.commandName;
+				} else if (command?.timeout[1] === FLAGS.GLOBAL) {
+					id = 'global' + interaction.commandName;
+				}
+
+				if (!timeout.has(id) || timeout.get(id) < time) {
+					timeout.delete(id);
+					timeout.set(id, Math.trunc(time + command?.timeout[0]));
+				} else {
+					const seconds = getSeconds((timeout.get(id) - time) * 1000);
+					console.log(timeout);
+					return await reply(interaction, {
+						content: translate.errors[6]
+						.replace('@(0)', seconds)
+						.replace('@(1)', getDeclension(seconds, [translate.wordEndings[0], translate.wordEndings[1], ''])),
+						ephemeral: true
+					});
 				}
 			}
 
