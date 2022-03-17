@@ -23,12 +23,6 @@ import {getSeconds} from '../functions/lites/getSeconds.js';
 import {reply} from '../functions/lites/reply.js';
 
 const timeout = new Map();
-// const timeout = [
-// 	[/* globalTime */],
-// 	[/* guildsTime */],
-// 	[/* id (guild or user) */],
-// 	[/* commandName */]
-// ];
 
 export default {
 	name: 'interactionCreate',
