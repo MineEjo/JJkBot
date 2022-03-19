@@ -152,14 +152,13 @@
 		}
 	},
 	"errors": [
-		"There was an error while executing this command!",
+		"There was an error while executing `@(0)` command!",
 		"Interaction is outdated!",
-		"No rights to use the command!",
-		"Command is only available in the guild channels!",
-		"Command is only available in private messages [DM] with me!",
-		"The command is not available to users!",
-		"Wait @(0) second@(1), before using it again!",
-		"Global delay, someone may have used the command, wait @(0) seconds@(1), before using it again!"
+		"No rights to use the `@(0)` command!",
+		"Command `@(0)` is only available in the guild channels!",
+		"Command `@(0)` is only available in private messages [DM] with me!",
+		"The `@(0)` command is not available to users!",
+		"The `@(0)` command is unavailable, you have to wait `@(1) seconds@(2)`, before using it again!"
 	],
 	"default": [
 		"Nothing selected",
