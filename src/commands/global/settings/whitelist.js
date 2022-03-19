@@ -116,7 +116,7 @@ export default {
 				for (let index = channelsIndex; index < channelsMenuLength; index++) {
 					if (tempArray[index] && tempArray[index].type === 'GUILD_TEXT') {
 						optionsChannels += `{`
-							+ `"label": "[${(channelsArray.indexOf(tempArray[index].id) >= 0) ? '✅' : '❌'}] [${tempArray[index].id}] ${clearSliceText(tempArray[index].name)}",`
+							+ `"label": "[${(channelsArray.indexOf(tempArray[index].id) >= 0) ? '-' : '+'}] [${tempArray[index].id}] ${clearSliceText(tempArray[index].name)}",`
 							+ `"description": "${(tempArray[index].topic) ? clearSliceText(tempArray[index].topic) + '...' : ''}",`
 							+ `"value": "${tempArray[index].id}"`
 							+ `},`;
@@ -151,7 +151,7 @@ export default {
 
 				for (let index = 0; index < rolesMenuLength; index++) {
 					optionsRoles += `{`
-						+ `"label": "[${(rolesArray.indexOf(tempArray[index].id) >= 0) ? '✅' : '❌'}] [${tempArray[index].id}] ${clearSliceText(tempArray[index].name)}",`
+						+ `"label": "[${(rolesArray.indexOf(tempArray[index].id) >= 0) ? '-' : '+'}] [${tempArray[index].id}] ${clearSliceText(tempArray[index].name)}",`
 						+ `"description": "",`
 						+ `"value": "${tempArray[index].id}"`
 						+ `},`;
