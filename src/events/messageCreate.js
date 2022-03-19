@@ -86,15 +86,22 @@ export default {
 				linksCount > 0 ? await authorWebhookSendMessage(content, links, translate?.events?.messageCreate?.words[1]) : null;
 			}
 
-			async function authorWebhookSendMessage(msg) {
-				if (message.channel.isText()) {
+			async function authorWebhookSendMessage(content, trigger, event) {
+				let newMsgUrl = null;
+
+				if (message.channel.isText() && !message.channel.isThread()) {
 					const webhook = await getWebhook(message?.guild, message?.channel);
 
-					webhook.send({
-						content: msg,
+					await webhook.send({
+						content: content,
 						username: `${message?.author?.tag} (${message?.author?.id})`,
 						avatarURL: message?.author.avatarURL({dynamic: true})
-					});
+					}).then(msg => newMsgUrl = msg.url);
+				} else {
+					await message.channel.send({
+						content: `${message.author}: ${content}`,
+					}).then(msg => newMsgUrl = msg.url);
+				}
 
 					if (getDataGuild(message?.guild, 'logs') === SETTINGS.ON) {
 						logsChannelSendMessage(event, trigger, newMsgUrl);
