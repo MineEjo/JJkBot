@@ -262,7 +262,7 @@ export default {
 			for (let index = itemsIndex; index < itemsMenuLength; index++) {
 				if (dataListMenu[fieldSelected][3][index]) {
 					options += `{`
-						+ `"label": "[${(list.indexOf(dataListMenu[fieldSelected][3][index]) >= 0) ? '✅' : '❌'}] [${dataListMenu[fieldSelected][3][index]}] ${(dataListMenu[fieldSelected][4][index]) ? dataListMenu[fieldSelected][4][index] : ''}",`
+						+ `"label": "[${(list.indexOf(dataListMenu[fieldSelected][3][index]) >= 0) ? '-' : '+'}] [${dataListMenu[fieldSelected][3][index]}] ${(dataListMenu[fieldSelected][4][index]) ? dataListMenu[fieldSelected][4][index] : ''}",`
 						+ `"description": "",`
 						+ `"value": "${dataListMenu[fieldSelected][3][index]}"`
 						+ `},`;
