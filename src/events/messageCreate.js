@@ -23,6 +23,7 @@ import linksWList from '../data/whitelists/links.json';
 import scamLinksWList from '../data/whitelists/scamLinks.json';
 import invitesWList from '../data/whitelists/invites.json';
 import socialMediaWList from '../data/whitelists/socialMedia.json';
+import {MessageEmbed} from 'discord.js'
 
 export default {
 	name: 'messageCreate',
@@ -37,10 +38,6 @@ export default {
 			const dataHideLinks = getDataGuild(message?.guild, 'hideLinks');
 
 			if (dataDeleteLinks === SETTINGS.ON || dataHideLinks === SETTINGS.ON) {
-				if (message.channel.isThread()) {
-					return;
-				}
-
 				let linksCount = 0;
 
 				const links = message?.content.match(/(http(s?):\/\/(\S+\.)+\S+|www\d?\.(\S+\.)+\S+)|(discord\.gg\/(\S+)+\S+)|(discordapp\.com\/(\S+)+\S+)/gm);
@@ -86,7 +83,7 @@ export default {
 					}
 				}
 
-				linksCount > 0 ? await authorWebhookSendMessage(content) : null;
+				linksCount > 0 ? await authorWebhookSendMessage(content, links, translate?.events?.messageCreate?.words[1]) : null;
 			}
 
 			async function authorWebhookSendMessage(msg) {
@@ -100,19 +97,28 @@ export default {
 					});
 
 					if (getDataGuild(message?.guild, 'logs') === SETTINGS.ON) {
-						logsChannelSendMessage(translate?.events?.messageCreate?.words[2], message);
+						logsChannelSendMessage(event, trigger, newMsgUrl);
 					}
 
 					message.delete().catch(console.error);
-				}
 			}
 
-			function logsChannelSendMessage(trigger, msg) {
-				const channelId = getDataGuild(msg.guild, 'logsChannel');
+			function logsChannelSendMessage(event, trigger, newMsgUrl) {
+				const channelId = getDataGuild(message.guild, 'logsChannel');
 
 				if (channelId) {
-					msg.guild.channels.fetch(channelId).then(channel => {
-						channel.send(`<t:${String(msg.createdTimestamp).slice(0, 10)}:R>|${msg.author}|**\`${trigger}\`**|\`${translate?.events?.messageCreate?.words[1]}:\` ${msg.content}`);
+					const embed =  new MessageEmbed()
+					.setColor('#303136')
+					.setDescription(
+						`**${message.author}:** [\`${event} ->\`](${newMsgUrl}) ${message.channel} \n` +
+						`**${translate?.events?.messageCreate?.words[3]}:** \`${translate?.events?.messageCreate?.words[2]} -> ${trigger}\`\n`
+					)
+
+					message.guild.channels.fetch(channelId).then(channel => {
+						channel.send({
+							content: `${translate?.events?.messageCreate?.words[4]}: ${message.author}`,
+							embeds: [embed]
+						});
 					}).catch(console.error);
 				}
 			}
