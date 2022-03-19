@@ -31,10 +31,6 @@ export default {
 			const translate = (await import(`../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
 			const command = client.commands.get(interaction.commandName);
 
-			if (!command) {
-				return;
-			}
-
 			if (command?.timeout) {
 				let time = Math.trunc(new Date().getTime() / 1000);
 				let id = '';
@@ -50,36 +46,51 @@ export default {
 					timeout.set(id, Math.trunc(time + command?.timeout[0]));
 				} else {
 					const seconds = getSeconds((timeout.get(id) - time) * 1000);
-					console.log(timeout);
 					return await reply(interaction, {
 						content: translate.errors[6]
-						.replace('@(0)', seconds)
-						.replace('@(1)', getDeclension(seconds, [translate.wordEndings[0], translate.wordEndings[1], ''])),
+						.replace('@(0)', interaction.commandName)
+						.replace('@(1)', seconds)
+						.replace('@(2)', getDeclension(seconds, [translate.wordEndings[0], translate.wordEndings[1], ''])),
 						ephemeral: true
 					});
 				}
 			}
 
 			if (command?.restriction && command.restriction === FLAGS?.CHANNEL && !interaction?.guild) {
-				return await reply(interaction, {content: translate?.errors[3], ephemeral: true});
+				return await reply(interaction, {
+					content: translate?.errors[3].replace('@(0)', interaction.commandName),
+					ephemeral: true
+				});
 			}
 
 			if (command?.restriction && command?.restriction === FLAGS?.DMCHANNEL && interaction?.guild) {
-				return await reply(interaction, {content: translate?.errors[4], ephemeral: true});
+				return await reply(interaction, {
+					content: translate?.errors[4].replace('@(0)', interaction.commandName),
+					ephemeral: true
+				});
 			}
 			if (command?.restriction && command?.restriction === FLAGS?.BOT_OWNER && interaction?.member?.id !== process.env.OWNER_ID) {
-				return await reply(interaction, {content: translate?.errors[5], ephemeral: true});
+				return await reply(interaction, {
+					content: translate?.errors[5].replace('@(0)', interaction.commandName),
+					ephemeral: true
+				});
 			}
 
 			if (command?.permissions && !interaction.member.permissions.has(command?.permissions)) {
-				return await reply(interaction, {content: translate?.errors[2], ephemeral: true});
+				return await reply(interaction, {
+					content: translate?.errors[2].replace('@(0)', interaction.commandName),
+					ephemeral: true
+				});
 			}
 
 			try {
 				await command.execute(interaction, client);
 			} catch (error) {
 				console.error(error);
-				await reply(interaction, {content: translate?.errors[0], ephemeral: true});
+				await reply(interaction, {
+					content: translate?.errors[0].replace('@(0)', interaction.commandName),
+					ephemeral: true
+				});
 			}
 		}
 	}
