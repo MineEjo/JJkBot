@@ -23,7 +23,7 @@ import linksWList from '../data/whitelists/links.json';
 import scamLinksWList from '../data/whitelists/scamLinks.json';
 import invitesWList from '../data/whitelists/invites.json';
 import socialMediaWList from '../data/whitelists/socialMedia.json';
-import {MessageEmbed} from 'discord.js'
+import {MessageEmbed} from 'discord.js';
 
 export default {
 	name: 'messageCreate',
@@ -99,27 +99,27 @@ export default {
 					}).then(msg => newMsgUrl = msg.url);
 				} else {
 					await message.channel.send({
-						content: `${message.author}: ${content}`,
+						content: `${message.author}: ${content}`
 					}).then(msg => newMsgUrl = msg.url);
 				}
 
-					if (getDataGuild(message?.guild, 'logs') === SETTINGS.ON) {
-						logsChannelSendMessage(event, trigger, newMsgUrl);
-					}
+				if (getDataGuild(message?.guild, 'logs') === SETTINGS.ON) {
+					logsChannelSendMessage(event, trigger, newMsgUrl);
+				}
 
-					message.delete().catch(console.error);
+				message.delete().catch(console.error);
 			}
 
 			function logsChannelSendMessage(event, trigger, newMsgUrl) {
 				const channelId = getDataGuild(message.guild, 'logsChannel');
 
 				if (channelId) {
-					const embed =  new MessageEmbed()
+					const embed = new MessageEmbed()
 					.setColor('#303136')
 					.setDescription(
 						`**${message.author}:** [\`${event} ->\`](${newMsgUrl}) ${message.channel} \n` +
-						`**${translate?.events?.messageCreate?.words[3]}:** \`${translate?.events?.messageCreate?.words[2]} -> ${trigger}\`\n`
-					)
+						`**${translate?.events?.messageCreate?.words[3]}:** \`${translate?.events?.messageCreate?.words[2]} -> ${trigger.toString().slice(0, 2000)}\`\n`
+					);
 
 					message.guild.channels.fetch(channelId).then(channel => {
 						channel.send({
