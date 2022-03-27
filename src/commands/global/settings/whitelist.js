@@ -26,7 +26,6 @@ import COLORS from '../../../data/enums/colors.json';
 import getDataGuild from '../../../functions/mongodb/handleGuilds.js';
 import {updateDataGuilds} from '../../../functions/lites/updateData.js';
 import {Modal, showModal, TextInputComponent} from 'discord-modals';
-import {createModalCollector} from '../../../functions/lites/createModalCollector.js';
 import {generateId} from '../../../functions/lites/generateId.js';
 
 const noneTranslate = (await import(`../../../translation/${SETTINGS?.LANG}.json`)).default;
@@ -323,7 +322,7 @@ export default {
 				interaction.editReply(translate.errors[1]);
 			});
 
-			await createModalCollector(interaction.client, async modal => {
+			await interaction.client.handleEvent('modalSubmit', async modal => {
 				const listArray = getDataGuild(interaction?.guild, dataLists[listSelected]);
 				const firstResponse = modal.getTextInputValue(interactionsId[3]).slice(0, defaultMaxDataValue);
 
