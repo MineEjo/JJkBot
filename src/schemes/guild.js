@@ -18,7 +18,7 @@
 
 import mongoose from 'mongoose';
 
-import SETTINGS from '../data/enums/settings.json';
+import SETTINGS from '../data/enums/settings.json' assert { type: 'json' };
 
 const Data = [
 	// name, minLength, maxLength, type, default, required
