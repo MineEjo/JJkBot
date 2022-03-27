@@ -17,14 +17,14 @@
  */
 
 import {MessageEmbed} from 'discord.js';
-import COLORS from '../data/enums/colors.json';
+import COLORS from '../data/enums/colors.json' assert { type: 'json' };
 import getDataGuild from '../functions/mongodb/handleGuilds.js';
 
 export default {
 	name: 'guildCreate',
 	once: false,
 	async execute(guild) {
-		const translate = (await import(`../translation/${getDataGuild(guild, 'lang')}.json`)).default;
+		const translate = (await import(`../translation/${getDataGuild(guild, 'lang')}.json`, { assert: { type: 'json' } })).default;
 
 		const channel = guild.channels.cache.find(ch =>
 			ch.type === 'GUILD_TEXT' && ch.permissionsFor(guild?.me).has('SEND_MESSAGES')
