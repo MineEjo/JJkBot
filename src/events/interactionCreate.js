@@ -16,7 +16,7 @@
  * along with JJkBot.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import FLAGS from '../data/enums/flags.json';
+import FLAGS from '../data/enums/flags.json' assert { type: 'json' };
 import getDataGuild from '../functions/mongodb/handleGuilds.js';
 import {getDeclension} from '../functions/lites/getDeclension.js';
 import {getSeconds} from '../functions/lites/getSeconds.js';
@@ -28,7 +28,7 @@ export default {
 	name: 'interactionCreate',
 	async execute(interaction, client) {
 		if (interaction.isCommand()) {
-			const translate = (await import(`../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
+			const translate = (await import(`../translation/${getDataGuild(interaction?.guild, 'lang')}.json`, { assert: { type: 'json' } })).default;
 			const command = client.commands.get(interaction.commandName);
 
 			if (command?.timeout) {
