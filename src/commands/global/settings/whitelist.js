@@ -20,15 +20,15 @@ import {SlashCommandBuilder} from '@discordjs/builders';
 import {MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu, Permissions} from 'discord.js';
 
 import { codeBlock } from '@discordjs/builders';
-import SETTINGS from '../../../data/enums/settings.json';
-import FLAGS from '../../../data/enums/flags.json';
-import COLORS from '../../../data/enums/colors.json';
+import SETTINGS from '../../../data/enums/settings.json' assert { type: 'json' };
+import FLAGS from '../../../data/enums/flags.json' assert { type: 'json' };
+import COLORS from '../../../data/enums/colors.json' assert { type: 'json' };
 import getDataGuild from '../../../functions/mongodb/handleGuilds.js';
 import {updateDataGuilds} from '../../../functions/lites/updateData.js';
 import {Modal, showModal, TextInputComponent} from 'discord-modals';
 import {generateId} from '../../../functions/lites/generateId.js';
 
-const noneTranslate = (await import(`../../../translation/${SETTINGS?.LANG}.json`)).default;
+const noneTranslate = (await import(`../../../translation/${SETTINGS?.LANG}.json`, { assert: { type: 'json' } })).default;
 
 export default {
 	data: new SlashCommandBuilder()
@@ -38,7 +38,7 @@ export default {
 	timeout: [5, FLAGS.GUILD],
 	permissions: null,
 	async execute(interaction) {
-		const translate = (await import(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
+		const translate = (await import(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`, { assert: { type: 'json' } })).default;
 		const interactionsId = generateId(7);
 		const defaultMaxDataValue = 1500;
 
