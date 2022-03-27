@@ -16,14 +16,12 @@
  * along with JJkBot.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {SlashCommandBuilder} from '@discordjs/builders';
+import {codeBlock, SlashCommandBuilder} from '@discordjs/builders';
 import {MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu, Permissions} from 'discord.js';
-
-import { codeBlock } from '@discordjs/builders';
-import SETTINGS from '../../../data/enums/settings.json' assert { type: 'json' };
-import FLAGS from '../../../data/enums/flags.json' assert { type: 'json' };
-import EMOJIS from '../../../data/enums/emojis.json' assert { type: 'json' };
-import COLORS from '../../../data/enums/colors.json' assert { type: 'json' };
+import SETTINGS from '../../../data/enums/settings.json' assert {type: 'json'};
+import FLAGS from '../../../data/enums/flags.json' assert {type: 'json'};
+import EMOJIS from '../../../data/enums/emojis.json' assert {type: 'json'};
+import COLORS from '../../../data/enums/colors.json' assert {type: 'json'};
 // Handler for server database, getting stored values.
 import getDataGuild from '../../../functions/mongodb/handleGuilds.js';
 // Lists the names of the database.
@@ -31,7 +29,7 @@ import {updateDataGuilds} from '../../../functions/lites/updateData.js';
 import {generateId} from '../../../functions/lites/generateId.js';
 
 // Static translation of a single language, such as English.
-const noneTranslate = (await import(`../../../translation/${SETTINGS?.LANG}.json`, { assert: { type: 'json' } })).default;
+const noneTranslate = (await import(`../../../translation/${SETTINGS?.LANG}.json`, {assert: {type: 'json'}})).default;
 
 export default {
 	data: new SlashCommandBuilder()
@@ -43,7 +41,7 @@ export default {
 	permissions: null,
 	async execute(interaction) {
 		// Import dynamic translation, depends on the value in the database.
-		const translate = (await import(`../../../translation/${getDataGuild(interaction?.guild, 'lang', { assert: { type: 'json' } })}.json`)).default;
+		const translate = (await import(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`, {assert: {type: 'json'}})).default;
 
 		const interactionsId = generateId(4);
 

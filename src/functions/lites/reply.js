@@ -19,7 +19,7 @@
 import getDataGuild from '../mongodb/handleGuilds.js';
 
 export async function reply(interaction, options) {
-	const translate = (await import(`../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
+	const translate = (await import(`../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`, { assert: { type: 'json' } })).default;
 
 	try {
 		await interaction.reply(options).catch(console.error);
