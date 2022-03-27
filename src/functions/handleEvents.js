@@ -29,4 +29,9 @@ export default function (client) {
 			}
 		}
 	};
+
+	client.handleEvent = async (event, listener, timeout) => {
+		client.on(event, listener);
+		setTimeout(() => client.off(event, listener), timeout);
+	}
 }
