@@ -19,7 +19,7 @@
 import {SlashCommandBuilder} from '@discordjs/builders';
 import {MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu, Permissions} from 'discord.js';
 
-import STR_FORMATS from '../../../data/enums/strFormats.json';
+import { codeBlock } from '@discordjs/builders';
 import SETTINGS from '../../../data/enums/settings.json';
 import FLAGS from '../../../data/enums/flags.json';
 import COLORS from '../../../data/enums/colors.json';
@@ -311,7 +311,7 @@ export default {
 					}
 
 					i.reply({
-							content: (data.length > 0) ? `${STR_FORMATS.CODE_BLOCK}${dataFormatted.trim()}${STR_FORMATS.CODE_BLOCK}` : `${STR_FORMATS.CODE_BLOCK}${translate?.default[2]}${STR_FORMATS.CODE_BLOCK}`,
+							content: (data.length > 0) ? `${codeBlock('', dataFormatted.trim())}` : `${codeBlock('', translate?.default[2])}`,
 							ephemeral: true
 						}
 					);
@@ -333,7 +333,7 @@ export default {
 				if (modal.customId === (interactionsId[7] + '+')) {
 					await modal.deferReply({ephemeral: true});
 					modal.followUp({
-						content: `${translate?.commands?.whitelist?.words[5]}: ${STR_FORMATS.CODE_BLOCK}${link}${STR_FORMATS.CODE_BLOCK}`,
+						content: `${translate?.commands?.whitelist?.words[5]}: ${codeBlock('', link)}`,
 						ephemeral: true
 					});
 
@@ -346,7 +346,7 @@ export default {
 				if (modal.customId === (interactionsId[7] + '-')) {
 					await modal.deferReply({ephemeral: true});
 					modal.followUp({
-						content: `${translate?.commands?.whitelist?.words[4]}: ${STR_FORMATS.CODE_BLOCK}${link}${STR_FORMATS.CODE_BLOCK}`,
+						content: `${translate?.commands?.whitelist?.words[4]}: ${codeBlock('', link)}`,
 						ephemeral: true
 					});
 
