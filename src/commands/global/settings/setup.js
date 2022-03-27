@@ -19,11 +19,7 @@
 import {SlashCommandBuilder} from '@discordjs/builders';
 import {MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu, Permissions} from 'discord.js';
 
-import STR_FORMATS from '../../../data/enums/strFormats.json';
-import SETTINGS from '../../../data/enums/settings.json';
-import FLAGS from '../../../data/enums/flags.json';
-import EMOJIS from '../../../data/enums/emojis.json';
-import COLORS from '../../../data/enums/colors.json';
+import { codeBlock } from '@discordjs/builders';
 // Handler for server database, getting stored values.
 import getDataGuild from '../../../functions/mongodb/handleGuilds.js';
 // Lists the names of the database.
@@ -183,7 +179,7 @@ export default {
 			return new MessageEmbed()
 			.setTitle(translate?.commands?.setup?.title)
 			.setDescription(
-				`${(interaction?.member?.permissions?.has(Permissions.FLAGS.ADMINISTRATOR)) ? translate?.commands?.setup?.description : translate?.commands?.setup?.previewDescription} ${(itemDescription) ? `\n${STR_FORMATS?.CODE_BLOCK}${itemDescription}${STR_FORMATS?.CODE_BLOCK}` : ''}`
+				`${(interaction?.member?.permissions?.has(Permissions.FLAGS.ADMINISTRATOR)) ? translate?.commands?.setup?.description : translate?.commands?.setup?.previewDescription} ${(itemDescription) ? `\n${codeBlock('', itemDescription)}` : ''}`
 			)
 			.addFields({
 				// First we get a description to get the number of elements, etc.
