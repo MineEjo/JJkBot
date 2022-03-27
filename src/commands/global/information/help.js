@@ -19,15 +19,15 @@
 import {SlashCommandBuilder} from '@discordjs/builders';
 import {MessageEmbed} from 'discord.js';
 
-import SETTINGS from '../../../data/enums/settings.json';
-import COLORS from '../../../data/enums/colors.json';
-import LINKS from '../../../data/enums/links.json';
-import FLAGS from '../../../data/enums/flags.json';
+import SETTINGS from '../../../data/enums/settings.json' assert { type: 'json' };
+import COLORS from '../../../data/enums/colors.json' assert { type: 'json' };
+import LINKS from '../../../data/enums/links.json' assert { type: 'json' };
+import FLAGS from '../../../data/enums/flags.json' assert { type: 'json' };
 
 import getDataGuild from '../../../functions/mongodb/handleGuilds.js';
 import {reply} from '../../../functions/lites/reply.js';
 
-const noneTranslate = (await import(`../../../translation/${SETTINGS?.LANG}.json`)).default;
+const noneTranslate = (await import(`../../../translation/${SETTINGS?.LANG}.json`, { assert: { type: 'json' } })).default;
 
 export default {
 	data: new SlashCommandBuilder()
@@ -37,7 +37,7 @@ export default {
 	timeout: [5, FLAGS.GUILD],
 	permissions: null,
 	async execute(interaction) {
-		const translate = (await import(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`)).default;
+		const translate = (await import(`../../../translation/${getDataGuild(interaction?.guild, 'lang')}.json`, { assert: { type: 'json' } })).default;
 
 		const commands = interaction?.client?.commands?.map(cmd => cmd);
 		let commandsStrings = '';
