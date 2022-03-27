@@ -17,19 +17,19 @@
  */
 
 import getDataGuild from '../functions/mongodb/handleGuilds.js';
-import SETTINGS from '../data/enums/settings.json';
+import SETTINGS from '../data/enums/settings.json' assert { type: 'json' };
 import {getWebhook} from '../functions/lites/getWebhook.js';
-import linksWList from '../data/whitelists/links.json';
-import scamLinksWList from '../data/whitelists/scamLinks.json';
-import invitesWList from '../data/whitelists/invites.json';
-import socialMediaWList from '../data/whitelists/socialMedia.json';
+import linksWList from '../data/whitelists/links.json' assert { type: 'json' };
+import scamLinksWList from '../data/whitelists/scamLinks.json' assert { type: 'json' };
+import invitesWList from '../data/whitelists/invites.json' assert { type: 'json' };
+import socialMediaWList from '../data/whitelists/socialMedia.json' assert { type: 'json' };
 import {MessageEmbed} from 'discord.js';
 
 export default {
 	name: 'messageCreate',
 	once: false,
 	async execute(message) {
-		const translate = (await import(`../translation/${getDataGuild(message?.guild, 'lang')}.json`)).default;
+		const translate = (await import(`../translation/${getDataGuild(message?.guild, 'lang')}.json`, { assert: { type: 'json' } })).default;
 
 		if (message && !message?.author.bot && message?.guild && message?.deletable) {
 			let content = message?.content;
